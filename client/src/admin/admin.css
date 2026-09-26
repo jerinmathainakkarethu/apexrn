@@ -1,129 +1,601 @@
+/* ============================================================
+   Additions on top of your existing admin CSS + the previous
+   admin-restructure.css. You can now DELETE any .page-* rules
+   from page-manager.css since the Pages tab is gone.
+
+   ⚡ Updated: added the missing form-control styles (.home-field,
+   .home-field-grid, .home-repeatable, .admin-create, .admin-editor,
+   image/video fields, error/success states). This is what was
+   causing inputs and textareas to render unstyled/broken.
+   ============================================================ */
+
+/* ---------- Sidebar (unchanged from before, included for completeness) ---------- */
 .admin-nav {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0;
   overflow: auto;
 }
+.admin-nav-group {
+  margin-bottom: 22px;
+}
+.admin-nav-label {
+  display: block;
+  color: #726a63;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0 10px;
+  margin-bottom: 6px;
+}
 .admin-nav button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
   border: 0;
   background: none;
   color: #9e958e;
   text-align: left;
-  padding: 12px 10px;
+  padding: 11px 10px;
   font-size: 12px;
+  border-radius: 5px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.admin-nav button svg {
+  flex-shrink: 0;
+  opacity: 0.75;
+  transition: opacity 0.15s ease;
 }
 .admin-nav button:hover,
 .admin-nav button.selected {
   background: #423e39;
   color: var(--cream);
 }
-.admin-logout {
-  border: 0;
-  background: none;
-  color: #9e958e;
-  text-align: left;
+.admin-nav button.selected svg {
+  opacity: 1;
+  color: var(--terracotta);
+}
+
+/* ---------- Overview stat cards ---------- */
+.admin-stats div {
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.admin-stats div:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+.admin-stat-icon {
+  color: var(--terracotta);
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* ---------- Homepage builder toolbar ---------- */
+.home-editor-toolbar {
+  position: sticky;
+  top: -1px;
+  z-index: 6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+  background: var(--cream);
+}
+.home-editor-toolbar > div:first-child {
   display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 12px 10px;
-  margin-top: auto;
-  font-size: 12px;
-}
-.admin-logout:hover {
-  color: var(--cream);
-}
-.admin-heading {
-  align-items: center;
-}
-.admin-heading h1 {
-  font-size: 52px;
-}
-.admin-notice {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  color: #3f8057;
-  font-size: 12px;
-}
-.admin-loading {
-  padding: 80px 0;
-  color: var(--muted);
-}
-.admin-editor,
-.admin-create,
-.admin-collection {
-  background: var(--paper);
-  padding: 28px;
-  margin-top: 32px;
-}
-.admin-editor-top,
-.admin-section-heading {
-  display: flex;
-  justify-content: space-between;
   align-items: start;
-  gap: 25px;
+  justify-content: space-between;
+  gap: 24px;
 }
-.admin-editor-top p {
+.home-editor-toolbar h2 {
+  font: 500 24px var(--serif);
+  margin: 6px 0 0;
+}
+.home-editor-toolbar .button {
+  align-self: flex-start;
+}
+
+/* ---------- Jump nav ---------- */
+.home-jump-nav {
+  position: sticky;
+  top: 118px; /* sits just under the sticky toolbar */
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 0 16px;
+  background: linear-gradient(var(--cream) 70%, transparent);
+}
+.home-jump-nav button {
+  border: 1px solid var(--line);
+  background: var(--cream);
   color: var(--muted);
-  font-size: 12px;
-  margin: 8px 0 0;
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
+.home-jump-nav button:hover {
+  border-color: var(--terracotta);
+  color: var(--terracotta);
+  background: #fdf1ec;
+}
+
+/* ---------- Accordion section with number badge + icon + preview ---------- */
+.home-content-section {
+  transition: box-shadow 0.2s ease;
+  scroll-margin-top: 170px; /* keeps anchored section clear of sticky bars */
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+.home-content-section:last-child {
+  border-bottom: 0;
+}
+.home-content-section.open {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+.home-section-heading {
+  width: 100%;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.home-section-heading-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
+}
+.home-section-badge {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.open .home-section-badge {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: #fff;
+}
+.home-section-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #fdf1ec;
+  color: var(--terracotta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -2px;
+}
+.home-section-heading h3 {
+  transition: color 0.15s ease;
+  margin: 0;
+  font: 500 16px var(--serif);
+}
+.home-section-heading:hover h3 {
+  color: var(--terracotta);
+}
+.home-section-where {
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.5;
+  margin: 4px 0 0;
+  max-width: 480px;
+}
+.home-section-preview {
+  color: #8a8078;
+  font-size: 12px;
+  font-style: italic;
+  margin: 6px 0 0;
+  max-width: 480px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-section-chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 0.2s ease;
+  margin-top: 4px;
+}
+.open .home-section-chevron {
+  transform: rotate(180deg);
+  color: var(--terracotta);
+}
+.home-section-body {
+  margin-top: 22px;
+  padding-left: 50px; /* aligns under the icon, not the badge */
+  animation: sectionOpen 0.25s ease;
+}
+@keyframes sectionOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.home-section-note {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 22px 0 12px;
+}
+.home-section-note-divider {
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.home-section-redirect {
+  text-transform: none;
+  font-weight: 400;
+  letter-spacing: normal;
+  font-size: 13px;
+  line-height: 1.7;
+  background: var(--paper);
+  border-left: 3px solid var(--terracotta);
+  padding: 14px 16px;
+  margin: 0;
+}
+.home-section-redirect strong {
+  color: var(--terracotta);
+}
+
+/* ============================================================
+   FORM CONTROLS — the fix
+   These are the rules that were missing, which is why every
+   input/textarea in the homepage builder, create forms, and
+   row editors was rendering as an unstyled native control.
+   ============================================================ */
+
+.home-field,
+.admin-create label,
+.admin-row-fields label,
+.admin-video-field label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.home-field span,
+.admin-create label > span,
+.admin-row-fields label > span,
+.admin-video-field > label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #726a63;
+}
+
+.home-field input,
+.home-field textarea,
+.admin-create textarea,
+.admin-row-fields textarea,
+.admin-video-field textarea,
 .admin-editor textarea {
   width: 100%;
-  min-height: 560px;
-  margin-top: 25px;
-  border: 1px solid var(--line);
-  background: #fdfbf8;
-  padding: 18px;
-  font: 12px/1.6 monospace;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 13.5px;
+  line-height: 1.55;
   color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
   resize: vertical;
+  min-height: 42px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
-.admin-section-heading {
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 15px;
+
+.home-field input {
+  resize: none;
 }
-.admin-section-heading span {
+
+.home-field textarea,
+.admin-create textarea,
+.admin-row-fields textarea {
+  min-height: 84px;
+}
+
+.admin-video-field textarea {
+  min-height: 42px;
+  resize: none;
+}
+
+/* full-height JSON editor stays monospace + tall, everything else doesn't */
+.admin-editor textarea {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  min-height: 480px;
+  background: #fbfaf8;
+}
+
+.home-field input:hover,
+.home-field textarea:hover,
+.admin-create textarea:hover,
+.admin-row-fields textarea:hover,
+.admin-video-field textarea:hover,
+.admin-editor textarea:hover {
+  border-color: #c9beb4;
+}
+
+.home-field input:focus,
+.home-field textarea:focus,
+.admin-create textarea:focus,
+.admin-row-fields textarea:focus,
+.admin-video-field textarea:focus,
+.admin-editor textarea:focus {
+  outline: none;
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 3px rgba(196, 108, 74, 0.14);
+  background: #fff;
+}
+
+.home-field input::placeholder,
+.home-field textarea::placeholder,
+.admin-video-field textarea::placeholder {
+  color: #b7ada4;
+}
+
+/* error state on any field wrapper */
+.has-error input,
+.has-error textarea,
+textarea.has-error {
+  border-color: #c0392b;
+  background: #fdf5f4;
+}
+.has-error input:focus,
+.has-error textarea:focus,
+textarea.has-error:focus {
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.14);
+}
+
+.admin-field-error,
+.admin-form-error {
+  color: #c0392b;
+  font-size: 11.5px;
+  font-weight: 500;
+  margin: 4px 0 0;
+}
+.admin-form-error {
+  margin: 14px 0;
+  padding: 10px 14px;
+  background: #fdf5f4;
+  border-left: 3px solid #c0392b;
+  border-radius: 4px;
+}
+.admin-form-success {
+  color: #2f7a4d;
+  font-size: 12.5px;
+  font-weight: 500;
+  margin: 14px 0;
+  padding: 10px 14px;
+  background: #f2f9f4;
+  border-left: 3px solid #2f7a4d;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- Field grids ---------- */
+.home-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 20px;
+  margin-bottom: 4px;
+}
+.home-field-grid .home-field:has(textarea) {
+  grid-column: span 2;
+}
+
+/* ---------- Repeatable item cards (audience cards, topics, steps, gallery items) ---------- */
+.home-repeatable-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 4px;
+}
+.home-repeatable {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.home-repeatable:hover {
+  border-color: #d8ccc2;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+.home-repeatable b {
   font-size: 11px;
-  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--terracotta);
+}
+
+/* ---------- Image field ---------- */
+.home-image-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+.home-image-preview {
+  width: 100%;
+  max-width: 320px;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.home-upload-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--terracotta);
+  background: #fdf1ec;
+  border: 1px solid #f2d9cc;
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.home-upload-button:hover {
+  background: #fbe4d9;
+  border-color: var(--terracotta);
+}
+.home-upload-button input[type="file"] {
+  display: none;
+}
+
+/* ---------- Video field ---------- */
+.admin-video-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.admin-video-preview {
+  width: 100%;
+  max-width: 360px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #000;
+}
+
+/* ---------- Required-field marker ---------- */
+.admin-required {
+  color: var(--terracotta);
+  font-style: normal;
+  margin-left: 3px;
+}
+
+/* ---------- Create forms (Add testimonial / FAQ / resource / menu item / week) ---------- */
+.admin-create {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 24px;
 }
 .admin-create-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin: 20px 0;
+  gap: 16px 20px;
+  margin: 16px 0 18px;
 }
-.admin-create label,
-.admin-row label {
+.admin-create-grid label:has(textarea[rows="3"]) {
+  grid-column: span 2;
+}
+.admin-create > .button {
+  margin-top: 4px;
+}
+
+/* ---------- JSON editor (Home/About raw editor fallback) ---------- */
+.admin-editor {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 14px;
+}
+.admin-editor-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+.admin-editor-top p {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12.5px;
+  margin: 6px 0 0;
+  max-width: 480px;
 }
-.admin-create textarea,
-.admin-row textarea {
-  border: 1px solid var(--line);
-  background: #fdfbf8;
-  padding: 10px;
-  resize: vertical;
-  outline: 0;
-  color: var(--ink);
-}
-.admin-create .button {
-  margin-top: 5px;
-}
+
+/* ---------- Collection rows: collapsed summary, expands to full editor ---------- */
 .admin-row {
-  padding: 22px 0;
+  padding: 4px 0;
   border-bottom: 1px solid var(--line);
+  transition: background 0.15s ease;
 }
 .admin-row:last-child {
   border-bottom: 0;
+}
+.admin-row.expanded {
+  padding-bottom: 22px;
+}
+.admin-row-summary {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: 0;
+  padding: 16px 6px;
+  cursor: pointer;
+  font: 500 14px var(--serif);
+  color: var(--ink);
+  text-align: left;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+.admin-row-summary:hover {
+  background: var(--paper);
+}
+.admin-row-chevron {
+  color: var(--muted);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.admin-row.expanded .admin-row-chevron {
+  transform: rotate(180deg);
+  color: var(--terracotta);
 }
 .admin-row-fields {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
+  margin-top: 8px;
+  animation: sectionOpen 0.2s ease;
 }
 .admin-row-fields label:nth-child(3),
 .admin-row-fields label:nth-child(4) {
@@ -134,250 +606,40 @@
   gap: 10px;
   margin-top: 14px;
 }
-.admin-row-actions .button {
-  min-height: 38px;
-  padding: 9px 14px;
-}
 .icon-danger {
-  border: 1px solid #b55c50;
-  background: none;
-  color: #a44e44;
-  width: 40px;
-}
-.admin-inbox-row {
-  border-bottom: 1px solid var(--line);
-  padding: 20px 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px 20px;
-}
-.admin-inbox-row span {
-  color: var(--muted);
-  font-size: 12px;
-}
-.admin-inbox-row p {
-  grid-column: span 2;
-  color: var(--muted);
-  font-size: 13px;
-  margin: 8px 0 0;
-}
-.admin-empty {
-  color: var(--muted);
-  padding: 25px 0;
-}
-.admin-login .admin-error {
-  color: #a44e44;
-  font-size: 12px;
-  margin: 16px 0 -5px;
-}
-.admin-form-success {
-  border-left: 3px solid #3f8057;
-  background: #edf7ef;
-  color: #28643d;
-  font-size: 12px;
-  margin: 0;
-  padding: 11px 14px;
-}
-.admin-form-error {
-  border-left: 3px solid #b64f45;
-  background: #fff1ef;
-  color: #9c332b;
-  font-size: 12px;
-  margin: 0;
-  padding: 11px 14px;
-}
-.admin-field-error {
-  color: #9c332b;
-  font-size: 11px;
-  line-height: 1.4;
-}
-.admin-video-field {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px 12px;
-  align-items: end;
-}
-.admin-row-fields .admin-video-field {
-  grid-column: 1 / -1;
-}
-.admin-video-field label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  color: var(--muted);
-  font-size: 10px;
-}
-.admin-video-field .home-upload-button {
-  min-height: 42px;
-}
-.admin-video-field .admin-field-error,
-.admin-video-preview {
-  grid-column: 1 / -1;
-}
-.admin-video-preview {
-  width: 100%;
-  max-height: 190px;
-  border: 1px solid var(--line);
-  background: #000;
-}
-.admin-create label.has-error textarea,
-.admin-row label.has-error textarea,
-.admin-editor textarea.has-error {
-  border-color: #b64f45;
-  background: #fff8f6;
-}
-.home-content-editor {
-  display: grid;
-  gap: 18px;
-}
-.home-editor-toolbar,
-.home-section-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  gap: 24px;
-}
-.home-editor-toolbar {
-  background: var(--paper);
-  padding: 26px 28px;
-}
-.home-editor-toolbar p,
-.home-section-heading p {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
-  margin: 8px 0 0;
-  max-width: 420px;
-}
-.home-content-section {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  padding: 25px 28px 28px;
-}
-.home-section-heading {
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 16px;
-  margin-bottom: 20px;
-}
-.home-section-heading > div > span {
-  color: var(--terracotta);
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-.home-section-heading h3 {
-  margin: 5px 0 0;
-  font: 500 27px/1 var(--serif);
-}
-.home-field-grid,
-.home-repeatable-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-.home-field {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  color: var(--muted);
-  font-size: 10px;
-}
-.home-field input,
-.home-field textarea {
-  width: 100%;
-  border: 1px solid var(--line);
-  background: #fdfbf8;
-  color: var(--ink);
-  padding: 11px 12px;
-  outline: 0;
-  font-size: 12px;
-  line-height: 1.55;
-  resize: vertical;
-}
-.home-field textarea {
-  min-height: 76px;
-}
-.home-field input:focus,
-.home-field textarea:focus {
-  border-color: var(--terracotta);
-}
-.home-repeatable-grid {
-  margin-top: 18px;
-}
-.home-repeatable {
-  border: 1px solid var(--line);
-  padding: 16px;
-  display: grid;
-  gap: 12px;
-}
-.home-repeatable > b {
-  color: var(--ink);
-  font: 500 19px/1 var(--serif);
-}
-.home-image-field {
-  border-top: 1px solid var(--line);
-  margin-top: 20px;
-  padding-top: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 14px;
-  align-items: end;
-}
-.home-upload-button {
-  border: 1px solid var(--terracotta);
-  color: var(--terracotta);
-  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 39px;
-  padding: 0 15px;
-  font-size: 11px;
-}
-.home-upload-button input {
-  display: none;
-}
-.home-image-preview {
-  width: 100%;
-  height: 110px;
-  grid-column: 1 / -1;
-  object-fit: cover;
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--line);
+  background: #fff;
+  color: #c0392b;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
+.icon-danger:hover {
+  background: #fdf5f4;
+  border-color: #c0392b;
+}
+
 @media (max-width: 800px) {
-  .admin-editor-top,
-  .admin-section-heading {
-    display: block;
+  .home-section-body {
+    padding-left: 0;
   }
-  .admin-editor-top .button {
-    margin-top: 20px;
-  }
-  .admin-row-fields,
-  .admin-create-grid {
-    grid-template-columns: 1fr;
-  }
-  .admin-row-fields label:nth-child(n) {
-    grid-column: auto;
-  }
-  .admin-content {
-    padding: 35px 5vw;
-  }
-  .admin-heading h1 {
-    font-size: 40px;
-  }
-  .home-editor-toolbar,
-  .home-section-heading {
-    display: block;
-  }
-  .home-editor-toolbar .button {
-    margin-top: 18px;
+  .home-jump-nav {
+    top: 0;
   }
   .home-field-grid,
   .home-repeatable-grid,
-  .home-image-field {
+  .admin-create-grid,
+  .admin-row-fields {
     grid-template-columns: 1fr;
   }
-  .home-upload-button {
-    width: 100%;
+  .home-field-grid .home-field:has(textarea),
+  .admin-create-grid label:has(textarea[rows="3"]),
+  .admin-row-fields label:nth-child(n) {
+    grid-column: auto;
   }
 }

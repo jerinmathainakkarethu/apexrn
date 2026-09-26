@@ -1,5 +1,34 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, Check, LogOut, Plus, Save, Trash2 } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  LogOut,
+  Plus,
+  Save,
+  Trash2,
+  LayoutGrid,
+  MenuIcon as MenuGlyph,
+  Home as HomeIcon,
+  User,
+  CalendarDays,
+  MessageSquareQuote,
+  HelpCircle,
+  BookMarked,
+  Mail,
+  Users2,
+  Search,
+  Image as ImageIcon,
+  ListChecks,
+  Users,
+  GraduationCap,
+  Workflow,
+  GalleryHorizontalEnd,
+  MessagesSquare,
+  CalendarClock,
+  Tag,
+  Megaphone,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import Eyebrow from "../components/ui/Eyebrow";
 import { getAbout, updateAbout } from "../api/about";
@@ -23,29 +52,39 @@ import { createResource, deleteResource, updateResource } from "../api/resources
 import { loginAdmin } from "../api/auth";
 import { imageUrl } from "../services/api";
 
-const sections = [
-  "Overview",
-  "Pages",
-  "Menu",
-  "Home content",
-  "About content",
-  "Program weeks",
-  "Testimonials",
-  "FAQs",
-  "Resources",
-  "Messages",
-  "Q&A registrations",
+// "Pages" removed — every content type below already has its own sidebar entry,
+// so a separate page-picker just duplicated navigation.
+const sectionGroups = [
+  {
+    label: "Overview",
+    items: [{ key: "Overview", icon: LayoutGrid }],
+  },
+  {
+    label: "Content",
+    items: [
+      { key: "Menu", icon: MenuGlyph },
+      { key: "Home content", icon: HomeIcon },
+      { key: "About content", icon: User },
+    ],
+  },
+  {
+    label: "Program",
+    items: [
+      { key: "Program weeks", icon: CalendarDays },
+      { key: "Testimonials", icon: MessageSquareQuote },
+      { key: "FAQs", icon: HelpCircle },
+      { key: "Resources", icon: BookMarked },
+    ],
+  },
+  {
+    label: "Inbox",
+    items: [
+      { key: "Messages", icon: Mail },
+      { key: "Q&A registrations", icon: Users2 },
+    ],
+  },
 ];
-const pageOptions = [
-  "Home",
-  "About",
-  "Program",
-  "Testimonials",
-  "FAQs",
-  "Resources",
-  "Contact",
-  "Wednesday Q&A",
-];
+
 const blankTestimonial = {
   display_name: "",
   country: "",
@@ -96,6 +135,7 @@ function validateFields(value, fields) {
     return errors;
   }, {});
 }
+
 function Editor({ title, value, onChange, onSave, saving }) {
   const [error, setError] = useState("");
   const submit = async () => {
@@ -259,20 +299,68 @@ function VideoField({ label, value, onChange }) {
   );
 }
 
-function HomeSection({ title, description, children }) {
+/**
+ * Collapsible accordion section for the homepage builder.
+ * `where` = a one-line description of where this content shows up on the
+ * live page, `preview` = the current title/eyebrow text shown even while
+ * collapsed, so an admin can identify a section without opening it.
+ */
+function HomeSection({
+  number,
+  icon: Icon,
+  title,
+  where,
+  preview,
+  children,
+  defaultOpen = false,
+  anchorId,
+}) {
+  const [open, setOpen] = useState(defaultOpen);
   return (
-    <section className="home-content-section">
-      <div className="home-section-heading">
-        <div>
-          <span>Home section</span>
-          <h3>{title}</h3>
+    <section
+      id={anchorId}
+      className={`home-content-section${open ? " open" : ""}`}
+    >
+      <button
+        type="button"
+        className="home-section-heading"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+      >
+        <div className="home-section-heading-left">
+          <span className="home-section-badge">{number}</span>
+          <div className="home-section-icon">
+            <Icon size={17} strokeWidth={1.6} />
+          </div>
+          <div>
+            <h3>{title}</h3>
+            <p className="home-section-where">{where}</p>
+            {!open && preview ? (
+              <p className="home-section-preview">"{preview}"</p>
+            ) : null}
+          </div>
         </div>
-        {description && <p>{description}</p>}
-      </div>
-      {children}
+        <ChevronDown size={18} className="home-section-chevron" />
+      </button>
+      {open && <div className="home-section-body">{children}</div>}
     </section>
   );
 }
+
+const HOME_SECTION_NAV = [
+  { id: "sec-seo", label: "SEO" },
+  { id: "sec-hero", label: "Hero" },
+  { id: "sec-snapshot", label: "Snapshot" },
+  { id: "sec-audience", label: "Who it's for" },
+  { id: "sec-curriculum", label: "Curriculum" },
+  { id: "sec-instructor", label: "Instructor" },
+  { id: "sec-process", label: "How it works" },
+  { id: "sec-gallery", label: "Gallery" },
+  { id: "sec-testimonials", label: "Testimonials" },
+  { id: "sec-community", label: "Community" },
+  { id: "sec-qa", label: "Q&A" },
+  { id: "sec-pricing", label: "Pricing" },
+];
 
 function HomeContentEditor({ value, onChange, onSave }) {
   const [error, setError] = useState("");
@@ -299,6 +387,9 @@ function HomeContentEditor({ value, onChange, onSave }) {
     else setSaved(true);
   };
   const imageError = (message) => setUploadError(message);
+  const jumpTo = (id) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+
   if (!Object.keys(content).length)
     return (
       <Editor
@@ -309,14 +400,16 @@ function HomeContentEditor({ value, onChange, onSave }) {
         saving={false}
       />
     );
+
   return (
     <div className="home-content-editor">
       <div className="home-editor-toolbar">
         <div>
           <Eyebrow>Homepage builder</Eyebrow>
+          <h2>Edit the home page, section by section</h2>
           <p>
-            Edit each homepage section separately. Save once when you are ready
-            to publish all changes.
+            Sections below are in the same order they appear on the live
+            page. Open one, make your edits, then save once at the end.
           </p>
         </div>
         <button type="button" className="button" onClick={save}>
@@ -324,6 +417,15 @@ function HomeContentEditor({ value, onChange, onSave }) {
           Save homepage
         </button>
       </div>
+
+      <nav className="home-jump-nav" aria-label="Jump to section">
+        {HOME_SECTION_NAV.map((item) => (
+          <button type="button" key={item.id} onClick={() => jumpTo(item.id)}>
+            {item.label}
+          </button>
+        ))}
+      </nav>
+
       {error && <p className="admin-form-error">{error}</p>}
       {saved && (
         <p className="admin-form-success">
@@ -331,7 +433,16 @@ function HomeContentEditor({ value, onChange, onSave }) {
         </p>
       )}
       {uploadError && <p className="admin-form-error">{uploadError}</p>}
-      <HomeSection title="SEO settings">
+
+      <HomeSection
+        anchorId="sec-seo"
+        number="01"
+        icon={Search}
+        title="SEO"
+        where="Browser tab title and search-engine description. Not visible on the page itself."
+        preview={content.seo?.title}
+        defaultOpen
+      >
         <div className="home-field-grid">
           <HomeField
             label="SEO title"
@@ -346,9 +457,14 @@ function HomeContentEditor({ value, onChange, onSave }) {
           />
         </div>
       </HomeSection>
+
       <HomeSection
-        title="Banner / hero"
-        description="The first section visitors see"
+        anchorId="sec-hero"
+        number="02"
+        icon={ImageIcon}
+        title="Hero banner"
+        where="The full-width banner at the very top of the page, with the big headline and background image."
+        preview={content.hero?.title}
       >
         <div className="home-field-grid">
           <HomeField
@@ -357,7 +473,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
             onChange={(value) => update(["hero", "eyebrow"], value)}
           />
           <HomeField
-            label="Banner title"
+            label="Headline"
             value={content.hero?.title}
             onChange={(value) => update(["hero", "title"], value)}
             multiline
@@ -367,11 +483,6 @@ function HomeContentEditor({ value, onChange, onSave }) {
             value={content.hero?.description}
             onChange={(value) => update(["hero", "description"], value)}
             multiline
-          />
-          <HomeField
-            label="Primary button text"
-            value={content.hero?.primaryCta}
-            onChange={(value) => update(["hero", "primaryCta"], value)}
           />
           <HomeField
             label="Secondary button text"
@@ -395,7 +506,15 @@ function HomeContentEditor({ value, onChange, onSave }) {
           onError={imageError}
         />
       </HomeSection>
-      <HomeSection title="Program snapshot">
+
+      <HomeSection
+        anchorId="sec-snapshot"
+        number="03"
+        icon={ListChecks}
+        title="Snapshot strip"
+        where="The thin row of quick facts directly under the hero banner."
+        preview={(content.snapshot || []).join(" · ")}
+      >
         <HomeField
           label="Snapshot items, one per line"
           value={(content.snapshot || []).join("\n")}
@@ -403,7 +522,15 @@ function HomeContentEditor({ value, onChange, onSave }) {
           multiline
         />
       </HomeSection>
-      <HomeSection title="Audience section">
+
+      <HomeSection
+        anchorId="sec-audience"
+        number="04"
+        icon={Users}
+        title="Who this is for"
+        where="The eyebrow + heading + four icon cards (e.g. Fundamentals & safety, Repeat test-takers...)."
+        preview={content.audience?.title}
+      >
         <div className="home-field-grid">
           <HomeField
             label="Eyebrow"
@@ -411,22 +538,23 @@ function HomeContentEditor({ value, onChange, onSave }) {
             onChange={(value) => update(["audience", "eyebrow"], value)}
           />
           <HomeField
-            label="Title"
+            label="Heading"
             value={content.audience?.title}
             onChange={(value) => update(["audience", "title"], value)}
             multiline
           />
           <HomeField
-            label="Copy"
+            label="Supporting copy"
             value={content.audience?.copy}
             onChange={(value) => update(["audience", "copy"], value)}
             multiline
           />
         </div>
+        <p className="home-section-note">Cards shown below, in order:</p>
         <div className="home-repeatable-grid">
           {(content.audience?.items || []).map((item, index) => (
             <div className="home-repeatable" key={`audience-${index}`}>
-              <b>Audience item {index + 1}</b>
+              <b>Card {index + 1}</b>
               <HomeField
                 label="Title"
                 value={item.title}
@@ -446,74 +574,15 @@ function HomeContentEditor({ value, onChange, onSave }) {
           ))}
         </div>
       </HomeSection>
-      <HomeSection title="Why APEX RN Prep">
-        <div className="home-field-grid">
-          <HomeField
-            label="Eyebrow"
-            value={content.approach?.eyebrow}
-            onChange={(value) => update(["approach", "eyebrow"], value)}
-          />
-          <HomeField
-            label="Title"
-            value={content.approach?.title}
-            onChange={(value) => update(["approach", "title"], value)}
-            multiline
-          />
-          <HomeField
-            label="Copy"
-            value={content.approach?.copy}
-            onChange={(value) => update(["approach", "copy"], value)}
-            multiline
-          />
-          <HomeField
-            label="Benefits, one per line"
-            value={(content.approach?.benefits || []).join("\n")}
-            onChange={(value) => updateList(["approach", "benefits"], value)}
-            multiline
-          />
-        </div>
-      </HomeSection>
-      <HomeSection title="Program experience">
-        <div className="home-field-grid">
-          <HomeField
-            label="Eyebrow"
-            value={content.experience?.eyebrow}
-            onChange={(value) => update(["experience", "eyebrow"], value)}
-          />
-          <HomeField
-            label="Title"
-            value={content.experience?.title}
-            onChange={(value) => update(["experience", "title"], value)}
-            multiline
-          />
-          <HomeField
-            label="Copy"
-            value={content.experience?.copy}
-            onChange={(value) => update(["experience", "copy"], value)}
-            multiline
-          />
-          <HomeField
-            label="Experience items, one per line"
-            value={(content.experience?.items || []).join("\n")}
-            onChange={(value) => updateList(["experience", "items"], value)}
-            multiline
-          />
-        </div>
-        <ImageField
-          label="Program experience image"
-          image={{
-            url: content.experience?.image,
-            alt: content.experience?.imageAlt,
-          }}
-          onChange={(image) => {
-            let next = setHomePath(content, ["experience", "image"], image.url);
-            next = setHomePath(next, ["experience", "imageAlt"], image.alt);
-            onChange(JSON.stringify(next, null, 2));
-          }}
-          onError={imageError}
-        />
-      </HomeSection>
-      <HomeSection title="Curriculum">
+
+      <HomeSection
+        anchorId="sec-curriculum"
+        number="05"
+        icon={GraduationCap}
+        title="Curriculum"
+        where="The 'What you will learn' section with the clickable topic list and detail panel."
+        preview={content.curriculum?.title}
+      >
         <div className="home-field-grid">
           <HomeField
             label="Eyebrow"
@@ -521,18 +590,22 @@ function HomeContentEditor({ value, onChange, onSave }) {
             onChange={(value) => update(["curriculum", "eyebrow"], value)}
           />
           <HomeField
-            label="Title"
+            label="Heading"
             value={content.curriculum?.title}
             onChange={(value) => update(["curriculum", "title"], value)}
             multiline
           />
           <HomeField
-            label="Copy"
+            label="Supporting copy"
             value={content.curriculum?.copy}
             onChange={(value) => update(["curriculum", "copy"], value)}
             multiline
           />
         </div>
+        <p className="home-section-note">
+          Topics, shown as tabs on the left with matching detail on the
+          right:
+        </p>
         <div className="home-repeatable-grid">
           {(content.curriculum?.topics || []).map((item, index) => (
             <div className="home-repeatable" key={`topic-${index}`}>
@@ -561,7 +634,15 @@ function HomeContentEditor({ value, onChange, onSave }) {
           ))}
         </div>
       </HomeSection>
-      <HomeSection title="Instructor">
+
+      <HomeSection
+        anchorId="sec-instructor"
+        number="06"
+        icon={User}
+        title="Instructor"
+        where="The instructor photo and bio section, with credentials and the 'Meet the instructor' button."
+        preview={content.instructor?.title}
+      >
         <div className="home-field-grid">
           <HomeField
             label="Eyebrow"
@@ -569,13 +650,13 @@ function HomeContentEditor({ value, onChange, onSave }) {
             onChange={(value) => update(["instructor", "eyebrow"], value)}
           />
           <HomeField
-            label="Title"
+            label="Heading"
             value={content.instructor?.title}
             onChange={(value) => update(["instructor", "title"], value)}
             multiline
           />
           <HomeField
-            label="Paragraphs, one per line"
+            label="Bio paragraphs, one per line"
             value={(content.instructor?.copy || []).join("\n")}
             onChange={(value) => updateList(["instructor", "copy"], value)}
             multiline
@@ -590,7 +671,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
           />
         </div>
         <ImageField
-          label="Instructor image"
+          label="Instructor photo"
           image={{
             url: content.instructor?.image,
             alt: content.instructor?.imageAlt,
@@ -603,7 +684,16 @@ function HomeContentEditor({ value, onChange, onSave }) {
           onError={imageError}
         />
       </HomeSection>
-      <HomeSection title="How support works">
+
+      <HomeSection
+        anchorId="sec-process"
+        number="07"
+        icon={Workflow}
+        title="How support works"
+        where="Feeds the process-feature block between Instructor and the program gallery — steps, plus the rotating overlay image panel."
+        preview={content.process?.title || content.editorial?.processTitle}
+      >
+        <p className="home-section-note">Step list:</p>
         <div className="home-field-grid">
           <HomeField
             label="Eyebrow"
@@ -611,13 +701,13 @@ function HomeContentEditor({ value, onChange, onSave }) {
             onChange={(value) => update(["process", "eyebrow"], value)}
           />
           <HomeField
-            label="Title"
+            label="Heading"
             value={content.process?.title}
             onChange={(value) => update(["process", "title"], value)}
             multiline
           />
           <HomeField
-            label="Copy"
+            label="Supporting copy"
             value={content.process?.copy}
             onChange={(value) => update(["process", "copy"], value)}
             multiline
@@ -626,7 +716,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
         <div className="home-repeatable-grid">
           {(content.process?.items || []).map((item, index) => (
             <div className="home-repeatable" key={`process-${index}`}>
-              <b>Process step {index + 1}</b>
+              <b>Step {index + 1}</b>
               <HomeField
                 label="Title"
                 value={item.title}
@@ -645,28 +735,30 @@ function HomeContentEditor({ value, onChange, onSave }) {
             </div>
           ))}
         </div>
-      </HomeSection>
-      <HomeSection title="Editorial process and gallery">
+
+        <p className="home-section-note home-section-note-divider">
+          Overlay / rotating image panel that appears alongside the steps:
+        </p>
         <div className="home-field-grid">
           <HomeField
-            label="Process eyebrow"
+            label="Panel eyebrow"
             value={content.editorial?.processEyebrow}
             onChange={(value) => update(["editorial", "processEyebrow"], value)}
           />
           <HomeField
-            label="Process title"
+            label="Panel heading"
             value={content.editorial?.processTitle}
             onChange={(value) => update(["editorial", "processTitle"], value)}
             multiline
           />
           <HomeField
-            label="Process copy"
+            label="Panel copy"
             value={content.editorial?.processCopy}
             onChange={(value) => update(["editorial", "processCopy"], value)}
             multiline
           />
           <HomeField
-            label="Process button"
+            label="Panel button text"
             value={content.editorial?.processButton}
             onChange={(value) => update(["editorial", "processButton"], value)}
           />
@@ -677,30 +769,58 @@ function HomeContentEditor({ value, onChange, onSave }) {
               update(["editorial", "processOverlayTitle"], value)
             }
           />
+        </div>
+        <div className="home-repeatable-grid">
+          {(content.editorial?.processImages || []).map((image, index) => (
+            <div className="home-repeatable" key={`process-image-${index}`}>
+              <b>Rotating image {index + 1}</b>
+              <ImageField
+                label="Image"
+                image={image}
+                onChange={(next) =>
+                  update(["editorial", "processImages", index], next)
+                }
+                onError={imageError}
+              />
+            </div>
+          ))}
+        </div>
+      </HomeSection>
+
+      <HomeSection
+        anchorId="sec-gallery"
+        number="08"
+        icon={GalleryHorizontalEnd}
+        title="Program gallery"
+        where="The four-card image gallery below the process section (title, description and background image per card)."
+        preview={content.editorial?.galleryTitle}
+      >
+        <div className="home-field-grid">
           <HomeField
-            label="Gallery eyebrow"
+            label="Eyebrow"
             value={content.editorial?.galleryEyebrow}
             onChange={(value) => update(["editorial", "galleryEyebrow"], value)}
           />
           <HomeField
-            label="Gallery title"
+            label="Heading"
             value={content.editorial?.galleryTitle}
             onChange={(value) => update(["editorial", "galleryTitle"], value)}
             multiline
           />
           <HomeField
-            label="Gallery copy"
+            label="Supporting copy"
             value={content.editorial?.galleryCopy}
             onChange={(value) => update(["editorial", "galleryCopy"], value)}
             multiline
           />
         </div>
+        <p className="home-section-note">Gallery cards, left to right:</p>
         <div className="home-repeatable-grid">
           {(content.editorial?.galleryItems || []).map((item, index) => (
             <div className="home-repeatable" key={`gallery-item-${index}`}>
-              <b>Gallery card {index + 1}</b>
+              <b>Card {index + 1}</b>
               <HomeField
-                label="Card title"
+                label="Title"
                 value={item.title}
                 onChange={(value) =>
                   updateItem(
@@ -712,7 +832,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
                 }
               />
               <HomeField
-                label="Card description"
+                label="Description"
                 value={item.description}
                 onChange={(value) =>
                   updateItem(
@@ -725,7 +845,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
                 multiline
               />
               <ImageField
-                label="Card image"
+                label="Background image"
                 image={{ url: item.image, alt: item.imageAlt }}
                 onChange={(image) => {
                   let next = setHomePath(
@@ -745,106 +865,59 @@ function HomeContentEditor({ value, onChange, onSave }) {
             </div>
           ))}
         </div>
-        <div className="home-repeatable-grid">
-          {(content.editorial?.processImages || []).map((image, index) => (
-            <div className="home-repeatable" key={`process-image-${index}`}>
-              <b>Rotating image {index + 1}</b>
-              <ImageField
-                label="Process image"
-                image={image}
-                onChange={(next) =>
-                  update(["editorial", "processImages", index], next)
-                }
-                onError={imageError}
-              />
-            </div>
-          ))}
-        </div>
       </HomeSection>
-      <HomeSection title="Community, Q&A, pricing and final CTA">
+
+      <HomeSection
+        anchorId="sec-testimonials"
+        number="09"
+        icon={MessagesSquare}
+        title="Testimonials"
+        where="The student stories carousel. Not edited here — testimonials are managed as their own records."
+      >
+        <p className="home-section-note home-section-redirect">
+          Testimonials are stored separately from the rest of the homepage
+          content, so they can be added or removed without editing this JSON.
+          Go to <strong>Testimonials</strong> in the sidebar to add, edit, or
+          remove student stories — changes there show up in this section
+          automatically.
+        </p>
+      </HomeSection>
+
+      <HomeSection
+        anchorId="sec-community"
+        number="10"
+        icon={Users}
+        title="Community"
+        where="The section with the community image and three highlight items, below testimonials."
+        preview={content.community?.title}
+      >
         <div className="home-field-grid">
           <HomeField
-            label="Community title"
+            label="Eyebrow"
+            value={content.community?.eyebrow}
+            onChange={(value) => update(["community", "eyebrow"], value)}
+          />
+          <HomeField
+            label="Heading"
             value={content.community?.title}
             onChange={(value) => update(["community", "title"], value)}
             multiline
           />
           <HomeField
-            label="Community copy"
+            label="Supporting copy"
             value={content.community?.copy}
             onChange={(value) => update(["community", "copy"], value)}
             multiline
           />
           <HomeField
-            label="Community items, one per line"
+            label="Highlight items, one per line (up to 3 shown)"
             value={(content.community?.items || []).join("\n")}
             onChange={(value) => updateList(["community", "items"], value)}
             multiline
           />
-          <HomeField
-            label="Q&A eyebrow"
-            value={content.qa?.eyebrow}
-            onChange={(value) => update(["qa", "eyebrow"], value)}
-          />
-          <HomeField
-            label="Q&A title"
-            value={content.qa?.title}
-            onChange={(value) => update(["qa", "title"], value)}
-            multiline
-          />
-          <HomeField
-            label="Q&A copy"
-            value={content.qa?.copy}
-            onChange={(value) => update(["qa", "copy"], value)}
-            multiline
-          />
-          <HomeField
-            label="Q&A button"
-            value={content.qa?.button}
-            onChange={(value) => update(["qa", "button"], value)}
-          />
-          <HomeField
-            label="Pricing title"
-            value={content.pricing?.title}
-            onChange={(value) => update(["pricing", "title"], value)}
-            multiline
-          />
-          <HomeField
-            label="Pricing copy"
-            value={content.pricing?.copy}
-            onChange={(value) => update(["pricing", "copy"], value)}
-            multiline
-          />
-          <HomeField
-            label="Product name"
-            value={content.pricing?.product}
-            onChange={(value) => update(["pricing", "product"], value)}
-          />
-          <HomeField
-            label="Included text"
-            value={content.pricing?.included}
-            onChange={(value) => update(["pricing", "included"], value)}
-            multiline
-          />
-          <HomeField
-            label="Final CTA title"
-            value={content.finalCta?.title}
-            onChange={(value) => update(["finalCta", "title"], value)}
-            multiline
-          />
-          <HomeField
-            label="Final CTA primary button"
-            value={content.finalCta?.primary}
-            onChange={(value) => update(["finalCta", "primary"], value)}
-          />
-          <HomeField
-            label="Final CTA secondary button"
-            value={content.finalCta?.secondary}
-            onChange={(value) => update(["finalCta", "secondary"], value)}
-          />
         </div>
         <ImageField
-          label="Student community image"
+          label="Community image"
           image={{
             url: content.community?.image,
             alt: content.community?.imageAlt,
@@ -856,8 +929,42 @@ function HomeContentEditor({ value, onChange, onSave }) {
           }}
           onError={imageError}
         />
+      </HomeSection>
+
+      <HomeSection
+        anchorId="sec-qa"
+        number="11"
+        icon={CalendarClock}
+        title="Wednesday Q&A"
+        where="The live-session section near the bottom, with the registration button that opens the sign-up modal."
+        preview={content.qa?.title}
+      >
+        <div className="home-field-grid">
+          <HomeField
+            label="Eyebrow"
+            value={content.qa?.eyebrow}
+            onChange={(value) => update(["qa", "eyebrow"], value)}
+          />
+          <HomeField
+            label="Heading"
+            value={content.qa?.title}
+            onChange={(value) => update(["qa", "title"], value)}
+            multiline
+          />
+          <HomeField
+            label="Supporting copy"
+            value={content.qa?.copy}
+            onChange={(value) => update(["qa", "copy"], value)}
+            multiline
+          />
+          <HomeField
+            label="Button text"
+            value={content.qa?.button}
+            onChange={(value) => update(["qa", "button"], value)}
+          />
+        </div>
         <ImageField
-          label="Wednesday Q&A image"
+          label="Q&A image"
           image={{ url: content.qa?.image, alt: content.qa?.imageAlt }}
           onChange={(image) => {
             let next = setHomePath(content, ["qa", "image"], image.url);
@@ -866,6 +973,69 @@ function HomeContentEditor({ value, onChange, onSave }) {
           }}
           onError={imageError}
         />
+      </HomeSection>
+
+      <HomeSection
+        anchorId="sec-pricing"
+        number="12"
+        icon={Tag}
+        title="Pricing"
+        where="Pricing details used across the site. Not currently rendered on the homepage itself — check the pricing page."
+        preview={content.pricing?.title}
+      >
+        <div className="home-field-grid">
+          <HomeField
+            label="Heading"
+            value={content.pricing?.title}
+            onChange={(value) => update(["pricing", "title"], value)}
+            multiline
+          />
+          <HomeField
+            label="Supporting copy"
+            value={content.pricing?.copy}
+            onChange={(value) => update(["pricing", "copy"], value)}
+            multiline
+          />
+          <HomeField
+            label="Product name"
+            value={content.pricing?.product}
+            onChange={(value) => update(["pricing", "product"], value)}
+          />
+          <HomeField
+            label="What's included"
+            value={content.pricing?.included}
+            onChange={(value) => update(["pricing", "included"], value)}
+            multiline
+          />
+        </div>
+      </HomeSection>
+
+      <HomeSection
+        anchorId="sec-finalcta"
+        number="13"
+        icon={Megaphone}
+        title="Final call-to-action"
+        where="Closing banner text. Not currently rendered on this version of the homepage — kept here in case it's reused elsewhere."
+        preview={content.finalCta?.title}
+      >
+        <div className="home-field-grid">
+          <HomeField
+            label="Heading"
+            value={content.finalCta?.title}
+            onChange={(value) => update(["finalCta", "title"], value)}
+            multiline
+          />
+          <HomeField
+            label="Primary button text"
+            value={content.finalCta?.primary}
+            onChange={(value) => update(["finalCta", "primary"], value)}
+          />
+          <HomeField
+            label="Secondary button text"
+            value={content.finalCta?.secondary}
+            onChange={(value) => update(["finalCta", "secondary"], value)}
+          />
+        </div>
       </HomeSection>
     </div>
   );
@@ -882,7 +1052,6 @@ export default function AdminDashboard() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [active, setActive] = useState("Overview");
-  const [selectedPage, setSelectedPage] = useState("Home");
   const [notice, setNotice] = useState("");
   const [loading, setLoading] = useState(false);
   const [homeText, setHomeText] = useState("");
@@ -904,6 +1073,7 @@ export default function AdminDashboard() {
     if (!token) return;
     refreshAll();
   }, [token]);
+
   async function refreshAll() {
     setLoading(true);
     try {
@@ -999,6 +1169,7 @@ export default function AdminDashboard() {
       return { error: message };
     }
   }
+
   if (!token)
     return (
       <div className="admin-page">
@@ -1037,6 +1208,7 @@ export default function AdminDashboard() {
         </form>
       </div>
     );
+
   return (
     <div className="admin-page">
       <div className="admin-shell">
@@ -1046,14 +1218,20 @@ export default function AdminDashboard() {
             <small>RN PREP</small>
           </Link>
           <div className="admin-nav">
-            {sections.map((section) => (
-              <button
-                className={active === section ? "selected" : ""}
-                onClick={() => setActive(section)}
-                key={section}
-              >
-                {section}
-              </button>
+            {sectionGroups.map((group) => (
+              <div className="admin-nav-group" key={group.label}>
+                <span className="admin-nav-label">{group.label}</span>
+                {group.items.map(({ key, icon: Icon }) => (
+                  <button
+                    className={active === key ? "selected" : ""}
+                    onClick={() => setActive(key)}
+                    key={key}
+                  >
+                    <Icon size={15} />
+                    {key}
+                  </button>
+                ))}
+              </div>
             ))}
           </div>
           <button className="admin-logout" onClick={logout}>
@@ -1078,9 +1256,6 @@ export default function AdminDashboard() {
           ) : (
             <AdminView
               active={active}
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-              pageOptions={pageOptions}
               homeText={homeText}
               setHomeText={setHomeText}
               aboutText={aboutText}
@@ -1116,9 +1291,6 @@ export default function AdminDashboard() {
 function AdminView(props) {
   const {
     active,
-    selectedPage,
-    setSelectedPage,
-    pageOptions,
     homeText,
     setHomeText,
     aboutText,
@@ -1144,52 +1316,28 @@ function AdminView(props) {
     setNewResource,
     action,
   } = props;
-  if (active === "Overview")
+
+  if (active === "Overview") {
+    const stats = [
+      ["Program weeks", program.length, CalendarDays],
+      ["Testimonials", testimonials.length, MessageSquareQuote],
+      ["FAQs", faqs.length, HelpCircle],
+      ["Resources", resources.length, BookMarked],
+      ["Messages", contacts.length, Mail],
+      ["Q&A registrations", registrations.length, Users2],
+    ];
     return (
       <div className="admin-stats">
-        {[
-          ["Program weeks", program.length],
-          ["Testimonials", testimonials.length],
-          ["FAQs", faqs.length],
-          ["Resources", resources.length],
-          ["Messages", contacts.length],
-          ["Q&A registrations", registrations.length],
-        ].map(([label, value]) => (
+        {stats.map(([label, value, Icon]) => (
           <div key={label}>
+            <Icon size={18} className="admin-stat-icon" />
             <span>{value}</span>
             <p>{label}</p>
           </div>
         ))}
       </div>
     );
-  if (active === "Pages")
-    return (
-      <PageManager
-        selectedPage={selectedPage}
-        setSelectedPage={setSelectedPage}
-        pageOptions={pageOptions}
-        homeText={homeText}
-        setHomeText={setHomeText}
-        aboutText={aboutText}
-        setAboutText={setAboutText}
-        saveJson={saveJson}
-        program={program}
-        testimonials={testimonials}
-        faqs={faqs}
-        resources={resources}
-        contacts={contacts}
-        registrations={registrations}
-        newWeek={newWeek}
-        setNewWeek={setNewWeek}
-        newTestimonial={newTestimonial}
-        setNewTestimonial={setNewTestimonial}
-        newFaq={newFaq}
-        setNewFaq={setNewFaq}
-        newResource={newResource}
-        setNewResource={setNewResource}
-        action={action}
-      />
-    );
+  }
   if (active === "Menu")
     return (
       <MenuEditor
@@ -1251,6 +1399,7 @@ function AdminView(props) {
         <Collection
           title="Program weeks"
           items={program}
+          summaryKey="title"
           fields={[
             { key: "week_number", label: "Week" },
             { key: "title", label: "Title" },
@@ -1285,7 +1434,7 @@ function AdminView(props) {
             ["country", "Country"],
             ["story", "Story"],
             ["result", "Result"],
-                      ["video_url", "Video", true],
+            ["video_url", "Video", true],
           ]}
           onSubmit={() =>
             action(() =>
@@ -1301,12 +1450,13 @@ function AdminView(props) {
         <Collection
           title="Testimonials"
           items={testimonials}
+          summaryKey="display_name"
           fields={[
             { key: "display_name", label: "Name" },
             { key: "country", label: "Country" },
             { key: "story", label: "Story" },
             { key: "result", label: "Result" },
-                      { key: "video_url", label: "Video", optional: true },
+            { key: "video_url", label: "Video", optional: true },
           ]}
           onSave={(id, value) =>
             action(() =>
@@ -1323,7 +1473,6 @@ function AdminView(props) {
             )
           }
         />
-        ;
       </>
     );
   if (active === "FAQs")
@@ -1348,6 +1497,7 @@ function AdminView(props) {
         <Collection
           title="FAQs"
           items={faqs}
+          summaryKey="question"
           fields={[
             { key: "question", label: "Question" },
             { key: "answer", label: "Answer" },
@@ -1365,7 +1515,6 @@ function AdminView(props) {
             )
           }
         />
-        ;
       </>
     );
   if (active === "Resources")
@@ -1392,6 +1541,7 @@ function AdminView(props) {
         <Collection
           title="Resources"
           items={resources}
+          summaryKey="title"
           fields={[
             { key: "title", label: "Title" },
             { key: "slug", label: "Slug" },
@@ -1413,7 +1563,6 @@ function AdminView(props) {
             )
           }
         />
-        ;
       </>
     );
   if (active === "Messages")
@@ -1421,276 +1570,6 @@ function AdminView(props) {
   if (active === "Q&A registrations")
     return <Inbox items={registrations} title="Wednesday Q&A registrations" />;
   return null;
-}
-
-function PageManager(props) {
-  const {
-    selectedPage,
-    setSelectedPage,
-    pageOptions,
-    homeText,
-    setHomeText,
-    aboutText,
-    setAboutText,
-    saveJson,
-    program,
-    testimonials,
-    faqs,
-    resources,
-    contacts,
-    registrations,
-    newWeek,
-    setNewWeek,
-    newTestimonial,
-    setNewTestimonial,
-    newFaq,
-    setNewFaq,
-    newResource,
-    setNewResource,
-    action,
-  } = props;
-  return (
-    <div className="page-workspace">
-      <div className="page-manager-heading">
-        <div>
-          <Eyebrow>Site pages</Eyebrow>
-          <h2>Pages</h2>
-          <p>Choose a page to edit its published content.</p>
-        </div>
-        <span className="page-count">{pageOptions.length} pages</span>
-      </div>
-      <div className="page-manager">
-        <div className="page-list">
-          <div className="page-list-heading">
-            <span>All pages</span>
-            <b>{pageOptions.length}</b>
-          </div>
-          {pageOptions.map((page) => (
-            <button
-              className={selectedPage === page ? "selected" : ""}
-              onClick={() => setSelectedPage(page)}
-              key={page}
-            >
-              <span>
-                <strong>{page}</strong>
-                <small>Published</small>
-              </span>
-              <ArrowRight size={15} />
-            </button>
-          ))}
-        </div>
-        <div className="page-editor-shell">
-          <div className="page-editor-heading">
-            <div>
-              <span className="page-editor-type">Page</span>
-              <h3>{selectedPage}</h3>
-            </div>
-            <span className="page-status">
-              <i />
-              Published
-            </span>
-          </div>
-          <div className="page-editor-layout">
-            <div className="page-editor">
-              {selectedPage === "Home" && (
-                <HomeContentEditor
-                  value={homeText}
-                  onChange={setHomeText}
-                  onSave={() =>
-                    saveJson(homeText, (value) =>
-                      action(() => updateHome(value)),
-                    )
-                  }
-                />
-              )}
-              {selectedPage === "About" && (
-                <Editor
-                  title="About page content"
-                  value={aboutText}
-                  onChange={setAboutText}
-                  onSave={() =>
-                    saveJson(aboutText, (value) =>
-                      action(() => updateAbout(value)),
-                    )
-                  }
-                  saving={false}
-                />
-              )}
-              {selectedPage === "Program" && (
-                <>
-                  <CreateForm
-                    title="Add program week"
-                    value={newWeek}
-                    setValue={setNewWeek}
-                    fields={[
-                      ["week_number", "Week"],
-                      ["title", "Title"],
-                      ["description", "Description"],
-                    ]}
-                    onSubmit={() =>
-                      action(() => createProgramWeek(newWeek)).then(() =>
-                        setNewWeek(blankWeek),
-                      )
-                    }
-                  />
-                  <Collection
-                    title="Program content"
-                    items={program}
-                    fields={[
-                      { key: "week_number", label: "Week" },
-                      { key: "title", label: "Title" },
-                      { key: "description", label: "Description" },
-                    ]}
-                    onSave={(id, value) =>
-                      action(() => updateProgramWeek(id, value))
-                    }
-                    onDelete={(id) => action(() => deleteProgramWeek(id))}
-                  />
-                </>
-              )}
-              {selectedPage === "Testimonials" && (
-                <>
-                  <CreateForm
-                    title="Add testimonial"
-                    value={newTestimonial}
-                    setValue={setNewTestimonial}
-                    fields={[
-                      ["display_name", "Display name"],
-                      ["country", "Country"],
-                      ["story", "Story"],
-                      ["result", "Result"],
-            ["video_url", "Video", true],
-                    ]}
-                    onSubmit={() =>
-                      action(() => createTestimonial(newTestimonial)).then(() =>
-                        setNewTestimonial(blankTestimonial),
-                      )
-                    }
-                  />
-                  <Collection
-                    title="Testimonials content"
-                    items={testimonials}
-                    fields={[
-                      { key: "display_name", label: "Name" },
-                      { key: "country", label: "Country" },
-                      { key: "story", label: "Story" },
-                      { key: "result", label: "Result" },
-            { key: "video_url", label: "Video", optional: true },
-                    ]}
-                    onSave={(id, value) =>
-                      action(() => updateTestimonial(id, value))
-                    }
-                    onDelete={(id) => action(() => deleteTestimonial(id))}
-                  />
-                </>
-              )}
-              {selectedPage === "FAQs" && (
-                <>
-                  <CreateForm
-                    title="Add FAQ"
-                    value={newFaq}
-                    setValue={setNewFaq}
-                    fields={[
-                      ["question", "Question"],
-                      ["answer", "Answer"],
-                    ]}
-                    onSubmit={() =>
-                      action(() => createFaq(newFaq)).then(() =>
-                        setNewFaq(blankFaq),
-                      )
-                    }
-                  />
-                  <Collection
-                    title="FAQs content"
-                    items={faqs}
-                    fields={[
-                      { key: "question", label: "Question" },
-                      { key: "answer", label: "Answer" },
-                    ]}
-                    onSave={(id, value) => action(() => updateFaq(id, value))}
-                    onDelete={(id) => action(() => deleteFaq(id))}
-                  />
-                </>
-              )}
-              {selectedPage === "Resources" && (
-                <>
-                  <CreateForm
-                    title="Add resource"
-                    value={newResource}
-                    setValue={setNewResource}
-                    fields={[
-                      ["title", "Title"],
-                      ["slug", "Slug"],
-                      ["excerpt", "Excerpt"],
-                      ["content", "Content"],
-                    ]}
-                    onSubmit={() =>
-                      action(() => createResource(newResource)).then(() =>
-                        setNewResource(blankResource),
-                      )
-                    }
-                  />
-                  <Collection
-                    title="Resources content"
-                    items={resources}
-                    fields={[
-                      { key: "title", label: "Title" },
-                      { key: "slug", label: "Slug" },
-                      { key: "excerpt", label: "Excerpt" },
-                      { key: "content", label: "Content" },
-                    ]}
-                    onSave={(id, value) =>
-                      action(() => updateResource(id, value))
-                    }
-                    onDelete={(id) => action(() => deleteResource(id))}
-                  />
-                </>
-              )}
-              {selectedPage === "Contact" && (
-                <Inbox title="Contact page submissions" items={contacts} />
-              )}
-              {selectedPage === "Wednesday Q&A" && (
-                <Inbox
-                  title="Wednesday Q&A registrations"
-                  items={registrations}
-                />
-              )}
-            </div>
-          </div>
-          <aside className="page-publish-panel">
-            <div className="page-publish-card">
-              <div className="page-publish-card-heading">
-                <span>Publish</span>
-                <span className="page-publish-dot" />
-              </div>
-              <p>This page is live on the public website.</p>
-              <button
-                type="button"
-                className="page-preview-button"
-                onClick={() =>
-                  window.open(
-                    selectedPage === "Home"
-                      ? "/"
-                      : `/${selectedPage.toLowerCase()}`,
-                    "_blank",
-                  )
-                }
-              >
-                View page
-              </button>
-            </div>
-            <div className="page-publish-card page-help-card">
-              <span>Editing guide</span>
-              <p>
-                Update the content fields, then save. Changes are stored in
-                MySQL and appear on the public page.
-              </p>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function MenuEditor({ menu, setMenu, newMenu, setNewMenu, action }) {
@@ -1744,6 +1623,7 @@ function MenuEditor({ menu, setMenu, newMenu, setNewMenu, action }) {
           <RowEditor
             key={`${item.label}-${index}`}
             item={item}
+            summaryKey="label"
             fields={[
               { key: "label", label: "Label" },
               { key: "url", label: "URL or path" },
@@ -1756,6 +1636,7 @@ function MenuEditor({ menu, setMenu, newMenu, setNewMenu, action }) {
     </>
   );
 }
+
 function CreateForm({ title, value, setValue, fields, onSubmit }) {
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
@@ -1771,7 +1652,7 @@ function CreateForm({ title, value, setValue, fields, onSubmit }) {
     <div className="admin-create">
       <Eyebrow>{title}</Eyebrow>
       <div className="admin-create-grid">
-        {fields.map(([key, label]) =>
+        {fields.map(([key, label, optional]) =>
           key === "video_url" ? (
             <VideoField
               key={key}
@@ -1781,7 +1662,10 @@ function CreateForm({ title, value, setValue, fields, onSubmit }) {
             />
           ) : (
             <label key={key} className={errors[key] ? "has-error" : ""}>
-              {label}
+              <span>
+                {label}
+                {!optional && <em className="admin-required">*</em>}
+              </span>
               <textarea
                 rows={
                   key === "story" || key === "answer" || key === "content"
@@ -1809,25 +1693,32 @@ function CreateForm({ title, value, setValue, fields, onSubmit }) {
     </div>
   );
 }
-function Collection({ title, items, fields, onSave, onDelete }) {
+
+function Collection({ title, items, fields, onSave, onDelete, summaryKey }) {
   return (
     <div className="admin-collection">
       <div className="admin-section-heading">
         <Eyebrow>{title}</Eyebrow>
         <span>{items.length} records</span>
       </div>
-      {items.map((item) => (
-        <RowEditor
-          key={item.id}
-          item={item}
-          fields={fields}
-          onSave={(value) => onSave(item.id, value)}
-          onDelete={onDelete}
-        />
-      ))}
+      {items.length ? (
+        items.map((item) => (
+          <RowEditor
+            key={item.id}
+            item={item}
+            fields={fields}
+            summaryKey={summaryKey}
+            onSave={(value) => onSave(item.id, value)}
+            onDelete={onDelete}
+          />
+        ))
+      ) : (
+        <p className="admin-empty">No records yet. Add your first one above.</p>
+      )}
     </div>
   );
 }
+
 function Inbox({ title, items }) {
   return (
     <div className="admin-collection">
@@ -1849,10 +1740,13 @@ function Inbox({ title, items }) {
     </div>
   );
 }
-function RowEditor({ item, fields, onSave, onDelete }) {
+
+function RowEditor({ item, fields, onSave, onDelete, summaryKey }) {
   const [draft, setDraft] = useState(item);
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  const label = draft[summaryKey || fields[0]?.key] || "Untitled record";
   const save = async () => {
     const nextErrors = validateFields(
       draft,
@@ -1865,65 +1759,81 @@ function RowEditor({ item, fields, onSave, onDelete }) {
     if (result?.error) setMessage(result.error);
   };
   return (
-    <div className="admin-row">
-      <div className="admin-row-fields">
-        {fields.map((field) =>
-          field.key === "video_url" ? (
-            <VideoField
-              key={field.key}
-              label={field.label}
-              value={draft[field.key]}
-              onChange={(next) => {
-                setErrors({ ...errors, [field.key]: "" });
-                setDraft({ ...draft, [field.key]: next });
-              }}
-            />
-          ) : (
-            <label
-              key={field.key}
-              className={errors[field.key] ? "has-error" : ""}
-            >
-              {field.label}
-              <textarea
-                rows={
-                  field.key === "story" ||
-                  field.key === "answer" ||
-                  field.key === "content"
-                    ? 4
-                    : 1
-                }
-                value={draft[field.key] ?? ""}
-                onChange={(event) => {
-                  setErrors({ ...errors, [field.key]: "" });
-                  setDraft({ ...draft, [field.key]: event.target.value });
-                }}
-              />
-              {errors[field.key] && (
-                <small className="admin-field-error">
-                  {errors[field.key]}
-                </small>
-              )}
-            </label>
-          ),
-        )}
-      </div>
-      {message && <p className="admin-form-error">{message}</p>}
-      <div className="admin-row-actions">
-        <button type="button" className="button" onClick={save}>
-          <Save size={15} />
-          Save
-        </button>
-        {onDelete && (
-          <button
-            type="button"
-            className="icon-danger"
-            onClick={() => onDelete(item.id)}
-            aria-label="Delete"
-          >
-            <Trash2 size={16} />
-          </button>
-        )}
-      </div>
+    <div className={`admin-row${expanded ? " expanded" : ""}`}>
+      <button
+        type="button"
+        className="admin-row-summary"
+        onClick={() => setExpanded((value) => !value)}
+        aria-expanded={expanded}
+      >
+        <strong>{label}</strong>
+        <ChevronDown size={16} className="admin-row-chevron" />
+      </button>
+      {expanded && (
+        <>
+          <div className="admin-row-fields">
+            {fields.map((field) =>
+              field.key === "video_url" ? (
+                <VideoField
+                  key={field.key}
+                  label={field.label}
+                  value={draft[field.key]}
+                  onChange={(next) => {
+                    setErrors({ ...errors, [field.key]: "" });
+                    setDraft({ ...draft, [field.key]: next });
+                  }}
+                />
+              ) : (
+                <label
+                  key={field.key}
+                  className={errors[field.key] ? "has-error" : ""}
+                >
+                  <span>
+                    {field.label}
+                    {!field.optional && <em className="admin-required">*</em>}
+                  </span>
+                  <textarea
+                    rows={
+                      field.key === "story" ||
+                      field.key === "answer" ||
+                      field.key === "content"
+                        ? 4
+                        : 1
+                    }
+                    value={draft[field.key] ?? ""}
+                    onChange={(event) => {
+                      setErrors({ ...errors, [field.key]: "" });
+                      setDraft({ ...draft, [field.key]: event.target.value });
+                    }}
+                  />
+                  {errors[field.key] && (
+                    <small className="admin-field-error">
+                      {errors[field.key]}
+                    </small>
+                  )}
+                </label>
+              ),
+            )}
+          </div>
+          {message && <p className="admin-form-error">{message}</p>}
+          <div className="admin-row-actions">
+            <button type="button" className="button" onClick={save}>
+              <Save size={15} />
+              Save
+            </button>
+            {onDelete && (
+              <button
+                type="button"
+                className="icon-danger"
+                onClick={() => onDelete(item.id)}
+                aria-label="Delete"
+              >
+                <Trash2 size={16} />
+              </button>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
