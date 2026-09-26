@@ -136,47 +136,6 @@ function validateFields(value, fields) {
   }, {});
 }
 
-function Editor({ title, value, onChange, onSave, saving }) {
-  const [error, setError] = useState("");
-  const submit = async () => {
-    setError("");
-    const result = await onSave();
-    if (result?.error) setError(result.error);
-  };
-  return (
-    <div className="admin-editor">
-      <div className="admin-editor-top">
-        <div>
-          <Eyebrow>{title}</Eyebrow>
-          <p>
-            Edit the backend content JSON. Changes publish to the public site
-            immediately.
-          </p>
-        </div>
-        <button
-          type="button"
-          className="button"
-          onClick={submit}
-          disabled={saving}
-        >
-          <Save size={16} />
-          {saving ? "Saving..." : "Save changes"}
-        </button>
-      </div>
-      <textarea
-        className={error ? "has-error" : ""}
-        value={value}
-        onChange={(event) => {
-          setError("");
-          onChange(event.target.value);
-        }}
-        spellCheck="false"
-      />
-      {error && <p className="admin-field-error">{error}</p>}
-    </div>
-  );
-}
-
 function setHomePath(value, path, nextValue) {
   const next = structuredClone(value);
   let target = next;
@@ -304,6 +263,8 @@ function VideoField({ label, value, onChange }) {
  * `where` = a one-line description of where this content shows up on the
  * live page, `preview` = the current title/eyebrow text shown even while
  * collapsed, so an admin can identify a section without opening it.
+ * `sectionKey` = when set, a switch appears that hides/shows this section
+ * on the live site.
  */
 function HomeSection({
   number,
@@ -314,34 +275,56 @@ function HomeSection({
   children,
   defaultOpen = false,
   anchorId,
+  sectionKey,
+  visible = true,
+  onToggle,
 }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
     <section
       id={anchorId}
-      className={`home-content-section${open ? " open" : ""}`}
+      className={`home-content-section${open ? " open" : ""}${
+        sectionKey && !visible ? " is-hidden" : ""
+      }`}
     >
-      <button
-        type="button"
-        className="home-section-heading"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-      >
-        <div className="home-section-heading-left">
-          <span className="home-section-badge">{number}</span>
-          <div className="home-section-icon">
-            <Icon size={17} strokeWidth={1.6} />
+      <div className="home-section-row">
+        <button
+          type="button"
+          className="home-section-heading"
+          onClick={() => setOpen((value) => !value)}
+          aria-expanded={open}
+        >
+          <div className="home-section-heading-left">
+            <span className="home-section-badge">{number}</span>
+            <div className="home-section-icon">
+              <Icon size={17} strokeWidth={1.6} />
+            </div>
+            <div>
+              <h3>{title}</h3>
+              <p className="home-section-where">{where}</p>
+              {!open && preview ? (
+                <p className="home-section-preview">"{preview}"</p>
+              ) : null}
+            </div>
           </div>
-          <div>
-            <h3>{title}</h3>
-            <p className="home-section-where">{where}</p>
-            {!open && preview ? (
-              <p className="home-section-preview">"{preview}"</p>
-            ) : null}
-          </div>
-        </div>
-        <ChevronDown size={18} className="home-section-chevron" />
-      </button>
+          <ChevronDown size={18} className="home-section-chevron" />
+        </button>
+        {sectionKey ? (
+          <label className="admin-switch" title={`Show "${title}" on the live site`}>
+            <input
+              type="checkbox"
+              checked={visible}
+              onChange={() => onToggle(sectionKey)}
+            />
+            <span className="admin-switch-track">
+              <span className="admin-switch-thumb" />
+            </span>
+            <span className="admin-switch-text">
+              {visible ? "Live" : "Hidden"}
+            </span>
+          </label>
+        ) : null}
+      </div>
       {open && <div className="home-section-body">{children}</div>}
     </section>
   );
@@ -362,7 +345,7 @@ const HOME_SECTION_NAV = [
   { id: "sec-pricing", label: "Pricing" },
 ];
 
-function HomeContentEditor({ value, onChange, onSave }) {
+function HomeContentEditor({ value, onChange, onSave, onRetry }) {
   const [error, setError] = useState("");
   const [uploadError, setUploadError] = useState("");
   const [saved, setSaved] = useState(false);
@@ -389,16 +372,29 @@ function HomeContentEditor({ value, onChange, onSave }) {
   const imageError = (message) => setUploadError(message);
   const jumpTo = (id) =>
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const isVisible = (key) => content.sectionVisibility?.[key] !== false;
+  const toggleVisibility = (key) =>
+    update(["sectionVisibility", key], !isVisible(key));
+  const switchProps = (key) => ({
+    sectionKey: key,
+    visible: isVisible(key),
+    onToggle: toggleVisibility,
+  });
 
   if (!Object.keys(content).length)
     return (
-      <Editor
-        title="Homepage content"
-        value={value}
-        onChange={onChange}
-        onSave={onSave}
-        saving={false}
-      />
+      <div className="admin-create">
+        <Eyebrow>Homepage content</Eyebrow>
+        <p className="admin-form-error">
+          The homepage content could not be loaded, so the section inputs are
+          unavailable. Check that the API server is running, then retry.
+        </p>
+        <div className="button-row">
+          <button type="button" className="button" onClick={onRetry}>
+            Retry loading
+          </button>
+        </div>
+      </div>
     );
 
   return (
@@ -411,13 +407,20 @@ function HomeContentEditor({ value, onChange, onSave }) {
             Sections below are in the same order they appear on the live
             page. Open one, make your edits, then save once at the end.
           </p>
+          <p className="home-visibility-note">
+            The switch on each section shows or hides that section on the live
+            home page. Flip as many as you like, then press Save homepage.
+          </p>
         </div>
-        <button type="button" className="button" onClick={save}>
-          <Save size={16} />
-          Save homepage
-        </button>
+        <div className="home-editor-actions">
+          <button type="button" className="button" onClick={save}>
+            <Save size={16} />
+            Save homepage
+          </button>
+        </div>
       </div>
 
+      <>
       <nav className="home-jump-nav" aria-label="Jump to section">
         {HOME_SECTION_NAV.map((item) => (
           <button type="button" key={item.id} onClick={() => jumpTo(item.id)}>
@@ -460,6 +463,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
 
       <HomeSection
         anchorId="sec-hero"
+        {...switchProps("hero")}
         number="02"
         icon={ImageIcon}
         title="Hero banner"
@@ -509,6 +513,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
 
       <HomeSection
         anchorId="sec-snapshot"
+        {...switchProps("snapshot")}
         number="03"
         icon={ListChecks}
         title="Snapshot strip"
@@ -525,6 +530,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
 
       <HomeSection
         anchorId="sec-audience"
+        {...switchProps("audience")}
         number="04"
         icon={Users}
         title="Who this is for"
@@ -577,6 +583,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
 
       <HomeSection
         anchorId="sec-curriculum"
+        {...switchProps("curriculum")}
         number="05"
         icon={GraduationCap}
         title="Curriculum"
@@ -637,6 +644,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
 
       <HomeSection
         anchorId="sec-instructor"
+        {...switchProps("instructor")}
         number="06"
         icon={User}
         title="Instructor"
@@ -687,6 +695,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
 
       <HomeSection
         anchorId="sec-process"
+        {...switchProps("process")}
         number="07"
         icon={Workflow}
         title="How support works"
@@ -789,6 +798,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
 
       <HomeSection
         anchorId="sec-gallery"
+        {...switchProps("gallery")}
         number="08"
         icon={GalleryHorizontalEnd}
         title="Program gallery"
@@ -869,6 +879,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
 
       <HomeSection
         anchorId="sec-testimonials"
+        {...switchProps("testimonials")}
         number="09"
         icon={MessagesSquare}
         title="Testimonials"
@@ -876,15 +887,16 @@ function HomeContentEditor({ value, onChange, onSave }) {
       >
         <p className="home-section-note home-section-redirect">
           Testimonials are stored separately from the rest of the homepage
-          content, so they can be added or removed without editing this JSON.
-          Go to <strong>Testimonials</strong> in the sidebar to add, edit, or
-          remove student stories — changes there show up in this section
+          content, so they are managed as their own records. Go to{" "}
+          <strong>Testimonials</strong> in the sidebar to add, edit, or remove
+          student stories — changes there show up in this section
           automatically.
         </p>
       </HomeSection>
 
       <HomeSection
         anchorId="sec-community"
+        {...switchProps("community")}
         number="10"
         icon={Users}
         title="Community"
@@ -933,6 +945,7 @@ function HomeContentEditor({ value, onChange, onSave }) {
 
       <HomeSection
         anchorId="sec-qa"
+        {...switchProps("qa")}
         number="11"
         icon={CalendarClock}
         title="Wednesday Q&A"
@@ -1037,6 +1050,351 @@ function HomeContentEditor({ value, onChange, onSave }) {
           />
         </div>
       </HomeSection>
+        </>
+      )}
+    </div>
+  );
+}
+
+const ABOUT_SECTION_NAV = [
+  { id: "about-header", label: "Page header" },
+  { id: "about-story", label: "Instructor story" },
+  { id: "about-images", label: "Images" },
+  { id: "about-benefits", label: "Benefits" },
+  { id: "about-stats", label: "Stats" },
+  { id: "about-video", label: "Video" },
+  { id: "about-testimonials", label: "Testimonials" },
+];
+
+function AboutContentEditor({ value, onChange, onSave, onRetry }) {
+  const [error, setError] = useState("");
+  const [uploadError, setUploadError] = useState("");
+  const [saved, setSaved] = useState(false);
+  const content = parseContent(value) || {};
+  const update = (path, nextValue) =>
+    onChange(JSON.stringify(setHomePath(content, path, nextValue), null, 2));
+  const updateItem = (path, index, field, nextValue) =>
+    update([...path, index, field], nextValue);
+  const updateList = (path, text) =>
+    update(
+      path,
+      text
+        .split("\n")
+        .map((item) => item.trim())
+        .filter(Boolean),
+    );
+  const removeItem = (path, index) => {
+    const current = path.reduce((acc, key) => acc?.[key], content) || [];
+    const next = [...current];
+    next.splice(index, 1);
+    update(path, next);
+  };
+  const addItem = (path, entry) => {
+    const current = path.reduce((acc, key) => acc?.[key], content) || [];
+    update(path, [...current, entry]);
+  };
+  const save = async () => {
+    setError("");
+    setSaved(false);
+    const result = await onSave();
+    if (result?.error) setError(result.error);
+    else setSaved(true);
+  };
+  const jumpTo = (id) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  if (!Object.keys(content).length)
+    return (
+      <div className="admin-create">
+        <Eyebrow>About content</Eyebrow>
+        <p className="admin-form-error">
+          The about content could not be loaded, so the inputs are
+          unavailable. Check that the API server is running, then retry.
+        </p>
+        <div className="button-row">
+          <button type="button" className="button" onClick={onRetry}>
+            Retry loading
+          </button>
+        </div>
+      </div>
+    );
+
+  return (
+    <div className="home-content-editor">
+      <div className="home-editor-toolbar">
+        <div>
+          <Eyebrow>About page builder</Eyebrow>
+          <h2>Edit the about page, section by section</h2>
+          <p>
+            Sections below are in the same order they appear on the live about
+            page. Open one, make your edits, then save once at the end.
+          </p>
+        </div>
+        <div className="home-editor-actions">
+          <button type="button" className="button" onClick={save}>
+            <Save size={16} />
+            Save about page
+          </button>
+        </div>
+      </div>
+
+      <nav className="home-jump-nav" aria-label="Jump to section">
+        {ABOUT_SECTION_NAV.map((item) => (
+          <button type="button" key={item.id} onClick={() => jumpTo(item.id)}>
+            {item.label}
+          </button>
+        ))}
+      </nav>
+
+      {error && <p className="admin-form-error">{error}</p>}
+      {saved && (
+        <p className="admin-form-success">
+          About page changes saved successfully.
+        </p>
+      )}
+      {uploadError && <p className="admin-form-error">{uploadError}</p>}
+
+      <HomeSection
+        anchorId="about-header"
+        number="01"
+        icon={User}
+        title="Page header"
+        where="Eyebrow, page title and the search-engine description at the top of the about page."
+        preview={content.title}
+      >
+        <div className="home-field-grid">
+          <HomeField
+            label="Eyebrow"
+            value={content.eyebrow}
+            onChange={(value) => update(["eyebrow"], value)}
+          />
+          <HomeField
+            label="Page title"
+            value={content.title}
+            onChange={(value) => update(["title"], value)}
+            multiline
+          />
+          <HomeField
+            label="Intro (meta description)"
+            value={content.intro}
+            onChange={(value) => update(["intro"], value)}
+            multiline
+          />
+        </div>
+      </HomeSection>
+
+      <HomeSection
+        anchorId="about-story"
+        number="02"
+        icon={MessageSquareQuote}
+        title="Instructor story"
+        where="The instructor headline, the story paragraph and the short list of values."
+        preview={content.sectionTitle}
+      >
+        <div className="home-field-grid">
+          <HomeField
+            label="Eyebrow"
+            value={content.sectionEyebrow}
+            onChange={(value) => update(["sectionEyebrow"], value)}
+          />
+          <HomeField
+            label="Heading"
+            value={content.sectionTitle}
+            onChange={(value) => update(["sectionTitle"], value)}
+            multiline
+          />
+        </div>
+        <HomeField
+          label="Story copy"
+          value={content.copy}
+          onChange={(value) => update(["copy"], value)}
+          multiline
+        />
+        <HomeField
+          label="Values (one per line)"
+          value={(content.values || []).join("\n")}
+          onChange={(value) => updateList(["values"], value)}
+          multiline
+        />
+      </HomeSection>
+
+      <HomeSection
+        anchorId="about-images"
+        number="03"
+        icon={ImageIcon}
+        title="Images"
+        where="The two stacked photos in the benefits block, plus the main instructor photo."
+        preview={content.imageAlt}
+      >
+        <ImageField
+          label="Instructor photo"
+          image={{ url: content.image, alt: content.imageAlt }}
+          onChange={(image) => {
+            update(["image"], image.url);
+            update(["imageAlt"], image.alt);
+          }}
+          onError={setUploadError}
+        />
+        <div className="home-repeatable-grid">
+          {(content.images || []).map((item, index) => (
+            <div className="home-repeatable" key={`about-image-${index}`}>
+              <b>Photo {index + 1}</b>
+              <ImageField
+                label={`Photo ${index + 1}`}
+                image={item}
+                onChange={(image) => {
+                  const next = [...(content.images || [])];
+                  next[index] = image;
+                  update(["images"], next);
+                }}
+                onError={setUploadError}
+              />
+            </div>
+          ))}
+        </div>
+      </HomeSection>
+
+      <HomeSection
+        anchorId="about-benefits"
+        number="04"
+        icon={ListChecks}
+        title="Key benefits"
+        where="The 'Key benefits' block with the tick list and Learn more button."
+        preview={content.benefits?.title}
+      >
+        <div className="home-field-grid">
+          <HomeField
+            label="Eyebrow"
+            value={content.benefits?.eyebrow}
+            onChange={(value) => update(["benefits", "eyebrow"], value)}
+          />
+          <HomeField
+            label="Heading"
+            value={content.benefits?.title}
+            onChange={(value) => update(["benefits", "title"], value)}
+            multiline
+          />
+        </div>
+        <HomeField
+          label="Copy"
+          value={content.benefits?.copy}
+          onChange={(value) => update(["benefits", "copy"], value)}
+          multiline
+        />
+        <HomeField
+          label="Tick list (one per line)"
+          value={(content.benefits?.items || []).join("\n")}
+          onChange={(value) => updateList(["benefits", "items"], value)}
+          multiline
+        />
+        <HomeField
+          label="Button text"
+          value={content.benefits?.button}
+          onChange={(value) => update(["benefits", "button"], value)}
+        />
+      </HomeSection>
+
+      <HomeSection
+        anchorId="about-stats"
+        number="05"
+        icon={Workflow}
+        title="Stats"
+        where="The four big numbers under the benefits block."
+        preview={(content.stats || []).map((item) => item.value).join(" / ")}
+      >
+        <p className="home-section-note">
+          Shown left to right under the benefits block.
+        </p>
+        <div className="home-repeatable-grid">
+          {(content.stats || []).map((item, index) => (
+            <div className="home-repeatable" key={`about-stat-${index}`}>
+              <b>Stat {index + 1}</b>
+              <HomeField
+                label="Value"
+                value={item.value}
+                onChange={(value) =>
+                  updateItem(["stats"], index, "value", value)
+                }
+              />
+              <HomeField
+                label="Label"
+                value={item.label}
+                onChange={(value) =>
+                  updateItem(["stats"], index, "label", value)
+                }
+              />
+              <button
+                type="button"
+                className="icon-danger"
+                aria-label={`Remove stat ${index + 1}`}
+                onClick={() => removeItem(["stats"], index)}
+              >
+                <Trash2 size={15} />
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="admin-add-row"
+            onClick={() => addItem(["stats"], { value: "", label: "" })}
+          >
+            <Plus size={15} />
+            Add stat
+          </button>
+        </div>
+      </HomeSection>
+
+      <HomeSection
+        anchorId="about-video"
+        number="06"
+        icon={Search}
+        title="Video banner"
+        where="The wide banner with the play button in the middle of the about page."
+        preview={content.video?.buttonLabel}
+      >
+        <ImageField
+          label="Video banner image"
+          image={{ url: content.video?.image, alt: content.video?.alt }}
+          onChange={(image) => {
+            update(["video", "image"], image.url);
+            update(["video", "alt"], image.alt);
+          }}
+          onError={setUploadError}
+        />
+        <HomeField
+          label="Play button label"
+          value={content.video?.buttonLabel}
+          onChange={(value) => update(["video", "buttonLabel"], value)}
+        />
+      </HomeSection>
+
+      <HomeSection
+        anchorId="about-testimonials"
+        number="07"
+        icon={MessageSquareQuote}
+        title="Testimonials heading"
+        where="The heading above the two student quotes. The quotes themselves come from the Testimonials tab."
+        preview={content.testimonials?.title}
+      >
+        <div className="home-field-grid">
+          <HomeField
+            label="Eyebrow"
+            value={content.testimonials?.eyebrow}
+            onChange={(value) => update(["testimonials", "eyebrow"], value)}
+          />
+          <HomeField
+            label="Heading"
+            value={content.testimonials?.title}
+            onChange={(value) => update(["testimonials", "title"], value)}
+            multiline
+          />
+          <HomeField
+            label="Default role / country"
+            value={content.testimonials?.defaultRole}
+            onChange={(value) => update(["testimonials", "defaultRole"], value)}
+          />
+        </div>
+      </HomeSection>
     </div>
   );
 }
@@ -1076,43 +1434,57 @@ export default function AdminDashboard() {
 
   async function refreshAll() {
     setLoading(true);
+    const requests = [
+      ["homepage content", () => getHome()],
+      ["about content", () => getAbout()],
+      ["menu", () => getMenu()],
+      ["program weeks", () => getProgram()],
+      ["testimonials", () => getTestimonials()],
+      ["faqs", () => fetchCollection("/faqs")],
+      ["resources", () => fetchCollection("/resources")],
+      ["messages", () => getAdminContacts()],
+      ["Q&A registrations", () => getAdminQa()],
+    ];
     try {
-      const [
-        home,
-        about,
-        menuItems,
-        weeks,
-        stories,
-        faqItems,
-        resourceItems,
-        messages,
-        qa,
-      ] = await Promise.all([
-        getHome(),
-        getAbout(),
-        getMenu(),
-        getProgram(),
-        getTestimonials(),
-        fetchCollection("/faqs"),
-        fetchCollection("/resources"),
-        getAdminContacts(),
-        getAdminQa(),
-      ]);
-      setHomeText(JSON.stringify(home.data, null, 2));
-      setAboutText(JSON.stringify(about.data, null, 2));
-      setMenu(menuItems.data);
-      setProgram(weeks.data);
-      setTestimonials(stories.data);
-      setFaqs(faqItems);
-      setResources(resourceItems);
-      setContacts(messages.data);
-      setRegistrations(qa.data);
-    } catch (error) {
-      if (error.response?.status === 401) logout();
-      else
-        setNotice(
-          error.response?.data?.message || "Could not load admin content.",
-        );
+      const results = await Promise.allSettled(
+        requests.map(([, request]) => request()),
+      );
+      const unauthorized = results.some(
+        (result) =>
+          result.status === "rejected" && result.reason?.response?.status === 401,
+      );
+      if (unauthorized) {
+        logout();
+        return;
+      }
+      const failed = [];
+      const result = (index) => {
+        if (results[index].status === "rejected") {
+          failed.push(requests[index][0]);
+          return null;
+        }
+        return results[index].value;
+      };
+      const home = result(0);
+      const about = result(1);
+      const menuItems = result(2);
+      const weeks = result(3);
+      const stories = result(4);
+      const faqItems = result(5);
+      const resourceItems = result(6);
+      const messages = result(7);
+      const qa = result(8);
+      if (home) setHomeText(JSON.stringify(home.data, null, 2));
+      if (about) setAboutText(JSON.stringify(about.data, null, 2));
+      if (menuItems) setMenu(menuItems.data);
+      if (weeks) setProgram(weeks.data);
+      if (stories) setTestimonials(stories.data);
+      if (faqItems) setFaqs(faqItems);
+      if (resourceItems) setResources(resourceItems);
+      if (messages) setContacts(messages.data);
+      if (qa) setRegistrations(qa.data);
+      if (failed.length)
+        setNotice(`Could not load: ${failed.join(", ")}. Other tabs still work.`);
     } finally {
       setLoading(false);
     }
@@ -1153,7 +1525,10 @@ export default function AdminDashboard() {
   async function saveJson(text, save) {
     const value = parseContent(text);
     if (!value || Array.isArray(value))
-      return { error: "Content must be a valid JSON object." };
+      return {
+        error:
+          "This page could not be read. Reload the admin panel and try again.",
+      };
     const result = await save(value);
     return result?.error ? result : undefined;
   }
@@ -1280,6 +1655,7 @@ export default function AdminDashboard() {
               newResource={newResource}
               setNewResource={setNewResource}
               action={action}
+              onRetry={refreshAll}
             />
           )}
         </section>
@@ -1315,6 +1691,7 @@ function AdminView(props) {
     newResource,
     setNewResource,
     action,
+    onRetry,
   } = props;
 
   if (active === "Overview") {
@@ -1353,6 +1730,7 @@ function AdminView(props) {
       <HomeContentEditor
         value={homeText}
         onChange={setHomeText}
+        onRetry={onRetry}
         onSave={() =>
           saveJson(homeText, (value) => action(() => updateHome(value)))
         }
@@ -1360,20 +1738,15 @@ function AdminView(props) {
     );
   if (active === "About content")
     return (
-      <Editor
-        title="About content"
+      <AboutContentEditor
         value={aboutText}
         onChange={setAboutText}
+        onRetry={onRetry}
         onSave={() =>
           saveJson(aboutText, (value) =>
-            action(() =>
-              import("../services/api").then(({ updateAbout }) =>
-                updateAbout(value),
-              ),
-            ),
+            action(() => updateAbout(value)),
           )
         }
-        saving={false}
       />
     );
   if (active === "Program weeks")

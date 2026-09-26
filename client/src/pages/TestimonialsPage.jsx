@@ -1,4 +1,5 @@
 import { getTestimonials } from "../api/testimonials";
+import { getHome } from "../api/home";
 import useRemote from "../hooks/useRemote";
 import PageFrame from "../components/layout/PageFrame";
 import Header from "../components/layout/Header";
@@ -9,6 +10,8 @@ import TestimonialSection from "../components/home/TestimonialSection";
 
 export default function TestimonialsPage() {
   const data = useRemote(getTestimonials);
+  const home = useRemote(getHome);
+  const hidden = home && home.sectionVisibility?.testimonials === false;
   if (data === null)
     return (
       <>
@@ -31,7 +34,7 @@ export default function TestimonialsPage() {
       title="What our students say."
       intro="Approved stories from the APEX RN Prep community. Each card plays on its own — select one to watch the full video testimonial."
     >
-      <TestimonialSection testimonials={data} showHeading={false} />
+      {!hidden && <TestimonialSection testimonials={data} showHeading={false} />}
     </PageFrame>
   );
 }

@@ -660,6 +660,11 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  overflow: hidden auto;
 }
 .admin-shell aside .brand {
   color: var(--cream);

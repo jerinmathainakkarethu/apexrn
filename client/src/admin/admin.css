@@ -4,7 +4,7 @@
    from page-manager.css since the Pages tab is gone.
 
    ⚡ Updated: added the missing form-control styles (.home-field,
-   .home-field-grid, .home-repeatable, .admin-create, .admin-editor,
+   .home-field-grid, .home-repeatable, .admin-create,
    image/video fields, error/success states). This is what was
    causing inputs and textareas to render unstyled/broken.
    ============================================================ */
@@ -15,6 +15,7 @@
   flex-direction: column;
   gap: 0;
   overflow: auto;
+  min-height: 0;
 }
 .admin-nav-group {
   margin-bottom: 22px;
@@ -97,6 +98,19 @@
 .home-editor-toolbar .button {
   align-self: flex-start;
 }
+.home-editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.home-editor-actions .button {
+  min-height: 38px;
+  padding: 9px 14px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  gap: 8px;
+}
 
 /* ---------- Jump nav ---------- */
 .home-jump-nav {
@@ -137,6 +151,83 @@
 }
 .home-content-section.open {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+.home-visibility-note {
+  color: var(--muted);
+  font-size: 11.5px;
+  margin: 8px 0 0;
+  max-width: 52ch;
+}
+.home-section-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.home-section-row .home-section-heading {
+  flex: 1;
+  min-width: 0;
+}
+.home-content-section.is-hidden .home-section-heading,
+.home-content-section.is-hidden .home-section-heading-left {
+  opacity: 0.55;
+}
+.home-content-section.is-hidden .home-section-heading h3 {
+  text-decoration: line-through;
+  text-decoration-color: var(--terracotta);
+}
+
+/* ---------- On / off switch (section visibility) ---------- */
+.admin-switch {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.admin-switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.admin-switch-track {
+  position: relative;
+  width: 38px;
+  height: 21px;
+  border-radius: 999px;
+  background: #cfcbc4;
+  transition: background 0.2s ease;
+}
+.admin-switch-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+.admin-switch input:checked + .admin-switch-track {
+  background: #2f7a4d;
+}
+.admin-switch input:checked + .admin-switch-track .admin-switch-thumb {
+  transform: translateX(17px);
+}
+.admin-switch input:focus-visible + .admin-switch-track {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 2px;
+}
+.admin-switch-text {
+  min-width: 42px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 .home-section-heading {
   width: 100%;
@@ -302,8 +393,7 @@
 .home-field textarea,
 .admin-create textarea,
 .admin-row-fields textarea,
-.admin-video-field textarea,
-.admin-editor textarea {
+.admin-video-field textarea {
   width: 100%;
   box-sizing: border-box;
   font-family: inherit;
@@ -334,21 +424,11 @@
   resize: none;
 }
 
-/* full-height JSON editor stays monospace + tall, everything else doesn't */
-.admin-editor textarea {
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  font-size: 12.5px;
-  line-height: 1.6;
-  min-height: 480px;
-  background: #fbfaf8;
-}
-
 .home-field input:hover,
 .home-field textarea:hover,
 .admin-create textarea:hover,
 .admin-row-fields textarea:hover,
-.admin-video-field textarea:hover,
-.admin-editor textarea:hover {
+.admin-video-field textarea:hover {
   border-color: #c9beb4;
 }
 
@@ -356,8 +436,7 @@
 .home-field textarea:focus,
 .admin-create textarea:focus,
 .admin-row-fields textarea:focus,
-.admin-video-field textarea:focus,
-.admin-editor textarea:focus {
+.admin-video-field textarea:focus {
   outline: none;
   border-color: var(--terracotta);
   box-shadow: 0 0 0 3px rgba(196, 108, 74, 0.14);
@@ -450,6 +529,28 @@ textarea.has-error:focus {
   letter-spacing: 0.06em;
   color: var(--terracotta);
 }
+.admin-add-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  align-self: flex-start;
+  padding: 11px 15px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  background: none;
+  color: var(--terracotta);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.admin-add-row:hover {
+  border-color: var(--terracotta);
+  background: var(--paper);
+}
 
 /* ---------- Image field ---------- */
 .home-image-field {
@@ -532,25 +633,6 @@ textarea.has-error:focus {
   margin-top: 4px;
 }
 
-/* ---------- JSON editor (Home/About raw editor fallback) ---------- */
-.admin-editor {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.admin-editor-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-}
-.admin-editor-top p {
-  color: var(--muted);
-  font-size: 12.5px;
-  margin: 6px 0 0;
-  max-width: 480px;
-}
-
 /* ---------- Collection rows: collapsed summary, expands to full editor ---------- */
 .admin-row {
   padding: 4px 0;
@@ -627,6 +709,9 @@ textarea.has-error:focus {
 @media (max-width: 800px) {
   .home-section-body {
     padding-left: 0;
+  }
+  .home-section-row {
+    gap: 10px;
   }
   .home-jump-nav {
     top: 0;

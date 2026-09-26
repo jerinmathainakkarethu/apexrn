@@ -71,14 +71,16 @@ export default function Home() {
     );
   const c = content;
   const ICONS = [Target, FileSignature, Briefcase, LineChart];
+  const show = (key) => c.sectionVisibility?.[key] !== false;
   return (
     <>
       <Helmet>
         <title>{c.seo.title}</title>
         <meta name="description" content={c.seo.description} />
       </Helmet>
-      <Header transparent />
+      <Header transparent={show("hero")} />
       <main>
+        {show("hero") && (
         <section className="hero">
           <div className="hero-copy">
             <h1>
@@ -106,11 +108,15 @@ export default function Home() {
             <div className="hero-caption">{c.hero.caption}</div>
           </div>
         </section>
+        )}
+        {show("snapshot") && (
         <section className="snapshot" aria-label="Program snapshot">
           {c.snapshot.map((item) => (
             <span key={item}>{item}</span>
           ))}
         </section>
+        )}
+        {show("audience") && (
         <section className="reference-section reference-audience">
           <div className="audience-header">
             <div className="audience-header-left">
@@ -140,6 +146,8 @@ export default function Home() {
             })}
           </div>
         </section>
+        )}
+        {show("curriculum") && (
         <section className="section curriculum" id="curriculum">
           <SectionTitle eyebrow={c.curriculum.eyebrow} copy={c.curriculum.copy}>
             {c.curriculum.title}
@@ -173,6 +181,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+        )}
+        {show("instructor") && (
         <section className="reference-section reference-instructor">
           <div className="reference-instructor-image">
             <img
@@ -197,7 +207,9 @@ export default function Home() {
             <Button href="/about">Meet the instructor</Button>
           </div>
         </section>
-        <ProcessFeature content={c} />
+        )}
+        {show("process") && <ProcessFeature content={c} />}
+        {show("gallery") && (
         <section className="program-gallery">
           <div className="program-gallery-head">
             <div>
@@ -235,7 +247,9 @@ export default function Home() {
             ))}
           </div>
         </section>
-        <TestimonialSection testimonials={testimonials} />
+        )}
+        {show("testimonials") && <TestimonialSection testimonials={testimonials} />}
+        {show("community") && (
         <section className="reference-section reference-community">
           <div className="reference-community-copy">
             <Eyebrow>{c.community.eyebrow}</Eyebrow>
@@ -262,6 +276,8 @@ export default function Home() {
             />
           </div>
         </section>
+        )}
+        {show("qa") && (
         <section className="reference-section reference-qa">
           <div className="reference-qa-copy">
             <span className="reference-number">06</span>
@@ -290,6 +306,7 @@ export default function Home() {
             <img src={imageUrl(c.qa.image)} alt={c.qa.imageAlt || c.qa.title} />
           </div>
         </section>
+        )}
       </main>
       <Footer />
       {qaOpen && (
