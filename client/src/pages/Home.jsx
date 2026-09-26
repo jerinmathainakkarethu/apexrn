@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
-  BookOpen,
+  ShieldCheck,
+  Stethoscope,
+  Pill,
+  Baby,
+  Brain,
   Check,
-  Clock3,
-  MessageCircle,
-  Play,
+  BookOpen,
+  Clock3 ,
+  Play ,
+  MessageCircle ,
 } from "lucide-react";
 import { getHome } from "../api/home";
 import { getProgram } from "../api/program";
@@ -31,6 +36,14 @@ export default function Home() {
   const [qaOpen, setQaOpen] = useState(false);
   const [qaStatus, setQaStatus] = useState("idle");
   const [error, setError] = useState(false);
+  const TOPIC_ICONS = {
+  "Fundamentals & safety": ShieldCheck,
+  "Medical-surgical nursing": Stethoscope,
+  "Pharmacology": Pill,
+  "Maternity & pediatrics": Baby,
+  "Mental health": Brain,
+  "NGN & clinical judgment": BookOpen,
+};
   useEffect(() => {
     Promise.all([getHome(), getProgram(), getTestimonials()])
       .then(([homeResponse, programResponse, testimonialResponse]) => {
@@ -141,12 +154,17 @@ export default function Home() {
                 >
                   <span>0{index + 1}</span>
                   {topic.title}
-                  <ArrowRight size={17} />
+                  <ArrowRight size={17} className="tab-arrow" />
                 </button>
               ))}
             </div>
-            <div className="topic-detail">
-              <span className="topic-mark">0{activeTopic + 1}</span>
+            <div className="topic-detail" key={activeTopic}>
+              <span className="topic-mark">
+                {(() => {
+                  const Icon = TOPIC_ICONS[c.curriculum.topics[activeTopic].title] || BookOpen;
+                  return <Icon size={16} strokeWidth={1.5} />;
+                })()}
+              </span>
               <h3>{c.curriculum.topics[activeTopic].title}</h3>
               <p>{c.curriculum.topics[activeTopic].description}</p>
               <div className="detail-line">
