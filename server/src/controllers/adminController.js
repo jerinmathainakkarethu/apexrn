@@ -1,0 +1,42 @@
+import { databaseConfigured } from "../db.js";
+import { listContacts } from "../models/contact.js";
+import { listRegistrations } from "../models/qaRegistration.js";
+import { imageUpload } from "../middleware/upload.js";
+import fallback from "../utils/fallback.js";
+
+export async function listContacts(req, res, next) {
+  try {
+    res.json(databaseConfigured ? await listContacts() : fallback.contacts);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function listQa(req, res, next) {
+  try {
+    res.json(
+      databaseConfigured ? await listRegistrations() : fallback.registrations,
+    );
+  } catch (error) {
+    next(error);
+  }
+}
+
+export function upload(req, res, next) {
+  imageUpload.single("image")(req, res, (error) => {
+    if (error)
+      return res
+        .status(422)
+        .json({
+          message:
+            error.code === "LIMIT_FILE_SIZE"
+              ? "Images must be smaller than 5 MB."
+              : "Only JPG, PNG, WEBP, and GIF images are supported.",
+        });
+    if (!req.file)
+      return res.status(422).json({ message: "Choose an image to upload." });
+    res
+      .status(201)
+      .json({ url: `/uploads/${req.file.filename}`, filename: req.file.filename });
+  });
+}

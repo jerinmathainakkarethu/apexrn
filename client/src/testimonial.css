@@ -1,0 +1,116 @@
+.testimonials {
+  background: var(--cream);
+  padding: 115px 0 95px;
+  position: relative;
+  overflow: hidden;
+}
+.testimonials-heading {
+  text-align: center;
+  margin: 0 auto 52px;
+}
+.testimonials-heading .eyebrow {
+  margin-bottom: 20px;
+}
+.testimonials-heading h2 {
+  font: 500 clamp(46px, 4.8vw, 74px)/0.9 var(--serif);
+  letter-spacing: -0.05em;
+  margin: 0;
+}
+.testimonial-viewport {
+  overflow: hidden;
+  padding: 0 0 8px;
+}
+.testimonial-track {
+  display: flex;
+  gap: 4vw;
+  transform: translateX(0);
+  padding: 0 13.5vw;
+  will-change: scroll-position;
+}
+.testimonial-card {
+  background: var(--soft);
+  flex: 0 0 min(390px, 31vw);
+  height: 390px;
+  padding: 64px 36px 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.stars {
+  color: #f5b400;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+.testimonial-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #667078;
+  margin: 20px 0 auto;
+}
+.testimonial-person {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.testimonial-person strong {
+  font: 600 19px var(--serif);
+}
+.testimonial-person span {
+  font-size: 12px;
+  color: #71808b;
+}
+.testimonial-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-top: -37px;
+  position: relative;
+  z-index: 2;
+}
+.testimonial-controls button {
+  width: 58px;
+  height: 58px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  font: 32px/1 var(--serif);
+}
+.testimonial-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 74px;
+}
+.testimonial-dots button {
+  border: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  padding: 0;
+  background: #ddd9d4;
+}
+.testimonial-dots button.active {
+  background: var(--gold);
+}
+@media (max-width: 800px) {
+  .testimonials {
+    padding: 85px 0 75px;
+  }
+  .testimonial-track {
+    gap: 20px;
+    padding: 0 7vw;
+  }
+  .testimonial-card {
+    flex-basis: 78vw;
+    height: 360px;
+    padding: 42px 26px 28px;
+  }
+  .testimonial-controls {
+    margin-top: 25px;
+  }
+  .testimonial-dots {
+    margin-top: 35px;
+  }
+}

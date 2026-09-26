@@ -1,0 +1,131 @@
+-- Initial schema for the APEX RN Prep content API.
+
+CREATE TABLE IF NOT EXISTS admins (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('admin','editor') NOT NULL DEFAULT 'editor',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS site_settings (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  setting_key VARCHAR(100) NOT NULL UNIQUE,
+  setting_value JSON NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS homepage_sections (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  section_key VARCHAR(100) NOT NULL UNIQUE,
+  content JSON NOT NULL,
+  status ENUM('draft','published') DEFAULT 'published',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS about_content (
+  id INT PRIMARY KEY,
+  content JSON NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS program_weeks (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  week_number VARCHAR(20) NOT NULL,
+  title VARCHAR(190) NOT NULL,
+  description TEXT,
+  topics JSON,
+  learning_outcomes JSON,
+  sort_order INT DEFAULT 0,
+  status ENUM('draft','published') DEFAULT 'published',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS program_topics (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  week_id INT NOT NULL,
+  title VARCHAR(190) NOT NULL,
+  description TEXT,
+  sort_order INT DEFAULT 0,
+  FOREIGN KEY (week_id) REFERENCES program_weeks(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS testimonials (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  display_name VARCHAR(190),
+  country VARCHAR(100),
+  us_state VARCHAR(100),
+  attempt_number VARCHAR(50),
+  story TEXT,
+  photo_url VARCHAR(500),
+  screenshot_url VARCHAR(500),
+  result VARCHAR(190),
+  featured BOOLEAN DEFAULT FALSE,
+  status ENUM('draft','published') DEFAULT 'draft',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS faq_categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(190) NOT NULL,
+  sort_order INT DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS faqs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  category_id INT,
+  question VARCHAR(500) NOT NULL,
+  answer TEXT NOT NULL,
+  sort_order INT DEFAULT 0,
+  status ENUM('draft','published') DEFAULT 'published',
+  FOREIGN KEY (category_id) REFERENCES faq_categories(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS resources (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  slug VARCHAR(255) NOT NULL UNIQUE,
+  excerpt TEXT,
+  content LONGTEXT,
+  image_url VARCHAR(500),
+  status ENUM('draft','published') DEFAULT 'draft',
+  published_at DATETIME NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS contact_submissions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(190) NOT NULL,
+  email VARCHAR(190) NOT NULL,
+  whatsapp VARCHAR(50),
+  message TEXT NOT NULL,
+  status ENUM('new','read','archived') DEFAULT 'new',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS qa_registrations (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(190) NOT NULL,
+  email VARCHAR(190) NOT NULL,
+  whatsapp VARCHAR(50),
+  nclex_date DATE NULL,
+  status ENUM('new','confirmed','attended') DEFAULT 'new',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS media (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  filename VARCHAR(255) NOT NULL,
+  original_name VARCHAR(255),
+  mime_type VARCHAR(100),
+  path VARCHAR(500) NOT NULL,
+  size INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
