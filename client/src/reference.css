@@ -1376,3 +1376,7 @@ footer {
   color: var(--gold);
   font-size: 13px;
 }
+
+.reference-instructor {
+  padding: 100px 16vw !important;
+}

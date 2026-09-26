@@ -191,6 +191,35 @@
   font-size: 11px;
   line-height: 1.4;
 }
+.admin-video-field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 12px;
+  align-items: end;
+}
+.admin-row-fields .admin-video-field {
+  grid-column: 1 / -1;
+}
+.admin-video-field label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.admin-video-field .home-upload-button {
+  min-height: 42px;
+}
+.admin-video-field .admin-field-error,
+.admin-video-preview {
+  grid-column: 1 / -1;
+}
+.admin-video-preview {
+  width: 100%;
+  max-height: 190px;
+  border: 1px solid var(--line);
+  background: #000;
+}
 .admin-create label.has-error textarea,
 .admin-row label.has-error textarea,
 .admin-editor textarea.has-error {

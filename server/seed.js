@@ -75,12 +75,13 @@ const [testimonialCount] = await connection.execute(
 if (testimonialCount[0].count === 0) {
   for (let index = 1; index <= 5; index += 1) {
     await connection.execute(
-      "INSERT INTO testimonials (display_name, country, story, result, featured, status) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO testimonials (display_name, country, story, result, video_url, featured, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
       [
         `Student story placeholder ${String(index).padStart(2, "0")}`,
         "Replace from Admin",
         "Approved student story will appear here once supplied by the APEX RN Prep team.",
         "Placeholder",
+        "https://www.youtube.com/watch?v=ScMzIvxBSi4",
         false,
         "published",
       ],

@@ -5,7 +5,7 @@ import Eyebrow from "../components/ui/Eyebrow";
 import { getAbout, updateAbout } from "../api/about";
 import { getMenu, updateMenu } from "../api/menu";
 import { getHome, updateHome } from "../api/home";
-import { getAdminContacts, getAdminQa, uploadImage } from "../api/admin";
+import { getAdminContacts, getAdminQa, uploadImage, uploadVideo } from "../api/admin";
 import {
   createProgramWeek,
   deleteProgramWeek,
@@ -51,6 +51,7 @@ const blankTestimonial = {
   country: "",
   story: "",
   result: "",
+  video_url: "",
   status: "draft",
   featured: false,
 };
@@ -89,7 +90,8 @@ function apiError(error, fallback = "The change could not be saved.") {
   return error.response?.data?.message || fallback;
 }
 function validateFields(value, fields) {
-  return fields.reduce((errors, [key, label]) => {
+  return fields.reduce((errors, [key, label, optional]) => {
+    if (optional) return errors;
     if (!String(value[key] ?? "").trim()) errors[key] = `${label} is required.`;
     return errors;
   }, {});
@@ -202,6 +204,56 @@ function ImageField({ label, image, onChange, onError }) {
           src={imageUrl(image.url)}
           alt={image.alt || "Preview"}
         />
+      )}
+    </div>
+  );
+}
+
+function VideoField({ label, value, onChange }) {
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+  async function upload(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setError("");
+    try {
+      const response = await uploadVideo(file);
+      onChange(response.data.url);
+    } catch (uploadError) {
+      setError(apiError(uploadError, "The video could not be uploaded."));
+    } finally {
+      setUploading(false);
+      event.target.value = "";
+    }
+  }
+  return (
+    <div className="admin-video-field">
+      <label>
+        {label}
+        <textarea
+          rows={1}
+          value={value || ""}
+          onChange={(event) => {
+            setError("");
+            onChange(event.target.value);
+          }}
+          placeholder="Paste a YouTube / Vimeo link, or upload a file"
+          spellCheck="false"
+        />
+      </label>
+      <label className="home-upload-button">
+        <span>{uploading ? "Uploading..." : "Upload video"}</span>
+        <input
+          type="file"
+          accept="video/mp4,video/webm,video/quicktime,video/x-matroska"
+          onChange={upload}
+          disabled={uploading}
+        />
+      </label>
+      {error && <small className="admin-field-error">{error}</small>}
+      {value?.startsWith("/uploads/") && (
+        <video className="admin-video-preview" src={imageUrl(value)} controls />
       )}
     </div>
   );
@@ -1233,6 +1285,7 @@ function AdminView(props) {
             ["country", "Country"],
             ["story", "Story"],
             ["result", "Result"],
+                      ["video_url", "Video", true],
           ]}
           onSubmit={() =>
             action(() =>
@@ -1253,6 +1306,7 @@ function AdminView(props) {
             { key: "country", label: "Country" },
             { key: "story", label: "Story" },
             { key: "result", label: "Result" },
+                      { key: "video_url", label: "Video", optional: true },
           ]}
           onSave={(id, value) =>
             action(() =>
@@ -1505,6 +1559,7 @@ function PageManager(props) {
                       ["country", "Country"],
                       ["story", "Story"],
                       ["result", "Result"],
+            ["video_url", "Video", true],
                     ]}
                     onSubmit={() =>
                       action(() => createTestimonial(newTestimonial)).then(() =>
@@ -1520,6 +1575,7 @@ function PageManager(props) {
                       { key: "country", label: "Country" },
                       { key: "story", label: "Story" },
                       { key: "result", label: "Result" },
+            { key: "video_url", label: "Video", optional: true },
                     ]}
                     onSave={(id, value) =>
                       action(() => updateTestimonial(id, value))
@@ -1715,24 +1771,35 @@ function CreateForm({ title, value, setValue, fields, onSubmit }) {
     <div className="admin-create">
       <Eyebrow>{title}</Eyebrow>
       <div className="admin-create-grid">
-        {fields.map(([key, label]) => (
-          <label key={key} className={errors[key] ? "has-error" : ""}>
-            {label}
-            <textarea
-              rows={
-                key === "story" || key === "answer" || key === "content" ? 3 : 1
-              }
-              value={value[key] || ""}
-              onChange={(event) => {
-                setErrors({ ...errors, [key]: "" });
-                setValue({ ...value, [key]: event.target.value });
-              }}
+        {fields.map(([key, label]) =>
+          key === "video_url" ? (
+            <VideoField
+              key={key}
+              label={label}
+              value={value[key]}
+              onChange={(next) => setValue({ ...value, [key]: next })}
             />
-            {errors[key] && (
-              <small className="admin-field-error">{errors[key]}</small>
-            )}
-          </label>
-        ))}
+          ) : (
+            <label key={key} className={errors[key] ? "has-error" : ""}>
+              {label}
+              <textarea
+                rows={
+                  key === "story" || key === "answer" || key === "content"
+                    ? 3
+                    : 1
+                }
+                value={value[key] || ""}
+                onChange={(event) => {
+                  setErrors({ ...errors, [key]: "" });
+                  setValue({ ...value, [key]: event.target.value });
+                }}
+              />
+              {errors[key] && (
+                <small className="admin-field-error">{errors[key]}</small>
+              )}
+            </label>
+          ),
+        )}
       </div>
       {submitError && <p className="admin-form-error">{submitError}</p>}
       <button type="button" className="button" onClick={submit}>
@@ -1789,7 +1856,7 @@ function RowEditor({ item, fields, onSave, onDelete }) {
   const save = async () => {
     const nextErrors = validateFields(
       draft,
-      fields.map((field) => [field.key, field.label]),
+      fields.map((field) => [field.key, field.label, field.optional]),
     );
     setErrors(nextErrors);
     setMessage("");
@@ -1800,31 +1867,45 @@ function RowEditor({ item, fields, onSave, onDelete }) {
   return (
     <div className="admin-row">
       <div className="admin-row-fields">
-        {fields.map((field) => (
-          <label
-            key={field.key}
-            className={errors[field.key] ? "has-error" : ""}
-          >
-            {field.label}
-            <textarea
-              rows={
-                field.key === "story" ||
-                field.key === "answer" ||
-                field.key === "content"
-                  ? 4
-                  : 1
-              }
-              value={draft[field.key] ?? ""}
-              onChange={(event) => {
+        {fields.map((field) =>
+          field.key === "video_url" ? (
+            <VideoField
+              key={field.key}
+              label={field.label}
+              value={draft[field.key]}
+              onChange={(next) => {
                 setErrors({ ...errors, [field.key]: "" });
-                setDraft({ ...draft, [field.key]: event.target.value });
+                setDraft({ ...draft, [field.key]: next });
               }}
             />
-            {errors[field.key] && (
-              <small className="admin-field-error">{errors[field.key]}</small>
-            )}
-          </label>
-        ))}
+          ) : (
+            <label
+              key={field.key}
+              className={errors[field.key] ? "has-error" : ""}
+            >
+              {field.label}
+              <textarea
+                rows={
+                  field.key === "story" ||
+                  field.key === "answer" ||
+                  field.key === "content"
+                    ? 4
+                    : 1
+                }
+                value={draft[field.key] ?? ""}
+                onChange={(event) => {
+                  setErrors({ ...errors, [field.key]: "" });
+                  setDraft({ ...draft, [field.key]: event.target.value });
+                }}
+              />
+              {errors[field.key] && (
+                <small className="admin-field-error">
+                  {errors[field.key]}
+                </small>
+              )}
+            </label>
+          ),
+        )}
       </div>
       {message && <p className="admin-form-error">{message}</p>}
       <div className="admin-row-actions">

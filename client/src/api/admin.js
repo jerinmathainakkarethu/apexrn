@@ -9,3 +9,10 @@ export const uploadImage = (file) => {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
+export const uploadVideo = (file) => {
+  const formData = new FormData();
+  formData.append("video", file);
+  return api.post("/admin/upload/video", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};

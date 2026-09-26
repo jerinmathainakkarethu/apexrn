@@ -9,6 +9,7 @@
   --line: #dcd9d0;
   --serif: "Playfair Display", Georgia, serif;
   --sans: "DM Sans", sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 * {
   box-sizing: border-box;

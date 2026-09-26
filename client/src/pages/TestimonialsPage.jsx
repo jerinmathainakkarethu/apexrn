@@ -5,6 +5,7 @@ import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import ErrorState from "../components/ui/ErrorState";
 import Loading from "../components/ui/Loading";
+import TestimonialSection from "../components/home/TestimonialSection";
 
 export default function TestimonialsPage() {
   const data = useRemote(getTestimonials);
@@ -28,18 +29,9 @@ export default function TestimonialsPage() {
     <PageFrame
       eyebrow="Student stories"
       title="What our students say."
-      intro="Approved stories from the APEX RN Prep community will appear here."
+      intro="Approved stories from the APEX RN Prep community. Each card plays on its own — select one to watch the full video testimonial."
     >
-      <section className="content-page-grid">
-        {data.map((item) => (
-          <article className="content-page-item" key={item.id}>
-            <div className="stars">★★★★★</div>
-            <p>{item.story}</p>
-            <h2>{item.display_name}</h2>
-            <span>{item.country}</span>
-          </article>
-        ))}
-      </section>
+      <TestimonialSection testimonials={data} showHeading={false} />
     </PageFrame>
   );
 }
