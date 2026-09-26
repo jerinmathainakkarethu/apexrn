@@ -327,7 +327,7 @@ main > .hero.scroll-reveal.is-visible {
   padding-left: 22px;
 }
 .section {
-  padding: 120px 16vw;
+  padding: 100px 16vw !important;
 }
 .audience {
   background: var(--cream);
@@ -369,7 +369,9 @@ main > .hero.scroll-reveal.is-visible {
   padding-top: 24px;
 }
 .audience-item h3 {
-  font-size: 26px;
+  font: 500 20px/1.2 var(--serif);
+  letter-spacing: -0.01em;
+  margin: 0;
 }
 .audience-item p {
   font-size: 12px;
@@ -629,9 +631,93 @@ footer {
   margin: 0;
 }
 .reference-audience {
-  min-height: 470px;
-  padding-top: 62px;
+  padding-top: 74px;
+  padding-bottom: 74px;
   background: #fbf7f2;
+  padding: 100px 16vw;
+}
+.audience-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.audience-header-left h2 {
+  font: 500 clamp(38px, 4vw, 62px) / 1.05 var(--serif);
+  letter-spacing: -0.035em;
+  margin: 12px 0 0;
+}
+
+.audience-header-right {
+  padding-top: 6px;
+}
+
+.audience-header-right p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #5b5f63;
+  margin: 0 0 20px;
+}
+
+.audience-header-right p:last-child {
+  margin-bottom: 0;
+}
+
+.audience-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 77px;
+  border-top: 1px solid var(--line);
+}
+
+.audience-item {
+  padding: 48px 32px 40px;
+  border-left: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.audience-item:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.audience-item svg:first-child {
+  color: #17181d;
+}
+
+.item-arrow {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #17181d;
+  border: 1px solid var(--line);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.item-arrow:hover {
+  background: #17181d;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .audience-header {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .audience-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .audience-item:nth-child(2n+1) {
+    border-left: none;
+
+  }
 }
 .reference-icon {
   width: 55px;

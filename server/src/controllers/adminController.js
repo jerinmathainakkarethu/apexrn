@@ -1,12 +1,12 @@
 import { databaseConfigured } from "../db.js";
-import { listContacts } from "../models/contact.js";
+import { listContacts as fetchContacts } from "../models/contact.js";
 import { listRegistrations } from "../models/qaRegistration.js";
 import { imageUpload } from "../middleware/upload.js";
 import fallback from "../utils/fallback.js";
 
 export async function listContacts(req, res, next) {
   try {
-    res.json(databaseConfigured ? await listContacts() : fallback.contacts);
+    res.json(databaseConfigured ? await fetchContacts() : fallback.contacts);
   } catch (error) {
     next(error);
   }

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
-  ArrowDownRight,
-  ArrowRight,
   BookOpen,
   Check,
   Clock3,
@@ -23,6 +21,7 @@ import SectionTitle from "../components/ui/SectionTitle";
 import ProcessFeature from "../components/home/ProcessFeature";
 import TestimonialSection from "../components/home/TestimonialSection";
 import QAModal from "../components/home/QAModal";
+import { Target, FileSignature, Briefcase, LineChart, ArrowRight } from "lucide-react";
 
 export default function Home() {
   const [content, setContent] = useState(null);
@@ -58,6 +57,7 @@ export default function Home() {
       </>
     );
   const c = content;
+  const ICONS = [Target, FileSignature, Briefcase, LineChart];
   return (
     <>
       <Helmet>
@@ -99,8 +99,33 @@ export default function Home() {
           ))}
         </section>
         <section className="reference-section reference-audience">
-          <SectionTitle eyebrow={c.audience.eyebrow} copy={c.audience.copy}>{c.audience.title}</SectionTitle>
-          <div className="audience-grid">{c.audience.items.map((item, index) => <article className="audience-item" key={item.title}><span className="item-number">0{index + 1}</span><h3>{item.title}</h3><p>{item.text}</p><ArrowDownRight size={20} /></article>)}</div>
+          <div className="audience-header">
+            <div className="audience-header-left">
+              <Eyebrow>{c.audience.eyebrow}</Eyebrow>
+              <h2>{c.audience.title}</h2>
+            </div>
+            <div className="audience-header-right">
+              Adipiscing elit, sed do euismod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+
+              Adipiscing elit, sed do euismod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+            </div>
+          </div>
+
+          <div className="svc-grid">
+            {c.audience.items.map((item, index) => {
+              const Icon = ICONS[index % ICONS.length];
+              return (
+                <article className="svc-item" key={item.title}>
+                  <Icon size={50} strokeWidth={1.25} className="svc-icon" />
+                  <h3>{item.title}</h3>
+                  <a href={item.href || "#"} className="svc-arrow" aria-label={item.title}>
+                    <span>Read More</span>
+                    <ArrowRight size={16} />
+                  </a>
+                </article>
+              );
+            })}
+          </div>
         </section>
         <section className="section curriculum" id="curriculum">
           <SectionTitle eyebrow={c.curriculum.eyebrow} copy={c.curriculum.copy}>
