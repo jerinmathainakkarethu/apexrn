@@ -90,15 +90,17 @@ function VideoEmpty() {
 
 function toEmbedUrl(url) {
   if (!url) return "";
-  // Admins often paste "youtube.com/watch?v=..." without a protocol.
-  const candidate = /^https?:\/\//i.test(url) ? url : `https://${url}`;
+  const trimmed = url.trim();
+  // Admins often paste a bare ID, or a link without a protocol.
+  if (/^[\w-]{11}$/.test(trimmed))
+    return `https://www.youtube.com/embed/${trimmed}?autoplay=1`;
+  const candidate = /^https?:\/\//i.test(trimmed)
+    ? trimmed
+    : `https://${trimmed}`;
   try {
     const parsed = new URL(candidate);
-    if (parsed.hostname.includes("youtube.com") || parsed.hostname === "youtu.be") {
-      const id =
-        parsed.hostname === "youtu.be"
-          ? parsed.pathname.slice(1)
-          : parsed.searchParams.get("v");
+    if (/(^|\.)(youtube\.com|youtu\.be|youtube-nocookie\.com)$/i.test(parsed.hostname)) {
+      const id = youtubeId(parsed);
       return id ? `https://www.youtube.com/embed/${id}?autoplay=1` : "";
     }
     if (parsed.hostname.includes("vimeo.com")) {
@@ -109,4 +111,13 @@ function toEmbedUrl(url) {
   } catch {
     return "";
   }
+}
+
+/** Handles /watch?v=, /shorts/, /embed/, /live/ and youtu.be links alike. */
+function youtubeId(parsed) {
+  const parts = parsed.pathname.split("/").filter(Boolean);
+  if (/(^|\.)youtu\.be$/i.test(parsed.hostname)) return parts[0] || "";
+  if (["shorts", "embed", "live", "v"].includes(parts[0]?.toLowerCase()))
+    return parts[1] || "";
+  return parsed.searchParams.get("v") || "";
 }
