@@ -1,8 +1,22 @@
 import { databaseConfigured } from "../db.js";
 import { listContacts as fetchContacts } from "../models/contact.js";
 import { listRegistrations } from "../models/qaRegistration.js";
+import { listCollection } from "../models/collection.js";
 import { imageUpload, videoUpload } from "../middleware/upload.js";
 import fallback from "../utils/fallback.js";
+
+/** Every testimonial, including drafts, for the admin editor only. */
+export async function listTestimonials(req, res, next) {
+  try {
+    res.json(
+      databaseConfigured
+        ? await listCollection("testimonials", "created_at DESC")
+        : fallback.testimonials,
+    );
+  } catch (error) {
+    next(error);
+  }
+}
 
 export async function listContacts(req, res, next) {
   try {

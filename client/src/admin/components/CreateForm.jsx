@@ -19,7 +19,7 @@ export default function CreateForm({ title, value, setValue, fields, onSubmit })
     <div className="admin-create">
       <Eyebrow>{title}</Eyebrow>
       <div className="admin-create-grid">
-        {fields.map(([key, label, optional]) =>
+        {fields.map(([key, label, optional, control]) =>
           key === "video_url" ? (
             <VideoField
               key={key}
@@ -27,6 +27,23 @@ export default function CreateForm({ title, value, setValue, fields, onSubmit })
               value={value[key]}
               onChange={(next) => setValue({ ...value, [key]: next })}
             />
+          ) : control?.type === "select" ? (
+            <label key={key}>
+              <span>{label}</span>
+              <select
+                value={value[key] ?? control.options[0][0]}
+                onChange={(event) => {
+                  setErrors({ ...errors, [key]: "" });
+                  setValue({ ...value, [key]: event.target.value });
+                }}
+              >
+                {control.options.map(([optionValue, optionLabel]) => (
+                  <option key={optionValue} value={optionValue}>
+                    {optionLabel}
+                  </option>
+                ))}
+              </select>
+            </label>
           ) : (
             <label key={key} className={errors[key] ? "has-error" : ""}>
               <span>

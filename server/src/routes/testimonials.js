@@ -6,6 +6,9 @@ const controller = makeCollectionController({
   name: "testimonials",
   orderBy: "created_at DESC",
   requiredFields: ["display_name", "story"],
+  // The public pages only ever show approved stories; the admin reads every
+  // row through GET /api/admin/testimonials.
+  publicWhere: "status = 'published'",
 });
 
 const router = Router();

@@ -4,13 +4,22 @@ import fallback from "../utils/fallback.js";
 import { nextId } from "../utils/helpers.js";
 import { requireFields, sendValidation } from "../utils/validation.js";
 
-export function makeCollectionController({ name, orderBy, requiredFields }) {
+export function makeCollectionController({
+  name,
+  orderBy,
+  requiredFields,
+  publicWhere,
+}) {
   const list = async (req, res, next) => {
     try {
+      if (!databaseConfigured) {
+        const rows = publicWhere
+          ? fallback[name].filter((item) => item.status === "published")
+          : fallback[name];
+        return res.json(rows);
+      }
       res.json(
-        databaseConfigured
-          ? await collectionModel.listCollection(name, orderBy)
-          : fallback[name],
+        await collectionModel.listCollection(name, orderBy, publicWhere),
       );
     } catch (error) {
       next(error);

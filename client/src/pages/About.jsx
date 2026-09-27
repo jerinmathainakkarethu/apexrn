@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { Play } from "lucide-react";
 import { getAbout } from "../api/about";
 import { getTestimonials } from "../api/testimonials";
 import { imageUrl } from "../services/api";
@@ -9,10 +10,12 @@ import Button from "../components/ui/Button";
 import ErrorState from "../components/ui/ErrorState";
 import Eyebrow from "../components/ui/Eyebrow";
 import Loading from "../components/ui/Loading";
+import TestimonialVideoModal from "../components/home/TestimonialVideoModal";
 
 export default function About() {
   const [content, setContent] = useState(null);
   const [testimonials, setTestimonials] = useState([]);
+  const [activeVideo, setActiveVideo] = useState(null);
   useEffect(() => {
     Promise.all([getAbout(), getTestimonials()])
       .then(([aboutResponse, testimonialResponse]) => {
@@ -85,6 +88,18 @@ export default function About() {
                     : "about-testimonial"
                 }
                 key={item.id || item.display_name}
+                role="button"
+                tabIndex={0}
+                onClick={() => setActiveVideo(item)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActiveVideo(item);
+                  }
+                }}
+                aria-label={`View ${
+                  item.display_name || "student"
+                }'s story video`}
               >
                 <span className="quote-mark">“</span>
                 <p>{item.story}</p>
@@ -94,11 +109,25 @@ export default function About() {
                     {item.country || content.testimonials.defaultRole}
                   </span>
                 </div>
+                {item.video_url && (
+                  <span className="testimonial-play" aria-hidden="true">
+                    <span className="testimonial-play-icon">
+                      <Play size={14} fill="currentColor" />
+                    </span>
+                    <span className="testimonial-play-label">Watch story</span>
+                  </span>
+                )}
               </article>
             ))}
           </div>
         </section>
       </main>
+      {activeVideo && (
+        <TestimonialVideoModal
+          testimonial={activeVideo}
+          close={() => setActiveVideo(null)}
+        />
+      )}
       <Footer />
     </>
   );

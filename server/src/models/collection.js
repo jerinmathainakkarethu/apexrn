@@ -1,7 +1,13 @@
 import { query } from "../db.js";
 
-export async function listCollection(name, orderBy) {
-  return query(`SELECT * FROM ${name} ORDER BY ${orderBy}`);
+/**
+ * `publicWhere` narrows the public list (e.g. published rows only). Admins
+ * read the collection through their own authenticated endpoint, so they always
+ * see every row.
+ */
+export async function listCollection(name, orderBy, publicWhere) {
+  const where = publicWhere ? ` WHERE ${publicWhere}` : "";
+  return query(`SELECT * FROM ${name}${where} ORDER BY ${orderBy}`);
 }
 
 export async function findById(name, id) {

@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
 import { X, Play } from "lucide-react";
+import { imageUrl } from "../../services/api";
 
 export default function TestimonialVideoModal({ testimonial, close }) {
   const backdropRef = useRef(null);
   const name = testimonial?.display_name || "APEX RN Prep student";
-  const url = testimonial?.video_url || "";
+  const url = imageUrl(testimonial?.video_url || "");
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -89,8 +90,10 @@ function VideoEmpty() {
 
 function toEmbedUrl(url) {
   if (!url) return "";
+  // Admins often paste "youtube.com/watch?v=..." without a protocol.
+  const candidate = /^https?:\/\//i.test(url) ? url : `https://${url}`;
   try {
-    const parsed = new URL(url);
+    const parsed = new URL(candidate);
     if (parsed.hostname.includes("youtube.com") || parsed.hostname === "youtu.be") {
       const id =
         parsed.hostname === "youtu.be"

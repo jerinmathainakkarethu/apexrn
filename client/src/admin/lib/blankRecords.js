@@ -6,7 +6,7 @@ export const blankTestimonial = {
   story: "",
   result: "",
   video_url: "",
-  status: "draft",
+  status: "published",
   featured: false,
 };
 export const blankFaq = {

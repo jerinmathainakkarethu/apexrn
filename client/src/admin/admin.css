@@ -391,8 +391,11 @@
 
 .home-field input,
 .home-field textarea,
+.home-field select,
 .admin-create textarea,
+.admin-create select,
 .admin-row-fields textarea,
+.admin-row-fields select,
 .admin-video-field textarea {
   width: 100%;
   box-sizing: border-box;
@@ -419,6 +422,12 @@
   min-height: 84px;
 }
 
+.admin-create select,
+.admin-row-fields select {
+  min-height: 42px;
+  resize: none;
+}
+
 .admin-video-field textarea {
   min-height: 42px;
   resize: none;
@@ -426,16 +435,22 @@
 
 .home-field input:hover,
 .home-field textarea:hover,
+.home-field select:hover,
 .admin-create textarea:hover,
+.admin-create select:hover,
 .admin-row-fields textarea:hover,
+.admin-row-fields select:hover,
 .admin-video-field textarea:hover {
   border-color: #c9beb4;
 }
 
 .home-field input:focus,
 .home-field textarea:focus,
+.home-field select:focus,
 .admin-create textarea:focus,
+.admin-create select:focus,
 .admin-row-fields textarea:focus,
+.admin-row-fields select:focus,
 .admin-video-field textarea:focus {
   outline: none;
   border-color: var(--terracotta);

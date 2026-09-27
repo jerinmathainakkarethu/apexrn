@@ -45,6 +45,23 @@ export default function RowEditor({ item, fields, onSave, onDelete, summaryKey }
                     setDraft({ ...draft, [field.key]: next });
                   }}
                 />
+              ) : field.type === "select" ? (
+                <label key={field.key}>
+                  <span>{field.label}</span>
+                  <select
+                    value={draft[field.key] ?? field.options[0][0]}
+                    onChange={(event) => {
+                      setErrors({ ...errors, [field.key]: "" });
+                      setDraft({ ...draft, [field.key]: event.target.value });
+                    }}
+                  >
+                    {field.options.map(([optionValue, optionLabel]) => (
+                      <option key={optionValue} value={optionValue}>
+                        {optionLabel}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               ) : (
                 <label
                   key={field.key}
