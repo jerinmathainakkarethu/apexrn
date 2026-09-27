@@ -121,6 +121,7 @@ export default function Home() {
               </h1>
               <p className="hero-text">{c.hero.description}</p>
               <div className="button-row">
+                <Button>{c.hero.primaryCta}</Button>
                 <Button secondary>{c.hero.secondaryCta}</Button>
               </div>
             </div>

@@ -3,7 +3,7 @@ import { Play, Quote } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
 import TestimonialVideoModal from "./TestimonialVideoModal";
 
-const AUTO_SCROLL_GAP = 4000;
+const AUTO_SCROLL_GAP = 2000;
 
 function initials(name) {
   return name
@@ -20,6 +20,14 @@ export default function TestimonialSection({
   title = "What our students say",
   showHeading = true,
 }) {
+  // viewportRef = the scrollable outer element (has onScroll / scrollTo).
+  // trackRef = the inner flex row that actually holds the card elements.
+  // These used to be the same ref, which meant track.children[n] was
+  // reading children of the *viewport* (which only has one child: the
+  // track wrapper itself) instead of the individual testimonial cards —
+  // so scrollTo silently no-op'd for every page past 0 while the active
+  // page state kept advancing, moving the dots without moving the cards.
+  const viewportRef = useRef(null);
   const trackRef = useRef(null);
   const pageRef = useRef(0);
   const [active, setActive] = useState(0);
@@ -30,16 +38,16 @@ export default function TestimonialSection({
   const visiblePages = Math.max(1, total - 2);
 
   const nearestPage = useCallback(
-    (track) => {
+    (viewport, track) => {
       const first = track?.children[0];
-      if (!track || !first) return 0;
+      if (!viewport || !track || !first) return 0;
       let page = 0;
       let closest = Infinity;
       for (let index = 0; index < visiblePages; index += 1) {
         const card = track.children[index];
         if (!card) break;
         const distance = Math.abs(
-          card.offsetLeft - first.offsetLeft - track.scrollLeft,
+          card.offsetLeft - first.offsetLeft - viewport.scrollLeft,
         );
         if (distance < closest) {
           closest = distance;
@@ -53,27 +61,28 @@ export default function TestimonialSection({
 
   const goTo = useCallback(
     (target) => {
+      const viewport = viewportRef.current;
       const track = trackRef.current;
-      if (!track) return;
+      if (!viewport || !track) return;
       const next = ((target % visiblePages) + visiblePages) % visiblePages;
       const first = track.children[0];
       const card = track.children[next];
+      if (!first || !card) return;
       pageRef.current = next;
       setActive(next);
-      if (first && card) {
-        track.scrollTo({
-          left: card.offsetLeft - first.offsetLeft,
-          behavior: "smooth",
-        });
-      }
+      viewport.scrollTo({
+        left: card.offsetLeft - first.offsetLeft,
+        behavior: "smooth",
+      });
     },
     [visiblePages],
   );
 
   const handleScroll = useCallback(() => {
+    const viewport = viewportRef.current;
     const track = trackRef.current;
-    if (!track) return;
-    const page = nearestPage(track);
+    if (!viewport || !track) return;
+    const page = nearestPage(viewport, track);
     if (page === pageRef.current) return;
     pageRef.current = page;
     setActive(page);
@@ -113,14 +122,14 @@ export default function TestimonialSection({
       )}
       <div
         className="testimonial-viewport"
-        ref={trackRef}
+        ref={viewportRef}
         onScroll={handleScroll}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onFocus={() => setPaused(true)}
         onBlur={() => setPaused(false)}
       >
-        <div className="testimonial-track">
+        <div className="testimonial-track" ref={trackRef}>
           {testimonials.map((item, index) => {
             const name = item.display_name || "APEX RN Prep student";
             const hasVideo = Boolean(item.video_url);
