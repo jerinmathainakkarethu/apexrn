@@ -178,6 +178,12 @@ export const homeContent = {
       "https://images.unsplash.com/photo-1584982751601-97ead837f450?auto=format&fit=crop&w=1200&q=85",
     imageAlt: "Nursing instructor teaching through a laptop",
   },
+  faq: {
+    eyebrow: "Questions, answered",
+    title: "Everything you want to ask before you start.",
+    copy: "Straight answers about the schedule, the classes, and what to expect before you decide to join.",
+    button: "See all questions",
+  },
   pricing: {
     eyebrow: "The next step",
     title: "Your preparation has a home.",

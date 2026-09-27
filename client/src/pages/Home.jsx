@@ -13,6 +13,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { getHome } from "../api/home";
+import { getFaqs } from "../api/faqs";
 import { getProgram } from "../api/program";
 import { getTestimonials } from "../api/testimonials";
 import { imageUrl } from "../services/api";
@@ -32,6 +33,8 @@ export default function Home() {
   const [content, setContent] = useState(null);
   const [program, setProgram] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
+  const [faqs, setFaqs] = useState([]);
+  const [openFaq, setOpenFaq] = useState(null);
   const [activeTopic, setActiveTopic] = useState(0);
   const [qaOpen, setQaOpen] = useState(false);
   const [qaStatus, setQaStatus] = useState("idle");
@@ -47,11 +50,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    Promise.all([getHome(), getProgram(), getTestimonials()])
-      .then(([homeResponse, programResponse, testimonialResponse]) => {
+    Promise.all([getHome(), getProgram(), getTestimonials(), getFaqs()])
+      .then(([homeResponse, programResponse, testimonialResponse, faqResponse]) => {
         setContent(homeResponse.data);
         setProgram(programResponse.data);
         setTestimonials(testimonialResponse.data);
+        setFaqs(faqResponse.data);
       })
       .catch(() => setError(true));
   }, []);
@@ -364,6 +368,38 @@ export default function Home() {
                 src={imageUrl(c.qa.image)}
                 alt={c.qa.imageAlt || c.qa.title}
               />
+            </div>
+          </section>
+        )}
+
+        {show("faqs") && faqs.length > 0 && (
+          <section className="reference-section reference-faq section-tone-sage scroll-reveal">
+            <div className="reference-faq-copy">
+              <span className="reference-number">07</span>
+              <Eyebrow>{c.faq?.eyebrow}</Eyebrow>
+              <h2>{c.faq?.title}</h2>
+              <p>{c.faq?.copy}</p>
+              <a className="button" href="/faqs">
+                {c.faq?.button} <ArrowRight size={17} />
+              </a>
+            </div>
+            <div className="reference-faq-list">
+              {faqs.slice(0, 5).map((item) => (
+                <details key={item.id} open={openFaq === item.id}>
+                  <summary
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setOpenFaq((current) =>
+                        current === item.id ? null : item.id,
+                      );
+                    }}
+                  >
+                    {item.question}
+                    <ArrowRight size={17} />
+                  </summary>
+                  <p>{item.answer}</p>
+                </details>
+              ))}
             </div>
           </section>
         )}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { getFaqs } from "../api/faqs";
 import useRemote from "../hooks/useRemote";
@@ -9,6 +10,7 @@ import Loading from "../components/ui/Loading";
 
 export default function FaqPage() {
   const data = useRemote(getFaqs);
+  const [openFaq, setOpenFaq] = useState(null);
   if (data === null)
     return (
       <>
@@ -33,8 +35,13 @@ export default function FaqPage() {
     >
       <section className="faq-page-list">
         {data.map((item) => (
-          <details key={item.id}>
-            <summary>
+          <details key={item.id} open={openFaq === item.id}>
+            <summary
+              onClick={(event) => {
+                event.preventDefault();
+                setOpenFaq((current) => (current === item.id ? null : item.id));
+              }}
+            >
               {item.question}
               <ArrowRight size={17} />
             </summary>

@@ -5,6 +5,7 @@ import {
   CalendarClock,
   GalleryHorizontalEnd,
   GraduationCap,
+  HelpCircle,
   Image as ImageIcon,
   ListChecks,
   MessagesSquare,
@@ -33,6 +34,7 @@ const HOME_SECTION_NAV = [
   { id: "sec-testimonials", label: "Testimonials" },
   { id: "sec-community", label: "Community" },
   { id: "sec-qa", label: "Q&A" },
+  { id: "sec-faq", label: "FAQ" },
   { id: "sec-pricing", label: "Pricing" },
 ];
 
@@ -618,8 +620,46 @@ export default function HomeContentEditor({ onNotice }) {
       </HomeSection>
 
       <HomeSection
-        anchorId="sec-pricing"
+        anchorId="sec-faq"
+        {...switchProps("faqs")}
         number="12"
+        icon={HelpCircle}
+        title="FAQ section"
+        where="The questions block at the very bottom of the homepage. Shows the first five questions from the FAQ page."
+        preview={content.faq?.title}
+      >
+        <div className="home-field-grid">
+          <HomeField
+            label="Eyebrow"
+            value={content.faq?.eyebrow}
+            onChange={(value) => update(["faq", "eyebrow"], value)}
+          />
+          <HomeField
+            label="Heading"
+            value={content.faq?.title}
+            onChange={(value) => update(["faq", "title"], value)}
+            multiline
+          />
+          <HomeField
+            label="Supporting copy"
+            value={content.faq?.copy}
+            onChange={(value) => update(["faq", "copy"], value)}
+            multiline
+          />
+          <HomeField
+            label="Button text"
+            value={content.faq?.button}
+            onChange={(value) => update(["faq", "button"], value)}
+          />
+        </div>
+        <p className="home-section-note">
+          The questions and answers themselves are edited on the FAQ page editor.
+        </p>
+      </HomeSection>
+
+      <HomeSection
+        anchorId="sec-pricing"
+        number="13"
         icon={Tag}
         title="Pricing"
         where="Pricing details used across the site. Not currently rendered on the homepage itself — check the pricing page."
@@ -654,7 +694,7 @@ export default function HomeContentEditor({ onNotice }) {
 
       <HomeSection
         anchorId="sec-finalcta"
-        number="13"
+        number="14"
         icon={Megaphone}
         title="Final call-to-action"
         where="Closing banner text. Not currently rendered on this version of the homepage — kept here in case it's reused elsewhere."

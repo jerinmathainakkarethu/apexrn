@@ -684,6 +684,7 @@ footer {
 .reference-section-heading h2,
 .reference-instructor-copy h2,
 .reference-community-copy h2,
+.reference-faq-copy h2,
 .reference-qa-copy h2 {
   font: 500 clamp(38px, 4.3vw, 62px)/0.96 var(--serif);
   letter-spacing: -0.045em;
@@ -693,6 +694,7 @@ footer {
 .reference-section-heading > p,
 .reference-instructor-copy > p,
 .reference-community-copy > p,
+.reference-faq-copy > p,
 .reference-qa-copy > p {
   color: #586166;
   font-size: 15px;
@@ -945,6 +947,57 @@ footer {
 .reference-qa-copy .button {
   background: #bd725b;
   border-color: #bd725b;
+}
+/* FAQ section: copy on the left, accordion on the right. */
+.reference-faq {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 5vw;
+  align-items: start;
+  background: #fbf7f2;
+}
+.reference-faq-copy {
+  position: sticky;
+  top: 110px;
+}
+.reference-faq-copy .button {
+  margin-top: 26px;
+  background: #bd725b;
+  border-color: #bd725b;
+}
+.reference-faq-list details {
+  border-top: 1px solid var(--line);
+  padding: 20px 0;
+}
+.reference-faq-list details:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.reference-faq-list summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  font: 500 22px/1.2 var(--serif);
+  letter-spacing: -0.02em;
+  list-style: none;
+}
+.reference-faq-list summary::-webkit-details-marker {
+  display: none;
+}
+.reference-faq-list summary svg {
+  flex: 0 0 auto;
+  transition: transform 0.25s ease;
+}
+.reference-faq-list details[open] summary svg {
+  transform: rotate(90deg);
+}
+.reference-faq-list details p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
+  max-width: 620px;
+  margin: 12px 0 0;
 }
 .content-loading {
   min-height: 70vh;
@@ -1702,9 +1755,13 @@ footer {
   .reference-experience,
   .reference-instructor,
   .reference-community,
+  .reference-faq,
   .reference-qa {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+  .reference-faq-copy {
+    position: static;
   }
   .reference-image-panel,
   .reference-instructor-image,
