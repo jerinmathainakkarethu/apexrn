@@ -68,6 +68,78 @@ export default function About() {
             <Button>{content.benefits.button}</Button>
           </div>
         </section>
+        <section className="about-story section-tone-sage">
+          <div className="about-story-copy">
+            <span className="about-section-number">01</span>
+            <Eyebrow>{content.sectionEyebrow}</Eyebrow>
+            <h2>{content.sectionTitle}</h2>
+            <p>{content.copy}</p>
+            {content.copySecondary && <p>{content.copySecondary}</p>}
+          </div>
+          <div className="about-story-image">
+            <img
+              src={imageUrl(content.image)}
+              alt={content.imageAlt || content.sectionTitle}
+            />
+          </div>
+        </section>
+
+        {content.philosophy && (
+          <section className="about-philosophy section-tone-blush">
+            <div className="about-section-heading">
+              <span className="about-section-number">02</span>
+              <Eyebrow>{content.philosophy.eyebrow}</Eyebrow>
+              <h2>{content.philosophy.title}</h2>
+              <p>{content.philosophy.copy}</p>
+            </div>
+            <div className="about-philosophy-grid">
+              {content.philosophy.items.map((item) => (
+                <div key={item.title}>
+                  <h3>{item.title}</h3>
+                  <p>{item.copy}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {content.credentials && (
+          <section className="about-credentials section-tone-sage">
+            <div className="about-section-heading">
+              <span className="about-section-number">03</span>
+              <Eyebrow>{content.credentials.eyebrow}</Eyebrow>
+              <h2>{content.credentials.title}</h2>
+              <p>{content.credentials.copy}</p>
+            </div>
+            <div className="about-credentials-grid">
+              {content.credentials.items.map((item) => (
+                <div key={item.label}>
+                  <strong>{item.value}</strong>
+                  <span>{item.label}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {content.principles && (
+          <section className="about-principles section-tone-blush-2">
+            <div className="about-section-heading">
+              <span className="about-section-number">04</span>
+              <Eyebrow>{content.principles.eyebrow}</Eyebrow>
+              <h2>{content.principles.title}</h2>
+            </div>
+            <div className="about-principles-list">
+              {content.principles.items.map((item) => (
+                <div key={item.title}>
+                  <h3>{item.title}</h3>
+                  <p>{item.copy}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section className="about-video">
           <img src={imageUrl(content.video.image)} alt={content.video.alt} />
           <button type="button" aria-label={content.video.buttonLabel}>

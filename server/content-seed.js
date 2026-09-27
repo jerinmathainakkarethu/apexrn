@@ -281,12 +281,64 @@ export const aboutContent = {
   sectionEyebrow: "From candidate to instructor",
   sectionTitle: "Teaching that remembers what it feels like.",
   copy: "APEX RN Prep exists to help nurses prepare with more clarity and less noise. The program brings together personal NCLEX-RN experience, US hospital nursing experience, Level 1 trauma center experience, pharmacovigilance, case management, and focused NGN preparation.",
-  values: [
-    "Concept-based learning",
-    "High-yield focus",
-    "Clinical judgment",
-    "Personal support",
-  ],
+  copySecondary:
+    "I started APEX RN Prep after working alongside international nurses who were studying hard, paying for the right materials, and still walking into the exam feeling underprepared. The problem was rarely effort. It was that most preparation was built for a local classroom, not for nurses who had already done the work and simply needed a clear, structured way through.",
+  philosophy: {
+    eyebrow: "Teaching philosophy",
+    title: "High-yield, concept-based, and coached live.",
+    copy: "Every session is built around what actually moves a score: the concepts that come back again and again, explained in plain language, with visuals that make them easy to recall, and live coaching while you practise.",
+    items: [
+      {
+        title: "Concept-based thinking",
+        copy: "Topics are taught as systems and patterns rather than memorised lists, so you can reason through an unfamiliar question instead of guessing.",
+      },
+      {
+        title: "High-yield focus",
+        copy: "Limited time goes to what is tested most often, and every block is tied to the NCLEX-RN blueprint.",
+      },
+      {
+        title: "Simplified visuals",
+        copy: "Clean diagrams, flowcharts, and comparison charts replace dense paragraphs, so the picture stays in your memory.",
+      },
+      {
+        title: "Live coaching",
+        copy: "You practise in class and get feedback in the moment, instead of finding out where you are weak weeks later.",
+      },
+    ],
+  },
+  credentials: {
+    eyebrow: "Credentials",
+    title: "Registered, experienced, and still teaching.",
+    copy: "Placeholder copy. Replace with your verified professional details before the page goes live.",
+    items: [
+      { value: "TBD", label: "RN license states" },
+      { value: "TBD", label: "Certifications" },
+      { value: "TBD", label: "Years teaching NCLEX" },
+      { value: "TBD", label: "Students taught" },
+    ],
+  },
+  principles: {
+    eyebrow: "What matters in this work",
+    title: "The values behind the program.",
+    items: [
+      {
+        title: "Patient safety first",
+        copy: "Every topic comes back to the patient at the end of the question, even when the exam format changes.",
+      },
+      {
+        title: "Honesty over hype",
+        copy: "If something is not tested, you will not be told it is high-yield, and you will not be sold a plan you do not need.",
+      },
+      {
+        title: "Access for international nurses",
+        copy: "Good preparation should not depend on where you trained or which bridge course you could afford.",
+      },
+      {
+        title: "Accountability to exam day",
+        copy: "Clear plans, honest checkpoints, and visible progress so you always know where you stand.",
+      },
+    ],
+  },
   image:
     "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=85",
   imageAlt: "APEX RN Prep instructor",
@@ -311,12 +363,6 @@ export const aboutContent = {
     ],
     button: "Learn more",
   },
-  stats: [
-    { value: "98", label: "Projects" },
-    { value: "65", label: "People" },
-    { value: "10", label: "Years" },
-    { value: "15", label: "Offices" },
-  ],
   video: {
     image:
       "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1800&q=85",
