@@ -1,98 +1,109 @@
-import { useEffect } from "react";
-import { createPortal } from "react-dom";
-import { PlayCircle, X } from "lucide-react";
-import { imageUrl } from "../../services/api";
-
-const YOUTUBE =
-  /(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{6,})/i;
-const VIMEO = /vimeo\.com\/(?:video\/)?(\d+)/i;
-
-export function resolveVideo(url) {
-  const value = String(url || "").trim();
-  if (!value) return null;
-  const youtube = value.match(YOUTUBE);
-  if (youtube) {
-    return { type: "embed", src: `https://www.youtube.com/embed/${youtube[1]}` };
-  }
-  const vimeo = value.match(VIMEO);
-  if (vimeo) {
-    return { type: "embed", src: `https://player.vimeo.com/video/${vimeo[1]}` };
-  }
-  return { type: "file", src: imageUrl(value) };
-}
+import { useEffect, useRef } from "react";
+import { X, Play } from "lucide-react";
 
 export default function TestimonialVideoModal({ testimonial, close }) {
+  const backdropRef = useRef(null);
+  const name = testimonial?.display_name || "APEX RN Prep student";
+  const url = testimonial?.video_url || "";
+
   useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key === "Escape") close();
     };
     document.addEventListener("keydown", onKeyDown);
-    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = "";
     };
   }, [close]);
 
-  if (!testimonial) return null;
-  const name = testimonial.display_name || "APEX RN Prep student";
-  const source = resolveVideo(testimonial.video_url);
-  const meta = [testimonial.result, testimonial.country]
-    .filter(Boolean)
-    .join(" · ");
+  const onBackdropClick = (event) => {
+    if (event.target === backdropRef.current) close();
+  };
 
-  return createPortal(
+  const isDirectFile = /\.(mp4|webm|mov|mkv)$/i.test(url) || url.startsWith("/uploads/");
+  const embedUrl = toEmbedUrl(url);
+
+  return (
     <div
-      className="modal-backdrop testimonial-video-backdrop"
+      className="testimonial-video-backdrop modal-backdrop"
+      ref={backdropRef}
+      onClick={onBackdropClick}
       role="dialog"
       aria-modal="true"
-      aria-label={`Video testimonial from ${name}`}
-      onClick={close}
+      aria-label={`${name}'s story`}
     >
-      <div className="testimonial-video-modal" onClick={(event) => event.stopPropagation()}>
+      <div className="testimonial-video-modal">
         <button
           type="button"
-          className="modal-close"
+          className="modal-close testimonial-video-close"
           onClick={close}
-          aria-label="Close video"
+          aria-label="Close"
         >
-          <X />
+          <X size={18} />
         </button>
+
         <div className="testimonial-video-frame">
-          {source ? (
-            source.type === "embed" ? (
+          {url ? (
+            isDirectFile ? (
+              <video src={url} controls autoPlay playsInline />
+            ) : embedUrl ? (
               <iframe
-                src={`${source.src}?autoplay=1&rel=0`}
-                title={`${name} video testimonial`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                src={embedUrl}
+                title={`${name}'s video testimonial`}
+                allow="autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen
               />
             ) : (
-              <video
-                src={source.src}
-                poster={testimonial.photo_url ? imageUrl(testimonial.photo_url) : undefined}
-                controls
-                autoPlay
-                playsInline
-              />
+              <VideoEmpty />
             )
           ) : (
-            <div className="testimonial-video-empty">
-              <PlayCircle size={44} strokeWidth={1} />
-              <p>Video coming soon.</p>
-            </div>
+            <VideoEmpty />
           )}
         </div>
+
         <div className="testimonial-video-meta">
           <div className="stars" aria-label="Five stars">
             ★★★★★
           </div>
           <h2>{name}</h2>
-          {meta && <span>{meta}</span>}
+          <span>{testimonial?.country || "APEX RN Prep student story"}</span>
+          {testimonial?.story && (
+            <p className="testimonial-video-result">{testimonial.story}</p>
+          )}
         </div>
       </div>
-    </div>,
-    document.body,
+    </div>
   );
+}
+
+function VideoEmpty() {
+  return (
+    <div className="testimonial-video-empty">
+      <Play size={28} />
+      <p>Video coming soon</p>
+    </div>
+  );
+}
+
+function toEmbedUrl(url) {
+  if (!url) return "";
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.includes("youtube.com") || parsed.hostname === "youtu.be") {
+      const id =
+        parsed.hostname === "youtu.be"
+          ? parsed.pathname.slice(1)
+          : parsed.searchParams.get("v");
+      return id ? `https://www.youtube.com/embed/${id}?autoplay=1` : "";
+    }
+    if (parsed.hostname.includes("vimeo.com")) {
+      const id = parsed.pathname.split("/").filter(Boolean).pop();
+      return id ? `https://player.vimeo.com/video/${id}?autoplay=1` : "";
+    }
+    return url;
+  } catch {
+    return "";
+  }
 }

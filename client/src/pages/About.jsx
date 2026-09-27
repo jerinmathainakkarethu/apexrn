@@ -65,14 +65,6 @@ export default function About() {
             <Button>{content.benefits.button}</Button>
           </div>
         </section>
-        <section className="about-stats">
-          {content.stats.map((stat) => (
-            <div key={stat.label}>
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
-            </div>
-          ))}
-        </section>
         <section className="about-video">
           <img src={imageUrl(content.video.image)} alt={content.video.alt} />
           <button type="button" aria-label={content.video.buttonLabel}>

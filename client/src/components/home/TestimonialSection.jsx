@@ -1,9 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play } from "lucide-react";
+import { Play, Quote } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
 import TestimonialVideoModal from "./TestimonialVideoModal";
 
-const AUTO_SCROLL_GAP = 2000;
+const AUTO_SCROLL_GAP = 4000;
+
+function initials(name) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
+}
 
 export default function TestimonialSection({
   testimonials = [],
@@ -20,24 +29,27 @@ export default function TestimonialSection({
   const total = testimonials.length;
   const visiblePages = Math.max(1, total - 2);
 
-  const nearestPage = useCallback((track) => {
-    const first = track?.children[0];
-    if (!track || !first) return 0;
-    let page = 0;
-    let closest = Infinity;
-    for (let index = 0; index < visiblePages; index += 1) {
-      const card = track.children[index];
-      if (!card) break;
-      const distance = Math.abs(
-        card.offsetLeft - first.offsetLeft - track.scrollLeft,
-      );
-      if (distance < closest) {
-        closest = distance;
-        page = index;
+  const nearestPage = useCallback(
+    (track) => {
+      const first = track?.children[0];
+      if (!track || !first) return 0;
+      let page = 0;
+      let closest = Infinity;
+      for (let index = 0; index < visiblePages; index += 1) {
+        const card = track.children[index];
+        if (!card) break;
+        const distance = Math.abs(
+          card.offsetLeft - first.offsetLeft - track.scrollLeft,
+        );
+        if (distance < closest) {
+          closest = distance;
+          page = index;
+        }
       }
-    }
-    return page;
-  }, [visiblePages]);
+      return page;
+    },
+    [visiblePages],
+  );
 
   const goTo = useCallback(
     (target) => {
@@ -78,14 +90,16 @@ export default function TestimonialSection({
     if (active > visiblePages - 1) goTo(0);
   }, [active, visiblePages, goTo]);
 
+  // Single interval that just checks conditions each tick, rather than a
+  // recursive setTimeout chain — simpler and doesn't silently stall.
   useEffect(() => {
-    if (visiblePages < 2 || paused || activeVideo || !visible) return undefined;
-    const timer = window.setTimeout(
-      () => goTo(pageRef.current + 1),
-      AUTO_SCROLL_GAP,
-    );
-    return () => window.clearTimeout(timer);
-  }, [active, paused, activeVideo, visible, visiblePages, goTo]);
+    if (visiblePages < 2) return undefined;
+    const interval = window.setInterval(() => {
+      if (paused || activeVideo || !visible) return;
+      goTo(pageRef.current + 1);
+    }, AUTO_SCROLL_GAP);
+    return () => window.clearInterval(interval);
+  }, [visiblePages, paused, activeVideo, visible, goTo]);
 
   if (!total) return null;
 
@@ -109,35 +123,51 @@ export default function TestimonialSection({
         <div className="testimonial-track">
           {testimonials.map((item, index) => {
             const name = item.display_name || "APEX RN Prep student";
+            const hasVideo = Boolean(item.video_url);
+            const open = () => setActiveVideo(item);
             return (
               <article
                 className="testimonial-card"
                 key={item.id || `${name}-${index}`}
+                role="button"
+                tabIndex={0}
+                onClick={open}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    open();
+                  }
+                }}
+                aria-label={`View ${name}'s story`}
               >
+                <Quote className="testimonial-quote-mark" size={30} />
                 <div className="stars" aria-label="Five stars">
                   ★★★★★
                 </div>
                 <p>{item.story}</p>
                 <div className="testimonial-person">
-                  <strong>{name}</strong>
-                  <span>{item.country || "APEX RN Prep student story"}</span>
-                </div>
-                <button
-                  type="button"
-                  className="testimonial-play"
-                  onClick={() => setActiveVideo(item)}
-                  aria-label={`Play ${name}'s video testimonial`}
-                >
-                  <span className="testimonial-play-label">
-                    <Play size={12} fill="currentColor" />
-                    Watch video
+                  <span className="testimonial-avatar" aria-hidden="true">
+                    {initials(name) || "AR"}
                   </span>
-                </button>
+                  <div>
+                    <strong>{name}</strong>
+                    <span>{item.country || "APEX RN Prep student story"}</span>
+                  </div>
+                </div>
+                {hasVideo && (
+                  <span className="testimonial-play" aria-hidden="true">
+                    <span className="testimonial-play-icon">
+                      <Play size={14} fill="currentColor" />
+                    </span>
+                    <span className="testimonial-play-label">Watch story</span>
+                  </span>
+                )}
               </article>
             );
           })}
         </div>
       </div>
+
       <div className="testimonial-dots" aria-label="Testimonial pages">
         {Array.from({ length: visiblePages }, (_, index) => (
           <button
@@ -148,6 +178,7 @@ export default function TestimonialSection({
           />
         ))}
       </div>
+
       {activeVideo && (
         <TestimonialVideoModal
           testimonial={activeVideo}
