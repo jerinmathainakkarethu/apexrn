@@ -1121,6 +1121,8 @@ footer {
   max-width: 760px;
   margin-bottom: 52px;
 }
+
+/* --- Philosophy grid: index badge + hover lift --- */
 .about-philosophy-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1128,11 +1130,22 @@ footer {
   border-top: 1px solid #cbd4d7;
 }
 .about-philosophy-grid > div {
+  position: relative;
   padding: 30px 30px 0 0;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.about-philosophy-grid > div:hover {
+  transform: translateY(-4px);
 }
 .about-philosophy-grid > div + div {
   border-left: 1px solid #cbd4d7;
   padding-left: 30px;
+}
+.about-item-index {
+  display: block;
+  font: 500 13px var(--serif);
+  color: var(--gold);
+  margin-bottom: 10px;
 }
 .about-philosophy-grid h3 {
   font: 500 22px/1.15 var(--serif);
@@ -1146,6 +1159,8 @@ footer {
   line-height: 1.7;
   margin: 0;
 }
+
+/* --- Credentials grid: hover lift + accent top border on hover --- */
 .about-credentials-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1154,10 +1169,17 @@ footer {
 .about-credentials-grid > div {
   background: #fbf7f2;
   border: 1px solid #cbd4d7;
+  border-top: 3px solid transparent;
   padding: 30px 26px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.about-credentials-grid > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 28px rgba(30, 25, 20, 0.08);
+  border-top-color: var(--gold);
 }
 .about-credentials-grid strong {
   font: 500 clamp(30px, 3vw, 42px)/1 var(--serif);
@@ -1168,20 +1190,30 @@ footer {
   letter-spacing: 0.04em;
   color: #586166;
 }
+
+/* --- Principles list: accent left edge on hover --- */
 .about-principles-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0 6vw;
 }
 .about-principles-list > div {
+  position: relative;
   border-top: 1px solid #cbd4d7;
-  padding: 28px 0;
+  border-left: 2px solid transparent;
+  padding: 28px 0 28px 18px;
+  transition: padding-left 0.2s ease;
+}
+.about-principles-list > div:hover {
+  padding-left: 24px;
+  border-left-color: var(--gold);
 }
 .about-principles-list h3 {
   font: 500 24px/1.15 var(--serif);
   letter-spacing: -0.02em;
   margin: 0 0 10px;
 }
+
 .about-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1206,11 +1238,14 @@ footer {
   font: 500 19px var(--serif);
   white-space: nowrap;
 }
+
+/* --- Intro video: gradient scrim + pulsing play button --- */
 .about-video {
   height: min(640px, 37vw);
   min-height: 400px;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 .about-video img {
   width: 100%;
@@ -1218,29 +1253,72 @@ footer {
   object-fit: cover;
   filter: saturate(0.8);
 }
-.about-video:after {
-  content: "";
+.about-video-scrim {
   position: absolute;
   inset: 0;
-  background: rgba(15, 19, 20, 0.16);
+  background: linear-gradient(
+    0deg,
+    rgba(15, 19, 20, 0.55) 0%,
+    rgba(15, 19, 20, 0.05) 45%,
+    rgba(15, 19, 20, 0.25) 100%
+  );
+  pointer-events: none;
 }
-.about-video button {
+.about-video-caption {
   position: absolute;
-  z-index: 1;
+  left: 32px;
+  bottom: 32px;
+  z-index: 2;
+  color: #fff;
+  font: 500 20px var(--serif);
+  max-width: 360px;
+  margin: 0;
+}
+.about-video-play {
+  position: absolute;
+  z-index: 2;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   width: 95px;
   height: 95px;
-  border: 2px solid white;
+  border: 2px solid #fff;
   border-radius: 50%;
-  background: transparent;
-  color: white;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(2px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
-.about-video button span {
-  font: 600 12px var(--sans);
-  letter-spacing: 0.08em;
+.about-video-play:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  transform: translate(-50%, -50%) scale(1.06);
 }
+.about-video-ring {
+  position: absolute;
+  inset: -2px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  animation: aboutVideoPulse 2.4s ease-out infinite;
+}
+.about-video-ring-delay {
+  animation-delay: 1.2s;
+}
+@keyframes aboutVideoPulse {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
 .about-testimonials {
   padding: 100px 16vw 125px;
 }
@@ -1257,13 +1335,26 @@ footer {
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
+
+/* --- Testimonials: rounded cards + avatar, matching home page --- */
 .about-testimonial {
+  position: relative;
   background: #fff;
   min-height: 360px;
   padding: 52px 50px 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-radius: 16px;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 1px 3px rgba(30, 25, 20, 0.06);
+}
+.about-testimonial:hover,
+.about-testimonial:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 34px rgba(30, 25, 20, 0.1);
 }
 .about-testimonial.featured {
   background: #3f5d7a;
@@ -1272,33 +1363,48 @@ footer {
     linear-gradient(rgba(42, 72, 99, 0.82), rgba(42, 72, 99, 0.82)),
     url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=70");
   background-size: cover;
+  box-shadow: 0 18px 40px rgba(20, 30, 45, 0.28);
 }
-.quote-mark {
-  font: 600 52px/0.6 var(--serif);
-  color: #315b7d;
+.about-testimonial .quote-mark {
+  color: var(--line);
+  opacity: 0.9;
+  margin-bottom: 4px;
 }
-.featured .quote-mark {
-  color: #fff;
+.about-testimonial.featured .quote-mark {
+  color: rgba(255, 255, 255, 0.65);
 }
 .about-testimonial p {
   font-size: 17px;
   line-height: 1.9;
   margin: 20px 0;
 }
-.about-testimonial > div {
+.about-testimonial-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.about-testimonial-person > div {
   display: flex;
   flex-direction: column;
   gap: 3px;
 }
-.about-testimonial strong {
+.about-testimonial-person strong {
   font: 600 20px var(--serif);
 }
-.about-testimonial div span {
+.about-testimonial-person > div span {
   color: #8b8b8b;
   font-size: 13px;
 }
-.featured div span {
+.about-testimonial.featured .about-testimonial-person > div span {
   color: #d4dde5;
+}
+.about-testimonial.featured .testimonial-avatar {
+  background: #fff;
+  color: var(--ink);
+}
+.about-testimonial .testimonial-play {
+  left: 50px;
+  bottom: 50px;
 }
 
 /* ============================================================
@@ -1385,7 +1491,7 @@ footer {
 }
 
 /* ============================================================
-   TESTIMONIALS — full redesign (base structure + new visuals)
+   TESTIMONIALS (home page) — full redesign
    ============================================================ */
 .testimonials {
   background: var(--blush);
@@ -1573,6 +1679,15 @@ footer {
   .testimonial-play {
     left: 18px;
     bottom: 18px;
+  }
+  .about-testimonial .testimonial-play {
+    left: 30px;
+    bottom: 30px;
+  }
+  .about-video-caption {
+    left: 20px;
+    bottom: 20px;
+    font-size: 17px;
   }
 }
 

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Play } from "lucide-react";
+import { Play, Quote } from "lucide-react";
 import { getAbout } from "../api/about";
 import { getTestimonials } from "../api/testimonials";
 import { imageUrl } from "../services/api";
@@ -12,10 +12,21 @@ import Eyebrow from "../components/ui/Eyebrow";
 import Loading from "../components/ui/Loading";
 import TestimonialVideoModal from "../components/home/TestimonialVideoModal";
 
+function initials(name = "") {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
+}
+
 export default function About() {
   const [content, setContent] = useState(null);
   const [testimonials, setTestimonials] = useState([]);
   const [activeVideo, setActiveVideo] = useState(null);
+  const mainRef = useRef(null);
+
   useEffect(() => {
     Promise.all([getAbout(), getTestimonials()])
       .then(([aboutResponse, testimonialResponse]) => {
@@ -24,6 +35,28 @@ export default function About() {
       })
       .catch(() => setContent(false));
   }, []);
+
+  // Scroll-reveal: same pattern as the home page — watches every
+  // ".scroll-reveal" section and adds "is-visible" once it enters view.
+  useEffect(() => {
+    if (!content || !mainRef.current) return undefined;
+    const targets = mainRef.current.querySelectorAll(".scroll-reveal");
+    if (!targets.length) return undefined;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" },
+    );
+    targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [content]);
+
   if (content === null)
     return (
       <>
@@ -40,6 +73,17 @@ export default function About() {
         <Footer />
       </>
     );
+
+  const openIntroVideo = () => {
+    if (!content.video?.url) return;
+    setActiveVideo({
+      video_url: content.video.url,
+      display_name: content.title,
+      country: "",
+      story: content.video.caption || "",
+    });
+  };
+
   return (
     <>
       <Helmet>
@@ -47,8 +91,8 @@ export default function About() {
         <meta name="description" content={content.intro} />
       </Helmet>
       <Header />
-      <main className="about-page">
-        <section className="about-benefits">
+      <main className="about-page" ref={mainRef}>
+        <section className="about-benefits scroll-reveal">
           <div className="about-benefit-images">
             <img src={imageUrl(content.images[0].url)} alt={content.images[0].alt} />
             <img src={imageUrl(content.images[1].url)} alt={content.images[1].alt} />
@@ -68,7 +112,8 @@ export default function About() {
             <Button>{content.benefits.button}</Button>
           </div>
         </section>
-        <section className="about-story section-tone-sage">
+
+        <section className="about-story section-tone-sage scroll-reveal">
           <div className="about-story-copy">
             <span className="about-section-number">01</span>
             <Eyebrow>{content.sectionEyebrow}</Eyebrow>
@@ -85,7 +130,7 @@ export default function About() {
         </section>
 
         {content.philosophy && (
-          <section className="about-philosophy section-tone-blush">
+          <section className="about-philosophy section-tone-blush scroll-reveal">
             <div className="about-section-heading">
               <span className="about-section-number">02</span>
               <Eyebrow>{content.philosophy.eyebrow}</Eyebrow>
@@ -93,8 +138,11 @@ export default function About() {
               <p>{content.philosophy.copy}</p>
             </div>
             <div className="about-philosophy-grid">
-              {content.philosophy.items.map((item) => (
-                <div key={item.title}>
+              {content.philosophy.items.map((item, index) => (
+                <div className="content-page-item" key={item.title}>
+                  <span className="about-item-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
                 </div>
@@ -104,7 +152,7 @@ export default function About() {
         )}
 
         {content.credentials && (
-          <section className="about-credentials section-tone-sage">
+          <section className="about-credentials section-tone-sage scroll-reveal">
             <div className="about-section-heading">
               <span className="about-section-number">03</span>
               <Eyebrow>{content.credentials.eyebrow}</Eyebrow>
@@ -113,7 +161,7 @@ export default function About() {
             </div>
             <div className="about-credentials-grid">
               {content.credentials.items.map((item) => (
-                <div key={item.label}>
+                <div className="content-page-item" key={item.label}>
                   <strong>{item.value}</strong>
                   <span>{item.label}</span>
                 </div>
@@ -123,7 +171,7 @@ export default function About() {
         )}
 
         {content.principles && (
-          <section className="about-principles section-tone-blush-2">
+          <section className="about-principles section-tone-blush-2 scroll-reveal">
             <div className="about-section-heading">
               <span className="about-section-number">04</span>
               <Eyebrow>{content.principles.eyebrow}</Eyebrow>
@@ -131,7 +179,7 @@ export default function About() {
             </div>
             <div className="about-principles-list">
               {content.principles.items.map((item) => (
-                <div key={item.title}>
+                <div className="content-page-item" key={item.title}>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
                 </div>
@@ -140,57 +188,73 @@ export default function About() {
           </section>
         )}
 
-        <section className="about-video">
+        <section className="about-video scroll-reveal">
           <img src={imageUrl(content.video.image)} alt={content.video.alt} />
-          <button type="button" aria-label={content.video.buttonLabel}>
-            <span>PLAY</span>
+          <div className="about-video-scrim" aria-hidden="true" />
+          {content.video.caption && (
+            <p className="about-video-caption">{content.video.caption}</p>
+          )}
+          <button
+            type="button"
+            className="about-video-play"
+            onClick={openIntroVideo}
+            aria-label={content.video.buttonLabel || "Play video"}
+          >
+            <span className="about-video-ring" aria-hidden="true" />
+            <span className="about-video-ring about-video-ring-delay" aria-hidden="true" />
+            <Play size={22} fill="currentColor" />
           </button>
         </section>
-        <section className="about-testimonials">
+
+        <section className="about-testimonials scroll-reveal">
           <div className="about-testimonials-heading">
             <Eyebrow>{content.testimonials.eyebrow}</Eyebrow>
             <h2>{content.testimonials.title}</h2>
           </div>
           <div className="about-testimonial-grid">
-            {testimonials.slice(0, 2).map((item, index) => (
-              <article
-                className={
-                  index === 0
-                    ? "about-testimonial featured"
-                    : "about-testimonial"
-                }
-                key={item.id || item.display_name}
-                role="button"
-                tabIndex={0}
-                onClick={() => setActiveVideo(item)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setActiveVideo(item);
+            {testimonials.slice(0, 2).map((item, index) => {
+              const name = item.display_name || "APEX RN Prep student";
+              return (
+                <article
+                  className={
+                    index === 0
+                      ? "about-testimonial content-page-item featured"
+                      : "about-testimonial content-page-item"
                   }
-                }}
-                aria-label={`View ${
-                  item.display_name || "student"
-                }'s story video`}
-              >
-                <span className="quote-mark">“</span>
-                <p>{item.story}</p>
-                <div>
-                  <strong>{item.display_name}</strong>
-                  <span>
-                    {item.country || content.testimonials.defaultRole}
-                  </span>
-                </div>
-                {item.video_url && (
-                  <span className="testimonial-play" aria-hidden="true">
-                    <span className="testimonial-play-icon">
-                      <Play size={14} fill="currentColor" />
+                  key={item.id || name}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setActiveVideo(item)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setActiveVideo(item);
+                    }
+                  }}
+                  aria-label={`View ${name}'s story`}
+                >
+                  <Quote className="quote-mark" size={30} />
+                  <p>{item.story}</p>
+                  <div className="about-testimonial-person">
+                    <span className="testimonial-avatar" aria-hidden="true">
+                      {initials(name) || "AR"}
                     </span>
-                    <span className="testimonial-play-label">Watch story</span>
-                  </span>
-                )}
-              </article>
-            ))}
+                    <div>
+                      <strong>{name}</strong>
+                      <span>{item.country || content.testimonials.defaultRole}</span>
+                    </div>
+                  </div>
+                  {item.video_url && (
+                    <span className="testimonial-play" aria-hidden="true">
+                      <span className="testimonial-play-icon">
+                        <Play size={14} fill="currentColor" />
+                      </span>
+                      <span className="testimonial-play-label">Watch story</span>
+                    </span>
+                  )}
+                </article>
+              );
+            })}
           </div>
         </section>
       </main>
