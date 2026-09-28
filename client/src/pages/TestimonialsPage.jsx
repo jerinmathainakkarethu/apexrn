@@ -208,7 +208,7 @@ export default function TestimonialsPage() {
         )}
 
         {/* ---------- Written stories ---------- */}
-        <section className="tm-block" aria-labelledby="tm-stories">
+        <section className="tm-block section-tone-blush" aria-labelledby="tm-stories">
           <SectionTitle
             eyebrow="Success stories"
             copy="Short stories in three parts: the problem, the solution, and the result."
@@ -252,7 +252,7 @@ export default function TestimonialsPage() {
         </section>
 
         {/* ---------- Before / after ---------- */}
-        <section className="tm-block" aria-labelledby="tm-before-after">
+        <section className="tm-block section-tone-sage" aria-labelledby="tm-before-after">
           <SectionTitle
             eyebrow="Before and after"
             copy="A quick look at where students started and where they ended up."
@@ -283,7 +283,7 @@ export default function TestimonialsPage() {
         </section>
 
         {/* ---------- Screenshots ---------- */}
-        <section className="tm-block" aria-labelledby="tm-messages">
+        <section className="tm-block section-tone-blush-2" aria-labelledby="tm-messages">
           <SectionTitle
             eyebrow="In their own words"
             copy="Messages shared by students, with names and contact details blurred."

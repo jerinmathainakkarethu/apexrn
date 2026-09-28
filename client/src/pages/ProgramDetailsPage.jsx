@@ -99,7 +99,7 @@ export default function ProgramDetailsPage() {
           ))}
         </section>
 
-        <section className="curriculum-block">
+        <section className="curriculum-block section-tone-sage">
           <SectionTitle
             eyebrow={structure.eyebrow}
             copy={structure.copy}
@@ -174,7 +174,7 @@ export default function ProgramDetailsPage() {
           </div>
         </section>
 
-        <section className="curriculum-block curriculum-systems">
+        <section className="curriculum-block curriculum-systems section-tone-blush">
           <SectionTitle eyebrow={systems.eyebrow} copy={systems.copy}>
             {systems.title}
           </SectionTitle>
@@ -208,7 +208,7 @@ export default function ProgramDetailsPage() {
           </div>
         </section>
 
-        <section className="curriculum-block curriculum-resources">
+        <section className="curriculum-block curriculum-resources section-tone-sage">
           <SectionTitle
             eyebrow={resourcesIntro.eyebrow}
             copy={resourcesIntro.copy}
@@ -261,7 +261,7 @@ export default function ProgramDetailsPage() {
           </div>
         </section>
 
-        <section className="curriculum-block curriculum-practice">
+        <section className="curriculum-block curriculum-practice section-tone-blush-2">
           <SectionTitle eyebrow={practice.eyebrow} copy={practice.copy}>
             {practice.title}
           </SectionTitle>
