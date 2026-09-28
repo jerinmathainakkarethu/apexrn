@@ -1,4 +1,5 @@
 import { getTestimonials } from "../api/testimonials";
+import "../styles/testimonials.css";
 import { getHome } from "../api/home";
 import useRemote from "../hooks/useRemote";
 import PageFrame from "../components/layout/PageFrame";

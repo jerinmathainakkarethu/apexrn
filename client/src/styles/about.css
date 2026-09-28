@@ -1,0 +1,687 @@
+/* ============================================================
+   ABOUT PAGE
+   Imported only by about.jsx
+   ============================================================ */
+
+.about-page {
+  
+    background: var(--paper);
+  
+}
+
+.about-benefits {
+  
+    min-height: 760px;
+    padding: 54px 10vw 76px 2vw;
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 7vw;
+    align-items: center;
+  
+}
+
+.about-benefit-images {
+  
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    height: 588px;
+  
+}
+
+.about-benefit-images img {
+  
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  
+}
+
+.about-benefit-copy {
+  
+    max-width: 540px;
+  
+}
+
+.about-benefit-copy h1 {
+  
+    font: 500 clamp(46px, 4.1vw, 68px)/0.91 var(--serif);
+    letter-spacing: -0.045em;
+    margin: 0 0 28px;
+  
+}
+
+.about-benefit-copy > p {
+  
+    max-width: 490px;
+    color: #66747c;
+    font-size: 14px;
+    line-height: 1.8;
+  
+}
+
+.about-benefit-copy ul {
+  
+    list-style: none;
+    padding: 0;
+    margin: 30px 0 37px;
+  
+}
+
+.about-benefit-copy li {
+  
+    font-size: 13px;
+    margin: 12px 0;
+  
+}
+
+.about-benefit-copy li span {
+  
+    color: #456052;
+    font-weight: 700;
+    margin-right: 12px;
+  
+}
+
+.about-benefit-copy .button {
+  
+    background: #456052;
+    border-color: #456052;
+    min-width: 212px;
+  
+}
+
+.about-story,
+.about-philosophy,
+.about-credentials,
+.about-principles {
+  
+    padding: 84px 10vw;
+  
+}
+
+.about-story {
+  
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 6vw;
+    align-items: center;
+  
+}
+
+.about-story-image {
+  
+    height: 460px;
+    overflow: hidden;
+  
+}
+
+.about-story-image img {
+  
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  
+}
+
+.about-section-number {
+  
+    display: inline-block;
+    margin-right: 16px;
+    font: 500 12px var(--serif);
+    color: #5b5c61;
+  
+}
+
+.about-story-copy h2,
+.about-section-heading h2 {
+  
+    font: 500 clamp(38px, 4.1vw, 58px)/0.98 var(--serif);
+    letter-spacing: -0.045em;
+    margin: 20px 0 18px;
+    max-width: 720px;
+  
+}
+
+.about-story-copy > p:not(.eyebrow),
+.about-section-heading > p:not(.eyebrow) {
+  
+    color: #586166;
+    font-size: 15px;
+    line-height: 1.75;
+    max-width: 640px;
+    margin: 0 0 16px;
+  
+}
+
+.about-page .eyebrow {
+  
+    display: inline-block;
+    color: #2f3336;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    margin: 0;
+  
+}
+
+.about-section-heading {
+  
+    max-width: 760px;
+    margin-bottom: 52px;
+  
+}
+
+.about-philosophy-grid {
+  
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid #cbd4d7;
+  
+}
+
+.about-philosophy-grid > div {
+  
+    position: relative;
+    padding: 30px 30px 0 0;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  
+}
+
+.about-philosophy-grid > div:hover {
+  
+    transform: translateY(-4px);
+  
+}
+
+.about-philosophy-grid > div + div {
+  
+    border-left: 1px solid #cbd4d7;
+    padding-left: 30px;
+  
+}
+
+.about-item-index {
+  
+    display: block;
+    font: 500 13px var(--serif);
+    color: var(--gold);
+    margin-bottom: 10px;
+  
+}
+
+.about-philosophy-grid h3 {
+  
+    font: 500 22px/1.15 var(--serif);
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  
+}
+
+.about-philosophy-grid p,
+.about-principles-list p {
+  
+    color: #5c666b;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+  
+}
+
+.about-credentials-grid {
+  
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+  
+}
+
+.about-credentials-grid > div {
+  
+    background: #fbf7f2;
+    border: 1px solid #cbd4d7;
+    border-top: 3px solid transparent;
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  
+}
+
+.about-credentials-grid > div:hover {
+  
+    transform: translateY(-5px);
+    box-shadow: 0 14px 28px rgba(30, 25, 20, 0.08);
+    border-top-color: var(--gold);
+  
+}
+
+.about-credentials-grid strong {
+  
+    font: 500 clamp(30px, 3vw, 42px)/1 var(--serif);
+    letter-spacing: -0.03em;
+  
+}
+
+.about-credentials-grid span {
+  
+    font: 500 14px var(--sans);
+    letter-spacing: 0.04em;
+    color: #586166;
+  
+}
+
+.about-principles-list {
+  
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 6vw;
+  
+}
+
+.about-principles-list > div {
+  
+    position: relative;
+    border-top: 1px solid #cbd4d7;
+    border-left: 2px solid transparent;
+    padding: 28px 0 28px 18px;
+    transition: padding-left 0.2s ease;
+  
+}
+
+.about-principles-list > div:hover {
+  
+    padding-left: 24px;
+    border-left-color: var(--gold);
+  
+}
+
+.about-principles-list h3 {
+  
+    font: 500 24px/1.15 var(--serif);
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+  
+}
+
+.about-video {
+  
+    height: min(640px, 37vw);
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  
+}
+
+.about-video img {
+  
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.8);
+  
+}
+
+.about-video-scrim {
+  
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      0deg,
+      rgba(15, 19, 20, 0.55) 0%,
+      rgba(15, 19, 20, 0.05) 45%,
+      rgba(15, 19, 20, 0.25) 100%
+    );
+    pointer-events: none;
+  
+}
+
+.about-video-caption {
+  
+    position: absolute;
+    left: 32px;
+    bottom: 32px;
+    z-index: 2;
+    color: #fff;
+    font: 500 20px var(--serif);
+    max-width: 360px;
+    margin: 0;
+  
+}
+
+.about-video-play {
+  
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 95px;
+    height: 95px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(2px);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease;
+  
+}
+
+.about-video-play:hover {
+  
+    background: var(--gold);
+    border-color: var(--gold);
+    transform: translate(-50%, -50%) scale(1.06);
+  
+}
+
+.about-video-ring {
+  
+    position: absolute;
+    inset: -2px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 50%;
+    animation: aboutVideoPulse 2.4s ease-out infinite;
+  
+}
+
+.about-video-ring-delay {
+  
+    animation-delay: 1.2s;
+  
+}
+
+.about-testimonials {
+  
+    padding: 100px 16vw 125px;
+  
+}
+
+.about-testimonials-heading {
+  
+    text-align: center;
+  
+}
+
+.about-testimonials-heading h2 {
+  
+    font: 500 clamp(46px, 4.5vw, 72px)/0.93 var(--serif);
+    margin: 0 0 60px;
+    letter-spacing: -0.045em;
+  
+}
+
+.about-testimonial-grid {
+  
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  
+}
+
+.about-testimonial {
+  
+    position: relative;
+    background: #fff;
+    min-height: 360px;
+    padding: 52px 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 16px;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 1px 3px rgba(30, 25, 20, 0.06);
+  
+}
+
+.about-testimonial:hover,
+.about-testimonial:focus-visible {
+  
+    transform: translateY(-6px);
+    box-shadow: 0 18px 34px rgba(30, 25, 20, 0.1);
+  
+}
+
+.about-testimonial.featured {
+  
+    background: #3f5d7a;
+    color: #fff;
+    background-image:
+      linear-gradient(rgba(42, 72, 99, 0.82), rgba(42, 72, 99, 0.82)),
+      url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=70");
+    background-size: cover;
+    box-shadow: 0 18px 40px rgba(20, 30, 45, 0.28);
+  
+}
+
+.about-testimonial .quote-mark {
+  
+    color: var(--line);
+    opacity: 0.9;
+    margin-bottom: 4px;
+  
+}
+
+.about-testimonial.featured .quote-mark {
+  
+    color: rgba(255, 255, 255, 0.65);
+  
+}
+
+.about-testimonial p {
+  
+    font-size: 17px;
+    line-height: 1.9;
+    margin: 20px 0;
+  
+}
+
+.about-testimonial-person {
+  
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  
+}
+
+.about-testimonial-person > div {
+  
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  
+}
+
+.about-testimonial-person strong {
+  
+    font: 600 20px var(--serif);
+  
+}
+
+.about-testimonial-person > div span {
+  
+    color: #8b8b8b;
+    font-size: 13px;
+  
+}
+
+.about-testimonial.featured .about-testimonial-person > div span {
+  
+    color: #d4dde5;
+  
+}
+
+.about-testimonial.featured .testimonial-avatar {
+  
+    background: #fff;
+    color: var(--ink);
+  
+}
+
+.about-testimonial .testimonial-play {
+  
+    left: 50px;
+    bottom: 50px;
+  
+}
+
+@media (max-width: 800px) {
+  .about-testimonial .testimonial-play {
+    
+        left: 30px;
+        bottom: 30px;
+      
+  }
+  
+  .about-video-caption {
+    
+        left: 20px;
+        bottom: 20px;
+        font-size: 17px;
+      
+  }
+  
+  .about-benefits {
+    
+        padding: 80px 7vw;
+        grid-template-columns: 1fr;
+        gap: 50px;
+      
+  }
+  
+  .about-benefit-images {
+    
+        height: 440px;
+      
+  }
+  
+  .about-story,
+    .about-philosophy,
+    .about-credentials,
+    .about-principles {
+    
+        padding: 64px 7vw;
+      
+  }
+  
+  .about-story {
+    
+        grid-template-columns: 1fr;
+        gap: 38px;
+      
+  }
+  
+  .about-story-image {
+    
+        height: 380px;
+      
+  }
+  
+  .about-section-heading {
+    
+        margin-bottom: 34px;
+      
+  }
+  
+  .about-philosophy-grid {
+    
+        grid-template-columns: 1fr 1fr;
+      
+  }
+  
+  .about-philosophy-grid > div {
+    
+        padding: 24px 20px 24px 0;
+      
+  }
+  
+  .about-philosophy-grid > div + div {
+    
+        padding-left: 20px;
+      
+  }
+  
+  .about-credentials-grid {
+    
+        grid-template-columns: 1fr 1fr;
+      
+  }
+  
+  .about-principles-list {
+    
+        grid-template-columns: 1fr;
+        gap: 0;
+      
+  }
+  
+  .about-video {
+    
+        height: 430px;
+      
+  }
+  
+  .about-testimonials {
+    
+        padding: 80px 7vw;
+      
+  }
+  
+  .about-testimonial-grid {
+    
+        grid-template-columns: 1fr;
+      
+  }
+  
+  .about-testimonial {
+    
+        min-height: 310px;
+        padding: 38px 30px;
+      
+  }
+}
+
+@media (max-width: 480px) {
+  .about-benefits {
+    
+        padding: 55px 6vw;
+      
+  }
+  
+  .about-benefit-images {
+    
+        height: 330px;
+        gap: 10px;
+      
+  }
+  
+  .about-benefit-copy h1 {
+    
+        font-size: 46px;
+      
+  }
+  
+  .about-video {
+    
+        min-height: 300px;
+        height: 65vw;
+      
+  }
+  
+  .about-testimonial p {
+    
+        font-size: 15px;
+      
+  }
+}
+
+

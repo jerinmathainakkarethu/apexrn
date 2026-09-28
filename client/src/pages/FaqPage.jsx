@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../styles/faqs.css";
 import { ArrowRight } from "lucide-react";
 import { getFaqs } from "../api/faqs";
 import useRemote from "../hooks/useRemote";

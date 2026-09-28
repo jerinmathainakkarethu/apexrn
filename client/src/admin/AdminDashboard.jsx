@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import "./admin.css";
+import "./pages.css";
 import {
   ArrowRight,
   BookMarked,

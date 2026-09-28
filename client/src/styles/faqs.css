@@ -1,0 +1,63 @@
+/* ============================================================
+   FAQS PAGE
+   Imported only by faqs.jsx
+   ============================================================ */
+
+.faq-page-list {
+  
+    padding: 0 16vw 130px;
+  
+}
+
+.faq-page-list details {
+  
+    border-top: 1px solid var(--line);
+    padding: 20px 0;
+  
+}
+
+.faq-page-list details:last-child {
+  
+    border-bottom: 1px solid var(--line);
+  
+}
+
+.faq-page-list summary {
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font: 500 26px var(--serif);
+    list-style: none;
+  
+}
+
+.faq-page-list summary::-webkit-details-marker {
+  
+    display: none;
+  
+}
+
+.faq-page-list details p {
+  
+    color: var(--muted);
+    max-width: 650px;
+  
+}
+
+@media (max-width: 800px) {
+  .faq-page-list {
+    
+        padding: 0 7vw 85px;
+      
+  }
+  
+  .faq-page-list summary {
+    
+        font-size: 22px;
+      
+  }
+}
+
+

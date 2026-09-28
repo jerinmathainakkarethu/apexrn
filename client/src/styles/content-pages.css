@@ -1,0 +1,54 @@
+/* ============================================================
+   CONTENT-PAGES PAGE
+   Imported only by content-pages.jsx
+   ============================================================ */
+
+.content-page-grid {
+  
+    padding: 0 16vw 130px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+  
+}
+
+.content-page-item {
+  
+    background: var(--cream);
+    min-height: 260px;
+    padding: 30px;
+  
+}
+
+.content-page-item > span:first-child {
+  
+    color: var(--gold);
+    font: 500 22px var(--serif);
+  
+}
+
+.content-page-item h2 {
+  
+    font: 500 31px/0.95 var(--serif);
+    margin: 40px 0 15px;
+  
+}
+
+.content-page-item p {
+  
+    color: var(--muted);
+    font-size: 13px;
+  
+}
+
+@media (max-width: 800px) {
+  .content-page-grid {
+    
+        padding: 0 7vw 85px;
+        grid-template-columns: 1fr;
+      
+  }
+}
+
+

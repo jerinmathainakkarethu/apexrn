@@ -1,4 +1,5 @@
 import { getProgram } from "../api/program";
+import "../styles/content-pages.css"; // must stay last
 import useRemote from "../hooks/useRemote";
 import PageFrame from "../components/layout/PageFrame";
 import Header from "../components/layout/Header";

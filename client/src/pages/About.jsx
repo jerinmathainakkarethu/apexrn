@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import "../styles/about.css";
+import "../styles/testimonials.css";
+import "../styles/content-pages.css"; // must stay last
 import { Helmet } from "react-helmet-async";
 import { Play, Quote } from "lucide-react";
 import { getAbout } from "../api/about";

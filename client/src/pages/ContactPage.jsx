@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../styles/contact.css";
 import { ArrowRight, Check } from "lucide-react";
 import { submitContact } from "../api/submissions";
 import PageFrame from "../components/layout/PageFrame";

@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import "../styles/home.css";
+import "../styles/testimonials.css";
 import { Helmet } from "react-helmet-async";
 import {
   ShieldCheck,

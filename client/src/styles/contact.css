@@ -1,0 +1,73 @@
+/* ============================================================
+   CONTACT PAGE
+   Imported only by contact.jsx
+   ============================================================ */
+
+.contact-page-form {
+  
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 7vw 130px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  
+}
+
+.contact-page-form label {
+  
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    color: var(--muted);
+    font-size: 11px;
+  
+}
+
+.contact-page-form label:nth-child(4) {
+  
+    grid-column: span 2;
+  
+}
+
+.contact-page-form input,
+.contact-page-form textarea {
+  
+    border: 1px solid var(--line);
+    background: var(--paper);
+    padding: 13px;
+    outline: 0;
+  
+}
+
+.contact-page-form .button {
+  
+    justify-self: start;
+  
+}
+
+.contact-page-form .form-success,
+.contact-page-form .form-error {
+  
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  
+}
+
+@media (max-width: 800px) {
+  .contact-page-form {
+    
+        grid-template-columns: 1fr;
+        padding-bottom: 85px;
+      
+  }
+  
+  .contact-page-form label:nth-child(4) {
+    
+        grid-column: auto;
+      
+  }
+}
+
+

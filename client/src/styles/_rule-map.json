@@ -1,0 +1,3078 @@
+{
+  "counts": {
+    "base": 326,
+    "home": 138,
+    "about": 83,
+    "testimonials": 44,
+    "content-pages": 6,
+    "faqs": 8,
+    "contact": 8
+  },
+  "rules": [
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": "@import url(\"https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&famil"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": "*"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": "html"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": "body"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": "a"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": "button, input"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": "button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".site-header"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".brand"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".brand small"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".nav"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".nav a:not(.nav-cta)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".nav a:hover"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".nav-cta"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".nav-cta svg"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".menu-button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".eyebrow"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero h1, .page-hero h1"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero h1 em, .section-title h2 em, .page-hero h1 em, .final-cta h2 em, .admin-login h1 em"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero-text"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".button-row"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".button:hover"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".button.secondary"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".button.secondary:hover"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero-visual"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero-visual img"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero-note"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero-caption"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".snapshot"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".snapshot span + span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".section"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".section-title"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".section-title h2, .final-cta h2"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".section-title > p"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item:not(:first-child)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item:last-child"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".item-number, .benefit span, .process-grid span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item h3"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item p"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item svg"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".approach-top"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".approach-intro"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".benefit-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".benefit"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".benefit:not(:first-child)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".benefit:last-child"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".benefit h3"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".curriculum-layout"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".topic-tabs"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".topic-tabs button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".topic-tabs button.active"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".topic-tabs button span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".topic-detail"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".topic-mark"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".topic-detail h3"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".topic-detail p"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".detail-line"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".roadmap"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".roadmap-inner"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".section-title.dark h2"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week:nth-child(n + 5)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week:not(:first-child)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week:nth-child(4), .week:nth-child(7)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week h3"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".process"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".process-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".process-grid > div"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".process-grid > div:not(:first-child)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".process-grid > div:last-child"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".process-grid h3"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".process-grid p"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".qa-meta"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".qa-meta span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".qa-meta svg"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".pricing"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".price-panel"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".price-panel h3"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".price-panel p"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".price-action"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".price-action > span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".final-cta"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".final-cta .eyebrow"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".final-cta h2"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".final-cta h2 em"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".final-cta .button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".final-cta .button.secondary"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".final-cta .button.secondary:hover"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": "footer"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-top"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-top .brand"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-top p"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-links"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-links div"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-links span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-links a"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-bottom"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".page-hero"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".page-hero p"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".about-story"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".about-story img"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".modal-backdrop"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".modal"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".modal h2, .admin-login h1"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".modal p, .admin-login p"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".modal label, .admin-login label"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".modal input, .admin-login input"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".modal .button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".modal-close"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-page"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-login"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-login .brand"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-login h1"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-login .button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-shell"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-shell aside"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-shell aside .brand"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-shell aside button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-shell aside button.selected, .admin-shell aside button:hover"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-content"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-heading"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-heading h1"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-stats"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-stats div"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-stats span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-stats p"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-panel"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-panel h2"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-panel p"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-checks"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-checks span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-checks svg"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".site-header"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".menu-button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".nav"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".nav.open"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".nav-cta"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero h1"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero-visual"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero-visual img"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".snapshot"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".snapshot span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".snapshot span + span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".section"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-grid, .benefit-grid, .process-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item:nth-child(2n), .benefit:nth-child(2n), .process-grid > div:nth-child(2n)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item:nth-child(n + 3), .benefit:nth-child(n + 3), .process-grid > div:nth-child(n + 3)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item:not(:first-child), .benefit:not(:first-child), .process-grid > div:not(:first-child)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item:nth-child(2n + 1), .benefit:nth-child(2n + 1), .process-grid > div:nth-child(2n + 1)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".approach-top, .about-story"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".approach-intro"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".curriculum-layout"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".topic-detail"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week:nth-child(4)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week:nth-child(2n)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week:nth-child(n + 5)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".price-panel"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".price-action"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".final-cta"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-top"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-links"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-bottom"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".footer-bottom span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".page-hero"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".about-story img"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-shell aside"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-shell aside .brand"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-shell aside .brand small"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-shell aside button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-shell aside button:before"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-content"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-heading h1"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-stats"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-panel"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-checks"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".hero h1"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".button-row"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".button-row .button"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-grid, .benefit-grid, .process-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item:nth-child(n), .benefit:nth-child(n), .process-grid > div:nth-child(n)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item:nth-child(n + 2), .benefit:nth-child(n + 2), .process-grid > div:nth-child(n + 2)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".audience-item h3"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week:nth-child(n)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".week h3"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".modal"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-stats"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-stats div"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".admin-stats span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".brand"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".brand img"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item:first-child"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item:not(:first-child)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-icon"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item:hover .svc-icon"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item h3"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-arrow"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-arrow span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item:hover .svc-arrow span"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-arrow svg"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item:hover .svc-arrow svg"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item:nth-child(2n)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item:nth-child(2n + 1)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item:nth-child(n + 3)"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-grid"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item"
+    },
+    {
+      "source": "client/src/styles.css",
+      "bucket": "base",
+      "prelude": ".svc-item:not(:first-child)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": "@import url(\"https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&famil"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": "body"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".scroll-reveal"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".scroll-reveal.is-visible"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": "main > .hero.scroll-reveal"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": "main > .hero.scroll-reveal.is-visible"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".scroll-reveal .audience-item, .scroll-reveal .benefit, .scroll-reveal .process-grid > div, .scroll-reveal .pr"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".scroll-reveal.is-visible .audience-item, .scroll-reveal.is-visible .benefit, .scroll-reveal.is-visible .proce"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".scroll-reveal.is-visible .audience-item:nth-child(2), .scroll-reveal.is-visible .benefit:nth-child(2), .scrol"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".scroll-reveal.is-visible .audience-item:nth-child(3), .scroll-reveal.is-visible .benefit:nth-child(3), .scrol"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".scroll-reveal.is-visible .audience-item:nth-child(4), .scroll-reveal.is-visible .benefit:nth-child(4), .scrol"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": "@keyframes fadeSlideUp"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".scroll-reveal.is-visible .reference-community-items > div, .scroll-reveal.is-visible .reference-experience-li"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".scroll-reveal.is-visible .svc-item:nth-child(2)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".scroll-reveal.is-visible .svc-item:nth-child(3)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".scroll-reveal.is-visible .svc-item:nth-child(4)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".scroll-reveal.is-visible .reference-community-items > div:nth-child(2)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".scroll-reveal.is-visible .reference-community-items > div:nth-child(3)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".section-tone-blush"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".section-tone-blush-2"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".section-tone-sage"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header .brand"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header .brand small"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".nav"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".nav a"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".nav a:after"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".nav a:hover:after, .nav a.active:after"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".header-tools"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".header-tool"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".header-tool svg"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".header-tool b"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".header-menu"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header-transparent"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header-transparent .brand, .site-header-transparent .brand small, .site-header-transparent .nav a, .site"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header-transparent .nav a:after"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header-transparent .header-tool b"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-visual"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-visual:after"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-visual img"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-copy"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".reference-hero-label"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".reference-hero-label > span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".reference-hero-label .eyebrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero .eyebrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero h1"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero h1 span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero h1 em"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero h1 br"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-text"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero .button"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero .button.secondary"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-note"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-note span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-caption"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".snapshot"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".snapshot span + span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".section"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".section-title h2, .final-cta h2"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".section-title h2 em, .final-cta h2 em"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".section-title > p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".eyebrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience .section-title"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience .section-title .eyebrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience-item"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience-item h3"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience-item p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".item-number"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".approach"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".benefit-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".benefit h3"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".curriculum"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".roadmap"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".roadmap-inner"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".week-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".process"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-process"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-process-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-process-image img"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-process-image img.active"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-process-overlay"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-process-copy .section-title h2"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-process-copy > p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-list"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-list li"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-list li:before"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-gallery"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-gallery-head"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-gallery-head h2"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-gallery-head p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-gallery-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card:hover .program-card-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card:nth-child(2)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card:nth-child(3)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card:nth-child(4)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card:before"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card > .card-number, .program-card > div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card .card-number"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card h3"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".pricing"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".final-cta"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".final-cta h2, .final-cta h2 em"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".final-cta .eyebrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": "footer"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".footer-top"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".footer-top .brand"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".footer-top .brand small"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".footer-links span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".footer-links a, .footer-top p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-section"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-number"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-section .eyebrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-section-heading h2, .reference-instructor-copy h2, .reference-community-copy h2, .reference-faq-cop"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-section-heading > p, .reference-instructor-copy > p, .reference-community-copy > p, .reference-faq-"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-audience"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".audience-header"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".audience-header-left h2"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".audience-header-right"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".audience-header-right p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".audience-header-right p:last-child"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience-item"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience-item:first-child"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience-item svg:first-child"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".item-arrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".item-arrow:hover"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".audience-header"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience-item:nth-child(2n + 1)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-icon"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-icon svg"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".reference-experience"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".reference-experience-list"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".reference-experience-list > div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-experience-list .reference-icon"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".reference-experience-list h3"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".reference-experience-list p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".reference-image-panel"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".reference-image-panel img"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-instructor"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-instructor-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-instructor-image img"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-instructor-copy"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-instructor-copy .reference-number"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-credential-list"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-credential-list span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-credential-list svg"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-items"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-items > div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-items > div:last-child"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-items .reference-icon"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-items h3"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-items p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-image img, .reference-qa-image img"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-qa"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-qa-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-qa-copy"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-qa-copy .qa-meta"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-qa-copy .button"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq-copy"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq-copy .button"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq-list details"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq-list details:last-child"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq-list summary"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq-list summary::-webkit-details-marker"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq-list summary svg"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq-list details[open] summary svg"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq-list details p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".content-loading"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-page"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefits"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-images"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-images img"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-copy"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-copy h1"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-copy > p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-copy ul"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-copy li"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-copy li span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-copy .button"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-story, .about-philosophy, .about-credentials, .about-principles"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-story"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-story-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-story-image img"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-section-number"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-story-copy h2, .about-section-heading h2"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-story-copy > p:not(.eyebrow), .about-section-heading > p:not(.eyebrow)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-page .eyebrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-section-heading"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-philosophy-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-philosophy-grid > div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-philosophy-grid > div:hover"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-philosophy-grid > div + div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-item-index"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-philosophy-grid h3"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-philosophy-grid p, .about-principles-list p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-credentials-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-credentials-grid > div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-credentials-grid > div:hover"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-credentials-grid strong"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-credentials-grid span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-principles-list"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-principles-list > div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-principles-list > div:hover"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-principles-list h3"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats div:last-child"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats strong"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video img"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video-scrim"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video-caption"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video-play"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video-play:hover"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video-ring"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video-ring-delay"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": "@keyframes aboutVideoPulse"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonials"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonials-heading"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonials-heading h2"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial:hover, .about-testimonial:focus-visible"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial.featured"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial .quote-mark"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial.featured .quote-mark"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial-person"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial-person > div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial-person strong"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial-person > div span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial.featured .about-testimonial-person > div span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial.featured .testimonial-avatar"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial .testimonial-play"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".topic-tabs button"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".topic-tabs button span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".topic-tabs button .tab-arrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".topic-tabs button:hover"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".topic-tabs button:hover .tab-arrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".topic-tabs button.active"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".topic-tabs button.active span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".topic-tabs button.active .tab-arrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".topic-detail"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": "@keyframes topicFadeIn"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".topic-mark"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".detail-line"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonials"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonials-heading"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".testimonials-heading .eyebrow"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonials-heading h2"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-viewport"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-track"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-card"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-card:hover, .testimonial-card:focus-visible"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-quote-mark"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".stars"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-card p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-person"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-avatar"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-person > div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-person strong"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-person span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-play"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-play-icon"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-play-label"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-card:hover .testimonial-play, .testimonial-card:focus-visible .testimonial-play"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-card:hover .testimonial-play-label, .testimonial-card:focus-visible .testimonial-play-label"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-dots"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-dots button"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-dots button.active"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonials"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-track"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-card"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-dots"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-play"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial .testimonial-play"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video-caption"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-backdrop"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": "@keyframes modalFadeIn"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-modal"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": "@keyframes testimonial-video-in"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-close"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-close:hover"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-frame"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-frame iframe, .testimonial-video-frame video"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-empty"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-empty p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-meta"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-meta .stars"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-meta h2"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-meta > span"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-result"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-modal"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "testimonials",
+      "prelude": ".testimonial-video-meta h2"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header .brand"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header .brand small"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".nav"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".nav.open"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".nav a"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".header-tools"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".header-tool:not(.header-menu)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".header-menu"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero h1"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-note"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-caption"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".audience .section-title"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".section"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-process"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-process-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-gallery-head"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-gallery-head p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-gallery-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".final-cta"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefits"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-images"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-story, .about-philosophy, .about-credentials, .about-principles"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-story"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-story-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-section-heading"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-philosophy-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-philosophy-grid > div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-philosophy-grid > div + div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-credentials-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-principles-list"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats div:nth-child(2)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats div:nth-child(n + 3)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonials"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".site-header-transparent .nav.open"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero h1"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".hero-text"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-gallery-grid"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".program-card"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".editorial-process-overlay"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".snapshot"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefits"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-images"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-benefit-copy h1"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats div, .about-stats div:nth-child(2)"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "base",
+      "prelude": ".about-stats div:first-child"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-video"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "about",
+      "prelude": ".about-testimonial p"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-section"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-experience, .reference-instructor, .reference-community, .reference-faq, .reference-qa"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-faq-copy"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-image-panel, .reference-instructor-image, .reference-community-image, .reference-qa-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-items"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-items > div"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-community-items > div:last-child"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-qa-image"
+    },
+    {
+      "source": "client/src/reference.css",
+      "bucket": "home",
+      "prelude": ".reference-qa-copy"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "content-pages",
+      "prelude": ".content-page-grid"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "content-pages",
+      "prelude": ".content-page-item"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "content-pages",
+      "prelude": ".content-page-item > span:first-child"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "content-pages",
+      "prelude": ".content-page-item h2"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "content-pages",
+      "prelude": ".content-page-item p"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "base",
+      "prelude": ".content-page-item .button"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "testimonials",
+      "prelude": ".stars"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "faqs",
+      "prelude": ".faq-page-list"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "faqs",
+      "prelude": ".faq-page-list details"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "faqs",
+      "prelude": ".faq-page-list details:last-child"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "faqs",
+      "prelude": ".faq-page-list summary"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "faqs",
+      "prelude": ".faq-page-list summary::-webkit-details-marker"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "faqs",
+      "prelude": ".faq-page-list details p"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "contact",
+      "prelude": ".contact-page-form"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "contact",
+      "prelude": ".contact-page-form label"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "contact",
+      "prelude": ".contact-page-form label:nth-child(4)"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "contact",
+      "prelude": ".contact-page-form input, .contact-page-form textarea"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "contact",
+      "prelude": ".contact-page-form .button"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "contact",
+      "prelude": ".contact-page-form .form-success, .contact-page-form .form-error"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "content-pages",
+      "prelude": ".content-page-grid"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "faqs",
+      "prelude": ".faq-page-list"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "faqs",
+      "prelude": ".faq-page-list summary"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "contact",
+      "prelude": ".contact-page-form"
+    },
+    {
+      "source": "client/src/pages/content-pages.css",
+      "bucket": "contact",
+      "prelude": ".contact-page-form label:nth-child(4)"
+    }
+  ]
+}
