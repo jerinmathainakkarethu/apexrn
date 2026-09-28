@@ -1,7 +1,12 @@
 import "dotenv/config";
 import bcrypt from "bcryptjs";
 import mysql from "mysql2/promise";
-import { homeContent, aboutContent, menuContent } from "./content-seed.js";
+import {
+  homeContent,
+  aboutContent,
+  menuContent,
+  programDetailsContent,
+} from "./content-seed.js";
 
 const email = process.env.SEED_ADMIN_EMAIL || "admin@apexrnprep.com";
 const password = process.env.SEED_ADMIN_PASSWORD;
@@ -67,6 +72,10 @@ await connection.execute(
 await connection.execute(
   "INSERT INTO homepage_sections (section_key, content) VALUES (?, ?) ON DUPLICATE KEY UPDATE content = VALUES(content)",
   ["menu", JSON.stringify(menuContent)],
+);
+await connection.execute(
+  "INSERT INTO homepage_sections (section_key, content) VALUES (?, ?) ON DUPLICATE KEY UPDATE content = VALUES(content)",
+  ["program-details", JSON.stringify(programDetailsContent)],
 );
 
 const [testimonialCount] = await connection.execute(

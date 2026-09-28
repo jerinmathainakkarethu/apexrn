@@ -229,6 +229,11 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            <div className="button-row curriculum-link-row">
+              <Button secondary href="/curriculum">
+                See the full curriculum
+              </Button>
+            </div>
           </section>
         )}
 

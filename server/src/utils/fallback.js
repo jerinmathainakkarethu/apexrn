@@ -1,3 +1,8 @@
+// The curriculum page is served from one large document, so the fallback
+// reuses the seed content instead of duplicating it here. The controller
+// only ever reassigns `fallback.programDetails`, never mutates it.
+import { programDetailsContent } from "../../content-seed.js";
+
 const fallback = {
   home: {
     title:
@@ -6,6 +11,7 @@ const fallback = {
       "An 11-week live online NCLEX-RN program designed for international nurses, repeat test-takers, career changers, and nurses returning to study.",
   },
   about: { title: "Meet the instructor behind APEX RN Prep." },
+  programDetails: programDetailsContent,
   menu: [
     { label: "Home", url: "/" },
     { label: "Pages", url: "/about" },

@@ -8,6 +8,7 @@ import Loading from "./components/ui/Loading";
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const ProgramPage = lazy(() => import("./pages/ProgramPage"));
+const ProgramDetailsPage = lazy(() => import("./pages/ProgramDetailsPage"));
 const TestimonialsPage = lazy(() => import("./pages/TestimonialsPage"));
 const FaqPage = lazy(() => import("./pages/FaqPage"));
 const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/program" element={<ProgramPage />} />
+          <Route path="/curriculum" element={<ProgramDetailsPage />} />
           <Route path="/testimonials" element={<TestimonialsPage />} />
           <Route path="/faqs" element={<FaqPage />} />
           <Route path="/resources" element={<ResourcesPage />} />

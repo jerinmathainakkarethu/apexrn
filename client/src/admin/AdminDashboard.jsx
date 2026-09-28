@@ -9,6 +9,7 @@ import {
   HelpCircle,
   Home as HomeIcon,
   LayoutGrid,
+  ListChecks,
   LogOut,
   Mail,
   MenuIcon as MenuGlyph,
@@ -25,6 +26,7 @@ import HomeContentEditor from "./pages/HomeContentEditor";
 import AboutContentEditor from "./pages/AboutContentEditor";
 import MenuEditor from "./pages/MenuEditor";
 import ProgramWeeksEditor from "./pages/ProgramWeeksEditor";
+import ProgramDetailsEditor from "./pages/ProgramDetailsEditor";
 import TestimonialsEditor from "./pages/TestimonialsEditor";
 import FaqEditor from "./pages/FaqEditor";
 import ResourcesEditor from "./pages/ResourcesEditor";
@@ -50,6 +52,7 @@ const sectionGroups = [
     label: "Program",
     items: [
       { key: "Program weeks", icon: CalendarDays },
+      { key: "Curriculum page", icon: ListChecks },
       { key: "Testimonials", icon: MessageSquareQuote },
       { key: "FAQs", icon: HelpCircle },
       { key: "Resources", icon: BookMarked },
@@ -218,6 +221,8 @@ function AdminView({ active, onNotice }) {
       return <AboutContentEditor onNotice={onNotice} />;
     case "Program weeks":
       return <ProgramWeeksEditor onNotice={onNotice} />;
+    case "Curriculum page":
+      return <ProgramDetailsEditor onNotice={onNotice} />;
     case "Testimonials":
       return <TestimonialsEditor onNotice={onNotice} />;
     case "FAQs":
