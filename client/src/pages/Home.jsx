@@ -19,6 +19,7 @@ import { getFaqs } from "../api/faqs";
 import { getProgram } from "../api/program";
 import { getTestimonials } from "../api/testimonials";
 import { imageUrl } from "../services/api";
+import homeLogo from "../assets/nclex-logo.png";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import Button from "../components/ui/Button";
@@ -87,7 +88,7 @@ export default function Home() {
   if (error)
     return (
       <>
-        <Header />
+        <Header logo={homeLogo} />
         <ErrorState />
         <Footer />
       </>
@@ -95,7 +96,7 @@ export default function Home() {
   if (!content)
     return (
       <>
-        <Header />
+        <Header logo={homeLogo} />
         <Loading />
         <Footer />
       </>
@@ -110,7 +111,7 @@ export default function Home() {
         <title>{c.seo.title}</title>
         <meta name="description" content={c.seo.description} />
       </Helmet>
-      <Header transparent={show("hero")} />
+      <Header transparent={show("hero")} logo={homeLogo} />
       <main ref={mainRef}>
         {show("hero") && (
           <section className="hero scroll-reveal">

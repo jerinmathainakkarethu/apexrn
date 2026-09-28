@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Grid2X2, Menu, Search, ShoppingBag, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getMenu } from "../../api/menu";
-import logo from "../../assets/nclex-logo.png";
+import siteLogo from "../../assets/site-logo-black.png";
 
 const defaultMenu = [
   { label: "Home", url: "/" },
@@ -12,7 +12,12 @@ const defaultMenu = [
   { label: "Contact", url: "/contact" },
 ];
 
-export default function Header({ transparent = false }) {
+/**
+ * The home page is the one place that keeps the original logo, so `logo` is
+ * overridable rather than hardcoded. Both files are 1774x887, so
+ * `.brand img { width: 150px }` renders either one identically.
+ */
+export default function Header({ transparent = false, logo = siteLogo }) {
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(defaultMenu);
   const location = useLocation();
