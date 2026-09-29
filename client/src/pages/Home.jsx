@@ -128,7 +128,7 @@ export default function Home() {
               </h1>
               <p className="hero-text">{c.hero.description}</p>
               <div className="button-row">
-                <Button>{c.hero.primaryCta}</Button>
+                <Button>{"Contact us on Whatsapp"}</Button>
                 <Button secondary>{c.hero.secondaryCta}</Button>
               </div>
             </div>
@@ -349,7 +349,6 @@ export default function Home() {
         {show("qa") && (
           <section className="reference-section reference-qa section-tone-blush-2 scroll-reveal">
             <div className="reference-qa-copy">
-              <span className="reference-number">06</span>
               <Eyebrow>{c.qa.eyebrow}</Eyebrow>
               <h2>{c.qa.title}</h2>
               <p>{c.qa.copy}</p>
@@ -383,7 +382,6 @@ export default function Home() {
         {show("faqs") && faqs.length > 0 && (
           <section className="reference-section reference-faq section-tone-sage scroll-reveal">
             <div className="reference-faq-copy">
-              <span className="reference-number">07</span>
               <Eyebrow>{c.faq?.eyebrow}</Eyebrow>
               <h2>{c.faq?.title}</h2>
               <p>{c.faq?.copy}</p>

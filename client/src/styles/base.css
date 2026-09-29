@@ -2080,7 +2080,17 @@ body {
   
 }
 
-.section-title h2,
+/* Type scale aligned with the reference sections on the home page
+   (.reference-section, home.css): Playfair Display headings at
+   clamp(38px, 4.3vw, 62px)/0.96, DM Sans body at 15px/1.55, and an 11px/600
+   eyebrow. .final-cta keeps its larger statement size, so it is split out. */
+.section-title h2 {
+  
+    font: 500 clamp(38px, 4.3vw, 62px)/0.96 var(--serif);
+    letter-spacing: -0.045em;
+  
+}
+
 .final-cta h2 {
   
     font: 500 clamp(44px, 4.5vw, 72px)/0.93 var(--serif);
@@ -2098,15 +2108,16 @@ body {
 
 .section-title > p {
   
-    font-size: 14px;
-    line-height: 1.7;
+    font-size: 15px;
+    line-height: 1.55;
   
 }
 
 .eyebrow {
   
-    font-size: 10px;
-    letter-spacing: 0.18em;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
     color: #2b3035;
   
 }

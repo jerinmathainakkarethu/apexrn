@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X, Play } from "lucide-react";
 import { imageUrl } from "../../services/api";
 
@@ -26,7 +27,14 @@ export default function TestimonialVideoModal({ testimonial, close }) {
   const isDirectFile = /\.(mp4|webm|mov|mkv)$/i.test(url) || url.startsWith("/uploads/");
   const embedUrl = toEmbedUrl(url);
 
-  return (
+  // Rendered into <body> on purpose. The testimonials section is wrapped in
+  // .scroll-reveal, which sets `transform: translateY(0)` plus
+  // `will-change: transform`; a non-`none` transform on an ancestor makes it
+  // the containing block for `position: fixed` children. Without the portal,
+  // `inset: 0` would resolve against the section instead of the viewport, so
+  // the modal would open at the section's height and stay there while
+  // scrolling. Escaping to <body> keeps it centred in the viewport everywhere.
+  return createPortal(
     <div
       className="testimonial-video-backdrop modal-backdrop"
       ref={backdropRef}
@@ -75,7 +83,8 @@ export default function TestimonialVideoModal({ testimonial, close }) {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

@@ -1,7 +1,44 @@
 /* ============================================================
    HOME PAGE
    Imported only by home.jsx
+
+   TYPE SCALE
+   Every section heading, lead paragraph, and small-label style
+   on this page pulls from the tokens below instead of inventing
+   its own size. Font family for headings is var(--serif)
+   everywhere; body copy uses the page's default sans-serif.
+   Only the hero (a full-bleed display statement) and the FAQ
+   question (matched to its own answer block) keep a distinct
+   size — everything else shares one of these four scales.
    ============================================================ */
+
+:root {
+  /* Hero display statement (unique — largest type on the page) */
+  --fs-hero-h1: clamp(62px, 8vw, 126px);
+  --lh-hero-h1: 0.84;
+  --ls-hero-h1: -0.055em;
+
+  /* Section heading (h2) — used by every section on this page */
+  --fs-h2: clamp(38px, 4.2vw, 62px);
+  --lh-h2: 0.96;
+  --ls-h2: -0.04em;
+
+  /* Lead / intro paragraph under a section heading, and the hero copy */
+  --fs-lead: 15px;
+  --lh-lead: 1.7;
+
+  /* Card / list body copy (credential list, editorial list, FAQ answers) */
+  --fs-body: 15px;
+  --lh-body: 1.6;
+
+  /* Small caption / meta text (snapshot strip, gallery card copy, community item copy) */
+  --fs-caption: 11px;
+  --lh-caption: 1.4;
+
+  /* Eyebrow label */
+  --fs-eyebrow: 11px;
+  --ls-eyebrow: 0.14em;
+}
 
 main > .hero.scroll-reveal {
   
@@ -108,14 +145,16 @@ main > .hero.scroll-reveal.is-visible {
 .hero .eyebrow {
   
     color: #fff;
+    font-size: var(--fs-eyebrow);
+    letter-spacing: var(--ls-eyebrow);
     margin-bottom: 28px;
   
 }
 
 .hero h1 {
   
-    font: 500 clamp(62px, 8vw, 126px)/0.84 var(--serif);
-    letter-spacing: -0.055em;
+    font: 500 var(--fs-hero-h1)/var(--lh-hero-h1) var(--serif);
+    letter-spacing: var(--ls-hero-h1);
     margin: 0 0 26px;
     max-width: 900px;
   
@@ -145,8 +184,8 @@ main > .hero.scroll-reveal.is-visible {
 .hero-text {
   
     color: rgba(255, 255, 255, 0.82);
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
     max-width: 430px;
   
 }
@@ -203,7 +242,8 @@ main > .hero.scroll-reveal.is-visible {
     background: var(--paper);
     padding: 20px 16vw;
     color: var(--muted);
-    font-size: 10px;
+    font-size: var(--fs-caption);
+    line-height: var(--lh-caption);
   
 }
 
@@ -286,7 +326,8 @@ main > .hero.scroll-reveal.is-visible {
 .editorial-process-copy > p {
   
     color: var(--muted);
-    font-size: 14px;
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
     max-width: 460px;
   
 }
@@ -303,7 +344,8 @@ main > .hero.scroll-reveal.is-visible {
   
     border-bottom: 1px solid var(--line);
     padding: 13px 0;
-    font-size: 13px;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
   
 }
 
@@ -334,18 +376,19 @@ main > .hero.scroll-reveal.is-visible {
 
 .program-gallery-head h2 {
   
-    font: 500 clamp(42px, 4vw, 65px)/0.92 var(--serif);
+    font: 500 var(--fs-h2)/var(--lh-h2) var(--serif);
     max-width: 580px;
     margin: 0;
-    letter-spacing: -0.045em;
+    letter-spacing: var(--ls-h2);
   
 }
 
 .program-gallery-head p {
   
     color: var(--muted);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
     max-width: 320px;
-    font-size: 13px;
   
 }
 
@@ -449,7 +492,8 @@ main > .hero.scroll-reveal.is-visible {
 
 .program-card p {
   
-    font-size: 11px;
+    font-size: var(--fs-caption);
+    line-height: var(--lh-caption);
     margin: 8px 0 0;
     color: rgba(255, 255, 255, 0.75);
   
@@ -469,7 +513,7 @@ main > .hero.scroll-reveal.is-visible {
     display: inline-block;
     margin-right: 17px;
     font: 500 12px var(--serif);
-    color: #5b5c61;
+    color: var(--muted);
   
 }
 
@@ -477,9 +521,9 @@ main > .hero.scroll-reveal.is-visible {
   
     display: inline-block;
     color: #2f3336;
-    font-size: 11px;
+    font-size: var(--fs-eyebrow);
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: var(--ls-eyebrow);
     margin: 0;
   
 }
@@ -490,8 +534,8 @@ main > .hero.scroll-reveal.is-visible {
 .reference-faq-copy h2,
 .reference-qa-copy h2 {
   
-    font: 500 clamp(38px, 4.3vw, 62px)/0.96 var(--serif);
-    letter-spacing: -0.045em;
+    font: 500 var(--fs-h2)/var(--lh-h2) var(--serif);
+    letter-spacing: var(--ls-h2);
     margin: 22px 0 15px;
     max-width: 700px;
   
@@ -503,9 +547,9 @@ main > .hero.scroll-reveal.is-visible {
 .reference-faq-copy > p,
 .reference-qa-copy > p {
   
-    color: #586166;
-    font-size: 15px;
-    line-height: 1.55;
+    color: var(--muted);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
     max-width: 650px;
     margin: 0;
   
@@ -529,8 +573,8 @@ main > .hero.scroll-reveal.is-visible {
 
 .audience-header-left h2 {
   
-    font: 500 clamp(38px, 4vw, 62px) / 1.05 var(--serif);
-    letter-spacing: -0.035em;
+    font: 500 var(--fs-h2)/var(--lh-h2) var(--serif);
+    letter-spacing: var(--ls-h2);
     margin: 12px 0 0;
   
 }
@@ -543,9 +587,9 @@ main > .hero.scroll-reveal.is-visible {
 
 .audience-header-right p {
   
-    font-size: 14px;
-    line-height: 1.7;
-    color: #5b5f63;
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+    color: var(--muted);
     margin: 0 0 20px;
   
 }
@@ -648,8 +692,9 @@ main > .hero.scroll-reveal.is-visible {
     display: flex;
     gap: 12px;
     align-items: center;
-    font-size: 15px;
-    color: #42484b;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink);
   
 }
 
@@ -712,9 +757,9 @@ main > .hero.scroll-reveal.is-visible {
 
 .reference-community-items p {
   
-    color: #656b6c;
-    font-size: 10px;
-    line-height: 1.35;
+    color: var(--muted);
+    font-size: var(--fs-caption);
+    line-height: var(--lh-caption);
     margin: 0;
   
 }
@@ -762,7 +807,9 @@ main > .hero.scroll-reveal.is-visible {
 
 .reference-qa-copy .qa-meta {
   
-    color: #3e474b;
+    color: var(--ink);
+    font-size: var(--fs-caption);
+    line-height: var(--lh-caption);
     margin: 24px 0;
   
 }
@@ -847,8 +894,8 @@ main > .hero.scroll-reveal.is-visible {
 .reference-faq-list details p {
   
     color: var(--muted);
-    font-size: 15px;
-    line-height: 1.55;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
     max-width: 620px;
     margin: 12px 0 0;
   
@@ -866,7 +913,8 @@ main > .hero.scroll-reveal.is-visible {
     border-bottom: 1px solid var(--line);
     background: transparent;
     text-align: left;
-    font-size: 15px;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
     color: var(--muted);
     cursor: pointer;
     transition: background 0.25s ease, padding 0.25s ease, color 0.25s ease;
@@ -875,7 +923,7 @@ main > .hero.scroll-reveal.is-visible {
 
 .topic-tabs button span {
   
-    font-size: 11px;
+    font-size: var(--fs-caption);
     color: var(--muted);
     transition: color 0.25s ease;
   
@@ -935,6 +983,23 @@ main > .hero.scroll-reveal.is-visible {
   
 }
 
+.topic-detail h3 {
+  
+    font: 500 clamp(26px, 2.4vw, 34px)/1.1 var(--serif);
+    margin: 18px 0 12px;
+  
+}
+
+.topic-detail p {
+  
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0;
+  
+}
+
 .topic-mark {
   
     display: inline-flex;
@@ -958,7 +1023,7 @@ main > .hero.scroll-reveal.is-visible {
     background: rgba(212, 150, 125, 0.08);
     border-radius: 6px;
     color: var(--gold);
-    font-size: 13px;
+    font-size: var(--fs-caption);
   
 }
 
