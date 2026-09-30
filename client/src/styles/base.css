@@ -111,10 +111,11 @@ button {
   
 }
 
+/* The hover underline is drawn by .nav a:after (the animated 2px rule further
+   down). Opting out of text-decoration here keeps it from doubling up. */
 .nav a:hover {
   
-    text-decoration: underline;
-    text-underline-offset: 5px;
+    text-decoration: none;
   
 }
 
