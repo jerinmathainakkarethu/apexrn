@@ -187,6 +187,7 @@ main > .hero.scroll-reveal.is-visible {
     font-size: var(--fs-lead);
     line-height: var(--lh-lead);
     max-width: 430px;
+    font-family: span,serif;
   
 }
 
@@ -320,6 +321,7 @@ main > .hero.scroll-reveal.is-visible {
 .editorial-process-copy .section-title h2 {
   
     max-width: 550px;
+    font-family: span,serif !important;
   
 }
 
@@ -534,10 +536,13 @@ main > .hero.scroll-reveal.is-visible {
 .reference-faq-copy h2,
 .reference-qa-copy h2 {
   
-    font: 500 var(--fs-h2)/var(--lh-h2) var(--serif);
     letter-spacing: var(--ls-h2);
     margin: 22px 0 15px;
     max-width: 700px;
+    font-family: span, serif;
+    font-size: 62px;
+    font-weight: 400;
+    line-height: 60px;
   
 }
 
@@ -579,10 +584,18 @@ main > .hero.scroll-reveal.is-visible {
   
 }
 
+.audience-header-left,
+.audience-header-left h2 {
+  
+    font-family: span,serif;
+  
+}
+
 .audience-header-right {
   
     padding-top: 6px;
     font-size: 17px;
+    color: rgb(101, 101, 101);
   
 }
 

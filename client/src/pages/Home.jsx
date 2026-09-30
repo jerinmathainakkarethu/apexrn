@@ -176,7 +176,7 @@ export default function Home() {
                 return (
                   <article className="svc-item" key={item.title}>
                     <Icon size={50} strokeWidth={1.25} className="svc-icon" />
-                    <h3>{item.title}</h3>
+                    <h4>{item.title}</h4>
                     <a
                       href={item.href || "#"}
                       className="svc-arrow"

@@ -1636,9 +1636,11 @@ footer {
 
 .svc-icon {
   
-    color: var(--ink);
+    color: rgb(18, 18, 23);
     margin-bottom: 36px;
     transition: color 0.25s ease, transform 0.25s ease;
+    line-height: 27px;
+    font-size: 17px;
   
 }
 
@@ -1649,10 +1651,13 @@ footer {
   
 }
 
-.svc-item h3 {
+.svc-item h4 {
   
-    font: 500 21px/1.25 var(--serif);
-    color: var(--ink);
+    font-family: span,serif;
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 27px;
+    color: rgb(18, 18, 23);
     margin: 0 0 30px;
   
 }
@@ -1681,10 +1686,13 @@ footer {
 }
 
 .svc-item:hover .svc-arrow span {
-  
+    font-family: span,serif;
+    font-size: 16px;
+    color:rgb(18, 18, 23);
+    font-weight: 400;
     max-width: 100px;
     opacity: 1;
-  
+    line-height: 20px;
 }
 
 .svc-arrow svg {
