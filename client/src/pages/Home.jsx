@@ -390,22 +390,34 @@ export default function Home() {
               </a>
             </div>
             <div className="reference-faq-list">
-              {faqs.slice(0, 5).map((item) => (
-                <details key={item.id} open={openFaq === item.id}>
-                  <summary
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setOpenFaq((current) =>
-                        current === item.id ? null : item.id,
-                      );
-                    }}
+              {faqs.slice(0, 5).map((item) => {
+                const isOpen = openFaq === item.id;
+                const panelId = `faq-panel-${item.id}`;
+                return (
+                  <div
+                    className={`faq-item${isOpen ? " is-open" : ""}`}
+                    key={item.id}
                   >
-                    {item.question}
-                    <ArrowRight size={17} />
-                  </summary>
-                  <p>{item.answer}</p>
-                </details>
-              ))}
+                    <button
+                      type="button"
+                      className="faq-question"
+                      aria-expanded={isOpen}
+                      aria-controls={panelId}
+                      onClick={() =>
+                        setOpenFaq((current) =>
+                          current === item.id ? null : item.id,
+                        )
+                      }
+                    >
+                      {item.question}
+                      <ArrowRight size={17} />
+                    </button>
+                    <div className="faq-answer" id={panelId}>
+                      <p>{item.answer}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </section>
         )}

@@ -24,19 +24,19 @@
   --ls-h2: -0.04em;
 
   /* Lead / intro paragraph under a section heading, and the hero copy */
-  --fs-lead: 15px;
-  --lh-lead: 1.7;
+  --fs-lead: 17px;
+  --lh-lead: 25px;
 
   /* Card / list body copy (credential list, editorial list, FAQ answers) */
-  --fs-body: 15px;
+  --fs-body: 17px;
   --lh-body: 1.6;
 
   /* Small caption / meta text (snapshot strip, gallery card copy, community item copy) */
-  --fs-caption: 11px;
+  --fs-caption: 13px;
   --lh-caption: 1.4;
 
   /* Eyebrow label */
-  --fs-eyebrow: 11px;
+  --fs-eyebrow: 14px;
   --ls-eyebrow: 0.14em;
 }
 
@@ -524,7 +524,7 @@ main > .hero.scroll-reveal.is-visible {
     display: inline-block;
     color: #2f3336;
     font-size: var(--fs-eyebrow);
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: var(--ls-eyebrow);
     margin: 0;
   
@@ -542,7 +542,7 @@ main > .hero.scroll-reveal.is-visible {
     font-family: span, serif;
     font-size: 62px;
     font-weight: 400;
-    line-height: 60px;
+    line-height: 65px;
   
 }
 
@@ -764,7 +764,7 @@ main > .hero.scroll-reveal.is-visible {
 
 .reference-community-items h3 {
   
-    font: 600 14px var(--serif);
+    font: 600 16px var(--serif);
     margin: 0 0 4px;
   
 }
@@ -822,7 +822,7 @@ main > .hero.scroll-reveal.is-visible {
 .reference-qa-copy .qa-meta {
   
     color: var(--ink);
-    font-size: var(--fs-caption);
+    font-size: 14px;
     line-height: var(--lh-caption);
     margin: 24px 0;
   
@@ -849,6 +849,9 @@ main > .hero.scroll-reveal.is-visible {
   
     position: sticky;
     top: 110px;
+    /* Locked so expanding an accordion cannot resize the left column.
+       Tunable single value; it must clear eyebrow + heading + copy + button. */
+    height: 400px;
   
 }
 
@@ -860,59 +863,105 @@ main > .hero.scroll-reveal.is-visible {
   
 }
 
-.reference-faq-list details {
+/* Accordion is a button + always-rendered panel, not native <details>.
+   <details> keeps its content unrendered while closed, and transitions do not
+   run on unrendered content -- so a height transition only plays on the very
+   first open and never again. Keeping the panel in the layout lets the row
+   track interpolate 0fr -> 1fr on every open AND close. */
+.reference-faq-list .faq-item {
   
     border-top: 1px solid var(--line);
     padding: 20px 0;
   
 }
 
-.reference-faq-list details:last-child {
+.reference-faq-list .faq-item:last-child {
   
     border-bottom: 1px solid var(--line);
   
 }
 
-.reference-faq-list summary {
+.reference-faq-list .faq-question {
   
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    color: var(--ink);
     cursor: pointer;
-    font: 500 22px/1.2 var(--serif);
     letter-spacing: -0.02em;
-    list-style: none;
-  
+    font-family: var(--sans);
+    font-size: 22px;
+    line-height: 26px;
+    font-weight: 500;
 }
 
-.reference-faq-list summary::-webkit-details-marker {
-  
-    display: none;
-  
-}
-
-.reference-faq-list summary svg {
+.reference-faq-list .faq-question svg {
   
     flex: 0 0 auto;
     transition: transform 0.25s ease;
   
 }
 
-.reference-faq-list details[open] summary svg {
+.reference-faq-list .faq-item.is-open .faq-question svg {
   
     transform: rotate(90deg);
   
 }
 
-.reference-faq-list details p {
+.reference-faq-list .faq-answer {
   
-    color: var(--muted);
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s var(--ease);
+  
+}
+
+.reference-faq-list .faq-item.is-open .faq-answer {
+  
+    grid-template-rows: 1fr;
+  
+}
+
+/* min-height: 0 lets the item shrink below its content height, overflow
+   clips it while collapsed. visibility keeps a collapsed answer out of the
+   a11y tree and tab order, but stays visible until the close transition ends. */
+.reference-faq-list .faq-answer > p {
+  
+    color: #727878;
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     max-width: 620px;
-    margin: 12px 0 0;
+    margin: 0;
+    min-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.3s var(--ease), transform 0.4s var(--ease),
+      margin-top 0.4s var(--ease), visibility 0.4s var(--ease);
   
+}
+
+.reference-faq-list .faq-item.is-open .faq-answer > p {
+  
+    margin-top: 12px;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reference-faq-list .faq-answer,
+  .reference-faq-list .faq-answer > p {
+    transition-duration: 0.001ms !important;
+  }
 }
 
 .topic-tabs button {
@@ -1172,11 +1221,14 @@ main > .hero.scroll-reveal.is-visible {
       
   }
   
-  .reference-faq-copy {
+.reference-faq-copy {
     
         position: static;
+        /* Stacks to one column here, so release the fixed height to avoid a
+           tall empty gap on narrow screens. */
+        height: auto;
       
-  }
+}
   
   .reference-image-panel,
     .reference-instructor-image,
