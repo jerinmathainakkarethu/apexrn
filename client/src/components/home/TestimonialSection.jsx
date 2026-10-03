@@ -163,14 +163,14 @@ export default function TestimonialSection({
                     <span>{item.country || "APEX RN Prep student story"}</span>
                   </div>
                 </div>
-                {hasVideo && (
+                {/* {hasVideo && (
                   <span className="testimonial-play" aria-hidden="true">
                     <span className="testimonial-play-icon">
                       <Play size={14} fill="currentColor" />
                     </span>
                     <span className="testimonial-play-label">Watch story</span>
                   </span>
-                )}
+                )} */}
               </article>
             );
           })}

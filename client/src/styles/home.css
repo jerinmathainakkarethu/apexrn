@@ -322,6 +322,9 @@ main > .hero.scroll-reveal.is-visible {
   
     max-width: 550px;
     font-family: span,serif !important;
+    font-size: 62px;
+    line-height: 65px;
+    color: rgb(23, 24, 29);
   
 }
 
@@ -378,7 +381,11 @@ main > .hero.scroll-reveal.is-visible {
 
 .program-gallery-head h2 {
   
-    font: 500 var(--fs-h2)/var(--lh-h2) var(--serif);
+    font-family: span,serif;
+    font-weight: 400;
+    font-size: 62px;
+    line-height: 65px;
+    color: rgb(23, 24, 29);
     max-width: 580px;
     margin: 0;
     letter-spacing: var(--ls-h2);
@@ -387,8 +394,9 @@ main > .hero.scroll-reveal.is-visible {
 
 .program-gallery-head p {
   
-    color: var(--muted);
-    font-size: var(--fs-lead);
+    font-weight: 400;
+    color: rgb(107, 117, 116);
+    font-size: 14px;
     line-height: var(--lh-lead);
     max-width: 320px;
   
@@ -486,15 +494,19 @@ main > .hero.scroll-reveal.is-visible {
 
 .program-card h3 {
   
-    font: 500 28px/0.95 var(--serif);
+    font-family: "DM Sans", sans-serif;
+    font-size: 28px;
+    line-height: 27px;
+    font-weight: 500;
     max-width: 180px;
     margin: 0;
+    color: rgb(255, 255, 255);
   
 }
 
 .program-card p {
   
-    font-size: var(--fs-caption);
+    font-size: 14px;
     line-height: var(--lh-caption);
     margin: 8px 0 0;
     color: rgba(255, 255, 255, 0.75);
@@ -522,7 +534,7 @@ main > .hero.scroll-reveal.is-visible {
 .reference-section .eyebrow {
   
     display: inline-block;
-    color: #2f3336;
+    color: rgb(107, 117, 116);
     font-size: var(--fs-eyebrow);
     font-weight: 400;
     letter-spacing: var(--ls-eyebrow);

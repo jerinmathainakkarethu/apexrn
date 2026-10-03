@@ -610,17 +610,19 @@
 }
 
 .testimonials-heading {
-  
     text-align: center;
     margin: 0 auto 52px;
-  
 }
 
 .testimonials-heading h2 {
   
-    font: 500 clamp(46px, 4.8vw, 74px)/0.9 var(--serif);
+    font-family: span, "Serif";
     letter-spacing: -0.05em;
     margin: 0;
+    font-size: 62px;
+    line-height: 65px;
+    color: rgb(23, 24, 29);
+    font-weight: 400;
   
 }
 
@@ -688,9 +690,9 @@
 }
 
 .testimonial-card p {
-  
+
     color: #565f61;
-    font-size: 14.5px;
+    font-size: 17px;
     line-height: 1.7;
     margin: 20px 0 auto;
   
@@ -701,6 +703,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    padding-top: 10px;
   
 }
 

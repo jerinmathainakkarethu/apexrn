@@ -300,7 +300,7 @@ export default function Home() {
                       alt={item.imageAlt || item.title}
                     />
                   )}
-                  <span className="card-number">0{index + 1}.</span>
+                  <span className="card-number"></span>
                   <div>
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
