@@ -132,7 +132,7 @@ export default function About() {
         </section>
 
         {content.philosophy && (
-          <section className="about-philosophy section-tone-blush scroll-reveal">
+          <section className="about-philosophy scroll-reveal">
             <div className="about-section-heading">
               <Eyebrow>{content.philosophy.eyebrow}</Eyebrow>
               <h2>{content.philosophy.title}</h2>
@@ -141,6 +141,9 @@ export default function About() {
             <div className="about-philosophy-grid">
               {content.philosophy.items.map((item, index) => (
                 <div className="content-page-item" key={item.title}>
+                  <span className="about-item-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
                 </div>
@@ -168,14 +171,17 @@ export default function About() {
         )}
 
         {content.principles && (
-          <section className="about-principles section-tone-blush-2 scroll-reveal">
+          <section className="about-principles scroll-reveal">
             <div className="about-section-heading">
               <Eyebrow>{content.principles.eyebrow}</Eyebrow>
               <h2>{content.principles.title}</h2>
             </div>
             <div className="about-principles-list">
-              {content.principles.items.map((item) => (
+              {content.principles.items.map((item, index) => (
                 <div className="content-page-item" key={item.title}>
+                  <span className="about-item-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
                 </div>
