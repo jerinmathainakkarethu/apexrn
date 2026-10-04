@@ -8,6 +8,9 @@
   --pd-gold: var(--gold, #b98a3e);
   --pd-gold-soft: color-mix(in srgb, var(--pd-gold) 12%, transparent);
   --pd-gold-line: color-mix(in srgb, var(--pd-gold) 35%, transparent);
+  --pd-terracotta: var(--terracotta, #c0693f);
+  --pd-terracotta-soft: color-mix(in srgb, var(--pd-terracotta) 12%, transparent);
+  --pd-terracotta-line: color-mix(in srgb, var(--pd-terracotta) 40%, transparent);
   --pd-ink: var(--ink, #1d1a16);
   --pd-muted: var(--muted, #6f675c);
   --pd-line: var(--line, #e6dccb);
@@ -18,6 +21,9 @@
   --pd-radius-sm: 12px;
   --pd-shadow: 0 1px 2px rgba(29, 26, 22, 0.04), 0 10px 30px rgba(29, 26, 22, 0.06);
   --pd-shadow-lg: 0 2px 4px rgba(29, 26, 22, 0.05), 0 22px 50px rgba(29, 26, 22, 0.12);
+  /* Faint grid-line texture used on primary cards — kept at ~5% so it
+     reads as surface detail, never competes with content. */
+  --pd-grid: color-mix(in srgb, var(--pd-ink) 5%, transparent);
   --pd-ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* top padding for the tinted section bands */
   --pd-tone-pad: 110px;
@@ -33,6 +39,62 @@
   line-height: 1.6;
   border-left: 2px solid var(--pd-gold);
   padding-left: 15px;
+}
+
+/* ---------- Program metrics readout ---------- */
+/* A slim instrument-panel strip of derived counts (array lengths from
+   the API payload — nothing invented), sitting between the intro note
+   and the snapshot pills so a visitor gets the shape of the program in
+   one glance before reading anything. */
+
+.curriculum-metrics {
+  margin: 0 16vw 70px;
+  display: flex;
+  border: 1px solid var(--pd-line);
+  border-radius: var(--pd-radius);
+  background: var(--pd-paper);
+  box-shadow: var(--pd-shadow);
+  overflow: hidden;
+}
+
+.curriculum-metric {
+  flex: 1 1 0;
+  position: relative;
+  padding: 26px 20px;
+  text-align: center;
+}
+
+.curriculum-metric + .curriculum-metric::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 1px;
+  background: var(--pd-line);
+}
+
+.curriculum-metric b {
+  display: block;
+  font: 500 34px/1 var(--pd-serif);
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(
+    120deg,
+    var(--pd-gold),
+    color-mix(in srgb, var(--pd-gold) 60%, #000)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.curriculum-metric span {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pd-muted);
 }
 
 /* ---------- Snapshot pills ---------- */
@@ -112,7 +174,10 @@
 
 .curriculum-structure-item {
   position: relative;
-  background: var(--pd-cream);
+  background:
+    repeating-linear-gradient(0deg, var(--pd-grid) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(90deg, var(--pd-grid) 0 1px, transparent 1px 32px),
+    var(--pd-cream);
   border: 1px solid var(--pd-line);
   border-radius: var(--pd-radius);
   padding: 36px 30px 32px;
@@ -134,12 +199,31 @@
 .curriculum-structure-item:hover {
   transform: translateY(-6px);
   border-color: var(--pd-gold-line);
-  box-shadow: var(--pd-shadow-lg);
+  box-shadow: var(--pd-shadow-lg), 0 0 0 1px var(--pd-gold-line);
 }
 
-.curriculum-structure-item h3 {
+.curriculum-structure-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.curriculum-structure-head h3 {
+  margin: 0;
   font: 500 26px/1.15 var(--pd-serif);
-  margin: 0 0 14px;
+}
+
+.curriculum-structure-index {
+  flex: 0 0 auto;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+  color: var(--pd-gold);
+  opacity: 0.8;
 }
 
 .curriculum-structure-item > p {
@@ -417,7 +501,11 @@
 }
 
 .curriculum-system {
-  background: var(--pd-cream);
+  position: relative;
+  background:
+    repeating-linear-gradient(0deg, var(--pd-grid) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(90deg, var(--pd-grid) 0 1px, transparent 1px 32px),
+    var(--pd-cream);
   border: 1px solid var(--pd-line);
   border-radius: var(--pd-radius);
   padding: 34px 32px;
@@ -425,15 +513,25 @@
   grid-template-columns: 52px 1fr 160px;
   gap: 28px;
   align-items: start;
+  overflow: hidden;
   box-shadow: var(--pd-shadow);
   transition: transform 0.4s var(--pd-ease), box-shadow 0.4s var(--pd-ease),
     border-color 0.4s var(--pd-ease);
 }
 
+.curriculum-system::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--pd-terracotta), transparent);
+  opacity: 0.85;
+}
+
 .curriculum-system:hover {
   transform: translateY(-4px);
   border-color: var(--pd-gold-line);
-  box-shadow: var(--pd-shadow-lg);
+  box-shadow: var(--pd-shadow-lg), 0 0 0 1px var(--pd-terracotta-line);
 }
 
 .curriculum-system-mark {
@@ -505,22 +603,65 @@
   gap: 22px;
 }
 
+/* Kind-based accent — colour never carries the kind alone, it's paired
+   with the text+icon pill below. */
+.curriculum-resource-slide {
+  --pd-resource-accent: var(--pd-gold);
+}
+.curriculum-resource-video {
+  --pd-resource-accent: var(--pd-terracotta);
+}
+.curriculum-resource-cheatsheet {
+  --pd-resource-accent: var(--pd-ink);
+}
+
 .curriculum-resource {
-  background: var(--pd-cream);
+  position: relative;
+  background:
+    repeating-linear-gradient(0deg, var(--pd-grid) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(90deg, var(--pd-grid) 0 1px, transparent 1px 32px),
+    var(--pd-cream);
   border: 1px solid var(--pd-line);
   border-radius: var(--pd-radius);
   padding: 26px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   box-shadow: var(--pd-shadow);
   transition: transform 0.4s var(--pd-ease), box-shadow 0.4s var(--pd-ease),
     border-color 0.4s var(--pd-ease);
 }
 
+.curriculum-resource::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--pd-resource-accent, var(--pd-gold)), transparent);
+  opacity: 0.9;
+}
+
 .curriculum-resource:hover {
   transform: translateY(-6px);
   border-color: var(--pd-gold-line);
-  box-shadow: var(--pd-shadow-lg);
+  box-shadow: var(--pd-shadow-lg), 0 0 0 1px var(--pd-gold-line);
+}
+
+.curriculum-resource-kind {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pd-resource-accent, var(--pd-gold));
+  background: var(--pd-paper);
+  border: 1px solid var(--pd-line);
+  border-radius: 999px;
+  padding: 5px 11px;
+  margin-bottom: 14px;
 }
 
 .curriculum-resource-frame {
@@ -658,6 +799,7 @@
   position: relative;
   z-index: 1;
   font: 500 42px/1 var(--pd-serif);
+  font-variant-numeric: tabular-nums;
   color: var(--pd-gold);
   background: linear-gradient(
     120deg,
@@ -762,9 +904,72 @@
       color-mix(in srgb, var(--pd-gold) 22%, transparent),
       transparent 50%
     ),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 32px),
     #1d1a16;
   color: rgba(255, 255, 255, 0.82);
   box-shadow: var(--pd-shadow-lg);
+}
+
+.pd .final-cta::before,
+.pd .final-cta::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pd .final-cta::before {
+  top: 22px;
+  left: 22px;
+  border-top: 2px solid var(--pd-gold);
+  border-left: 2px solid var(--pd-gold);
+}
+
+.pd .final-cta::after {
+  bottom: 22px;
+  right: 22px;
+  border-bottom: 2px solid var(--pd-gold);
+  border-right: 2px solid var(--pd-gold);
+}
+
+.final-cta-pulse {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: -120px;
+  width: 380px;
+  height: 380px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--pd-gold) 55%, transparent),
+    transparent 70%
+  );
+  filter: blur(10px);
+  pointer-events: none;
+  animation: pd-pulse 6s ease-in-out infinite;
+}
+
+@keyframes pd-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: translateX(-50%) scale(1.08);
+  }
+}
+
+.pd .final-cta > :not(.final-cta-pulse) {
+  position: relative;
+  z-index: 1;
 }
 
 .pd .final-cta h2 {
@@ -792,7 +997,9 @@
 
 .scroll-reveal .curriculum-structure-item,
 .scroll-reveal .curriculum-resource,
-.scroll-reveal .curriculum-practice-step {
+.scroll-reveal .curriculum-practice-step,
+.scroll-reveal .curriculum-week,
+.scroll-reveal .curriculum-system {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
@@ -800,7 +1007,9 @@
 
 .scroll-reveal.is-visible .curriculum-structure-item,
 .scroll-reveal.is-visible .curriculum-resource,
-.scroll-reveal.is-visible .curriculum-practice-step {
+.scroll-reveal.is-visible .curriculum-practice-step,
+.scroll-reveal.is-visible .curriculum-week,
+.scroll-reveal.is-visible .curriculum-system {
   opacity: 1;
   transform: translateY(0);
 }
@@ -827,6 +1036,11 @@
 
 @media (max-width: 1100px) {
   .curriculum-note {
+    margin-left: 7vw;
+    margin-right: 7vw;
+  }
+
+  .curriculum-metrics {
     margin-left: 7vw;
     margin-right: 7vw;
   }
@@ -871,6 +1085,20 @@
 
   .curriculum-note {
     margin: -50px 7vw 0;
+  }
+
+  .curriculum-metrics {
+    margin: 0 7vw 50px;
+    flex-direction: column;
+  }
+
+  .curriculum-metric + .curriculum-metric::before {
+    left: 18%;
+    right: 18%;
+    top: 0;
+    bottom: auto;
+    width: auto;
+    height: 1px;
   }
 
   .curriculum-snapshot {
@@ -952,6 +1180,12 @@
     margin: 0 7vw 30px;
     padding: 52px 24px;
   }
+
+  .final-cta-pulse {
+    width: 260px;
+    height: 260px;
+    top: -80px;
+  }
 }
 
 /* ---------- Reduced motion ---------- */
@@ -961,6 +1195,7 @@
   .pd *::before,
   .pd *::after {
     animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.001ms !important;
   }
 }
