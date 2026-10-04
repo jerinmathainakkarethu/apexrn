@@ -45,17 +45,22 @@
 
 .about-benefit-copy h1 {
   
-    font: 500 clamp(46px, 4.1vw, 68px)/0.91 var(--serif);
     letter-spacing: -0.045em;
     margin: 0 0 28px;
+    font-size: 46px;
+    font-family: span, serif;
+    font-size: 62px;
+    font-weight: 500;
+    line-height: 65px;
+    color: rgb(23, 24, 29);
   
 }
 
 .about-benefit-copy > p {
   
     max-width: 490px;
-    color: #66747c;
-    font-size: 14px;
+    color: rgb(107, 117, 116);
+    font-size: 17px;
     line-height: 1.8;
   
 }
@@ -70,7 +75,7 @@
 
 .about-benefit-copy li {
   
-    font-size: 13px;
+    font-size: 15px;
     margin: 12px 0;
   
 }
@@ -137,10 +142,14 @@
 .about-story-copy h2,
 .about-section-heading h2 {
   
-    font: 500 clamp(38px, 4.1vw, 58px)/0.98 var(--serif);
     letter-spacing: -0.045em;
     margin: 20px 0 18px;
     max-width: 720px;
+    color: rgb(23, 24, 29);
+    font-size: 62px;
+    font-weight: 500;
+    font-family: span, serif;
+    line-height: 65px;
   
 }
 
@@ -148,7 +157,7 @@
 .about-section-heading > p:not(.eyebrow) {
   
     color: #586166;
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.75;
     max-width: 640px;
     margin: 0 0 16px;
@@ -158,11 +167,12 @@
 .about-page .eyebrow {
   
     display: inline-block;
-    color: #2f3336;
-    font-size: 11px;
-    font-weight: 600;
+    color: rgb(107, 117, 116);
+    font-size: 14px;
+    font-weight: 400;
     letter-spacing: 0.14em;
     margin: 0;
+    line-height: 25px;
   
 }
 
@@ -661,12 +671,6 @@
     
         height: 330px;
         gap: 10px;
-      
-  }
-  
-  .about-benefit-copy h1 {
-    
-        font-size: 46px;
       
   }
   

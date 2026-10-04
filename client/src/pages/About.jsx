@@ -118,7 +118,6 @@ export default function About() {
 
         <section className="about-story section-tone-sage scroll-reveal">
           <div className="about-story-copy">
-            <span className="about-section-number">01</span>
             <Eyebrow>{content.sectionEyebrow}</Eyebrow>
             <h2>{content.sectionTitle}</h2>
             <p>{content.copy}</p>
@@ -135,7 +134,6 @@ export default function About() {
         {content.philosophy && (
           <section className="about-philosophy section-tone-blush scroll-reveal">
             <div className="about-section-heading">
-              <span className="about-section-number">02</span>
               <Eyebrow>{content.philosophy.eyebrow}</Eyebrow>
               <h2>{content.philosophy.title}</h2>
               <p>{content.philosophy.copy}</p>
@@ -143,9 +141,6 @@ export default function About() {
             <div className="about-philosophy-grid">
               {content.philosophy.items.map((item, index) => (
                 <div className="content-page-item" key={item.title}>
-                  <span className="about-item-index">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
                 </div>
@@ -157,7 +152,6 @@ export default function About() {
         {content.credentials && (
           <section className="about-credentials section-tone-sage scroll-reveal">
             <div className="about-section-heading">
-              <span className="about-section-number">03</span>
               <Eyebrow>{content.credentials.eyebrow}</Eyebrow>
               <h2>{content.credentials.title}</h2>
               <p>{content.credentials.copy}</p>
@@ -176,7 +170,6 @@ export default function About() {
         {content.principles && (
           <section className="about-principles section-tone-blush-2 scroll-reveal">
             <div className="about-section-heading">
-              <span className="about-section-number">04</span>
               <Eyebrow>{content.principles.eyebrow}</Eyebrow>
               <h2>{content.principles.title}</h2>
             </div>
