@@ -28,6 +28,7 @@ import Eyebrow from "../components/ui/Eyebrow";
 import Loading from "../components/ui/Loading";
 import SectionTitle from "../components/ui/SectionTitle";
 import ProcessFeature from "../components/home/ProcessFeature";
+import CourseListing from "../components/home/CourseListing";
 import TestimonialSection from "../components/home/TestimonialSection";
 import QAModal from "../components/home/QAModal";
 import { Target, FileSignature, Briefcase, LineChart, ArrowRight } from "lucide-react";
@@ -310,6 +311,8 @@ export default function Home() {
             </div>
           </section>
         )}
+
+        {show("courses") && <CourseListing />}
 
         {show("testimonials") && (
           <div className="section-tone-blush scroll-reveal">

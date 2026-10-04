@@ -150,7 +150,7 @@
 }
 
 .curriculum-block + .curriculum-block {
-  padding-top: 0;
+  padding-top: 110px;
 }
 
 /* ---------- Section tones ---------- */
@@ -344,6 +344,7 @@
 }
 
 .curriculum-week-title {
+  font-size: 25px !important;
   flex: 1 1 auto;
   font: 500 var(--fs-h3)/var(--lh-h3) var(--pd-serif);
   letter-spacing: var(--ls-h3);
@@ -889,7 +890,7 @@
 
 .pd .final-cta {
   position: relative;
-  margin: 0 16vw 40px;
+  margin: 40px 16vw 40px;
   padding: 72px 48px;
   text-align: center;
   border-radius: 28px;
