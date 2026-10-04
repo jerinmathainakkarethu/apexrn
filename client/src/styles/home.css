@@ -17,27 +17,6 @@
   --fs-hero-h1: clamp(62px, 8vw, 126px);
   --lh-hero-h1: 0.84;
   --ls-hero-h1: -0.055em;
-
-  /* Section heading (h2) — used by every section on this page */
-  --fs-h2: clamp(38px, 4.2vw, 62px);
-  --lh-h2: 0.96;
-  --ls-h2: -0.04em;
-
-  /* Lead / intro paragraph under a section heading, and the hero copy */
-  --fs-lead: 17px;
-  --lh-lead: 25px;
-
-  /* Card / list body copy (credential list, editorial list, FAQ answers) */
-  --fs-body: 17px;
-  --lh-body: 1.6;
-
-  /* Small caption / meta text (snapshot strip, gallery card copy, community item copy) */
-  --fs-caption: 13px;
-  --lh-caption: 1.4;
-
-  /* Eyebrow label */
-  --fs-eyebrow: 14px;
-  --ls-eyebrow: 0.14em;
 }
 
 main > .hero.scroll-reveal {
@@ -551,10 +530,7 @@ main > .hero.scroll-reveal.is-visible {
     letter-spacing: var(--ls-h2);
     margin: 22px 0 15px;
     max-width: 700px;
-    font-family: span, serif;
-    font-size: 62px;
-    font-weight: 400;
-    line-height: 65px;
+    font: 500 var(--fs-h2)/var(--lh-h2) var(--serif);
   
 }
 

@@ -35,8 +35,8 @@
   max-width: 640px;
   margin: -70px 16vw 0;
   color: var(--pd-muted);
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   border-left: 2px solid var(--pd-gold);
   padding-left: 15px;
 }
@@ -76,7 +76,7 @@
 
 .curriculum-metric b {
   display: block;
-  font: 500 34px/1 var(--pd-serif);
+  font: 500 var(--fs-h2)/1 var(--pd-serif);
   font-variant-numeric: tabular-nums;
   background: linear-gradient(
     120deg,
@@ -90,9 +90,9 @@
 }
 
 .curriculum-metric span {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-size: var(--fs-eyebrow);
+  font-weight: 400;
+  letter-spacing: var(--ls-eyebrow);
   text-transform: uppercase;
   color: var(--pd-muted);
 }
@@ -116,9 +116,9 @@
   border-radius: var(--pd-radius-sm);
   padding: 20px 22px;
   color: var(--pd-ink);
-  font-size: 15px;
+  font-size: var(--fs-body);
   font-weight: 500;
-  line-height: 1.4;
+  line-height: var(--lh-body);
   box-shadow: var(--pd-shadow);
   transition: transform 0.35s var(--pd-ease), border-color 0.35s var(--pd-ease),
     box-shadow 0.35s var(--pd-ease);
@@ -212,15 +212,15 @@
 
 .curriculum-structure-head h3 {
   margin: 0;
-  font: 500 26px/1.15 var(--pd-serif);
+  font: 500 var(--fs-h3)/var(--lh-h3) var(--pd-serif);
 }
 
 .curriculum-structure-index {
   flex: 0 0 auto;
   margin-top: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: var(--fs-eyebrow);
+  font-weight: 400;
+  letter-spacing: var(--ls-eyebrow);
   font-variant-numeric: tabular-nums;
   color: var(--pd-gold);
   opacity: 0.8;
@@ -228,8 +228,8 @@
 
 .curriculum-structure-item > p {
   color: var(--pd-muted);
-  font-size: 13.5px;
-  line-height: 1.65;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   margin: 0 0 24px;
 }
 
@@ -248,8 +248,8 @@
   align-items: flex-start;
   gap: 10px;
   color: var(--pd-ink);
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 .curriculum-structure-item li svg,
@@ -332,7 +332,7 @@
   background: var(--pd-cream);
   border: 1px solid var(--pd-gold);
   color: var(--pd-gold);
-  font: 500 16px var(--pd-serif);
+  font: 500 var(--fs-h4)/1 var(--pd-serif);
   position: relative;
   z-index: 1;
   transition: background 0.3s var(--pd-ease), color 0.3s var(--pd-ease);
@@ -345,8 +345,8 @@
 
 .curriculum-week-title {
   flex: 1 1 auto;
-  font: 500 24px/1.2 var(--pd-serif);
-  letter-spacing: -0.02em;
+  font: 500 var(--fs-h3)/var(--lh-h3) var(--pd-serif);
+  letter-spacing: var(--ls-h3);
   transition: color 0.3s var(--pd-ease);
 }
 
@@ -414,7 +414,7 @@
 .curriculum-week-summary {
   color: var(--pd-muted);
   max-width: 760px;
-  line-height: 1.7;
+  line-height: var(--lh-body);
   margin: 0 0 28px;
 }
 
@@ -443,22 +443,22 @@
   align-items: center;
   gap: 8px;
   color: var(--pd-gold);
-  font-size: 10px;
-  letter-spacing: 0.18em;
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 400;
   margin-bottom: 10px;
 }
 
 .curriculum-week-meta p {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 .curriculum-week-body h4 {
-  font-size: 11px;
-  letter-spacing: 0.18em;
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
   text-transform: uppercase;
   color: var(--pd-muted);
   margin: 0 0 16px;
@@ -474,8 +474,8 @@
 }
 
 .curriculum-topic-list li {
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   color: var(--pd-ink);
   padding-left: 20px;
   position: relative;
@@ -556,14 +556,14 @@
 }
 
 .curriculum-system h3 {
-  font: 500 27px/1.15 var(--pd-serif);
+  font: 500 var(--fs-h3)/var(--lh-h3) var(--pd-serif);
   margin: 4px 0 14px;
 }
 
 .curriculum-system-main > p {
   color: var(--pd-muted);
-  font-size: 13.5px;
-  line-height: 1.65;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   max-width: 700px;
   margin: 0 0 22px;
 }
@@ -577,11 +577,11 @@
 
 .curriculum-system-meta span {
   display: inline-block;
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
   text-transform: uppercase;
   color: var(--pd-ink);
-  font-weight: 600;
+  font-weight: 400;
   padding: 8px 14px;
   border-radius: 999px;
   background: var(--pd-paper);
@@ -652,9 +652,9 @@
   align-items: center;
   gap: 6px;
   align-self: flex-start;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: var(--fs-eyebrow);
+  font-weight: 400;
+  letter-spacing: var(--ls-eyebrow);
   text-transform: uppercase;
   color: var(--pd-resource-accent, var(--pd-gold));
   background: var(--pd-paper);
@@ -698,14 +698,14 @@
 }
 
 .curriculum-resource h3 {
-  font: 500 24px/1.2 var(--pd-serif);
+  font: 500 var(--fs-h3)/var(--lh-h3) var(--pd-serif);
   margin: 0 0 12px;
 }
 
 .curriculum-resource > p {
   color: var(--pd-muted);
-  font-size: 13.5px;
-  line-height: 1.65;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   margin: 0 0 16px;
 }
 
@@ -713,8 +713,8 @@
   display: inline-block;
   align-self: flex-start;
   color: var(--pd-muted);
-  font-size: 10px;
-  letter-spacing: 0.14em;
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
   text-transform: uppercase;
   padding: 6px 12px;
   border-radius: 999px;
@@ -731,7 +731,7 @@
   border-radius: 999px;
   color: #fff;
   padding: 12px 22px;
-  font-size: 12px;
+  font-size: var(--fs-body);
   font-weight: 600;
   letter-spacing: 0.06em;
   transition: transform 0.3s var(--pd-ease), box-shadow 0.3s var(--pd-ease),
@@ -750,7 +750,7 @@
 
 .curriculum-resource-note {
   margin-top: auto;
-  font-size: 11px;
+  font-size: var(--fs-eyebrow);
   color: var(--pd-muted);
   border-top: 1px dashed var(--pd-line);
   padding-top: 14px;
@@ -798,7 +798,7 @@
 .curriculum-practice-stats b {
   position: relative;
   z-index: 1;
-  font: 500 42px/1 var(--pd-serif);
+  font: 500 var(--fs-h2)/1 var(--pd-serif);
   font-variant-numeric: tabular-nums;
   color: var(--pd-gold);
   background: linear-gradient(
@@ -814,9 +814,9 @@
 .curriculum-practice-stats span {
   position: relative;
   z-index: 1;
-  font-size: 12.5px;
+  font-size: var(--fs-caption);
   color: var(--pd-muted);
-  line-height: 1.5;
+  line-height: var(--lh-body);
 }
 
 .curriculum-practice-steps {
@@ -854,7 +854,7 @@
   background: var(--pd-cream);
   border: 1px solid var(--pd-gold);
   color: var(--pd-gold);
-  font: 500 18px var(--pd-serif);
+  font: 500 var(--fs-h4)/1 var(--pd-serif);
   box-shadow: 0 0 0 6px var(--pd-paper);
 }
 
@@ -873,14 +873,14 @@
 }
 
 .curriculum-practice-step h3 {
-  font: 500 23px/1.2 var(--pd-serif);
+  font: 500 var(--fs-h3)/var(--lh-h3) var(--pd-serif);
   margin: 0 0 10px;
 }
 
 .curriculum-practice-step p {
   color: var(--pd-muted);
-  font-size: 13.5px;
-  line-height: 1.65;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   max-width: 780px;
   margin: 0;
 }
@@ -974,7 +974,7 @@
 
 .pd .final-cta h2 {
   color: #fff;
-  font: 500 clamp(30px, 4vw, 46px) / 1.1 var(--pd-serif);
+  font: 500 var(--fs-h2) / 1.1 var(--pd-serif);
   max-width: 720px;
   margin: 12px auto 0;
 }
@@ -1141,11 +1141,11 @@
   }
 
   .curriculum-week-number {
-    font-size: 14px;
+    font-size: var(--fs-caption);
   }
 
   .curriculum-week-title {
-    font-size: 19px;
+    font-size: var(--fs-h4);
   }
 
   .curriculum-week-body {
@@ -1169,7 +1169,7 @@
   .curriculum-practice-step > span {
     width: 44px;
     height: 44px;
-    font-size: 16px;
+    font-size: var(--fs-h4);
   }
 
   .curriculum-practice-step > div {
