@@ -348,6 +348,284 @@ main > .hero.scroll-reveal.is-visible {
   
 }
 
+/* ============================================================
+   COURSE LISTING - product-style catalog with pricing
+   Rendered by components/home/CourseListing.jsx. Type comes from
+   the shared scale in home.css (--fs-h2/--fs-h3/--fs-lead/etc.,
+   loaded on every route that renders Home) so it matches the
+   rest of the page. Card radius/shadow match .svc-item,
+   .program-card, and .topic-detail elsewhere on the page.
+   ============================================================ */
+
+.course-listing-head {
+  
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 44px;
+  
+}
+
+.course-listing-head h2 {
+  
+    font: 500 var(--fs-h2)/var(--lh-h2) var(--serif);
+    letter-spacing: var(--ls-h2);
+    color: var(--ink);
+    margin: 14px 0 0;
+    max-width: 620px;
+  
+}
+
+.course-listing-intro {
+  
+    max-width: 400px;
+  
+}
+
+.course-listing-intro p {
+  
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+    color: var(--muted);
+    margin: 0 0 18px;
+  
+}
+
+.course-listing-all {
+  
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: var(--fs-caption);
+    font-weight: 600;
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 5px;
+    transition: gap 0.25s var(--ease), color 0.25s var(--ease),
+      border-color 0.25s var(--ease);
+  
+}
+
+.course-listing-all:hover {
+  
+    gap: 14px;
+    color: var(--gold);
+    border-color: var(--gold);
+  
+}
+
+.course-grid {
+  
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+    max-width: 800px;
+    margin: 0 auto;
+  
+}
+
+.course-card {
+  
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--fx-shadow, 0 1px 2px rgba(63, 74, 73, 0.05), 0 20px 48px rgba(63, 74, 73, 0.1));
+    transition: transform 0.35s var(--ease), border-color 0.35s var(--ease),
+      box-shadow 0.35s var(--ease);
+  
+}
+
+.course-card:hover {
+  
+    transform: translateY(-6px);
+    border-color: var(--fx-gold-line, rgba(212, 150, 125, 0.45));
+    box-shadow: var(--fx-shadow-lg, 0 2px 4px rgba(63, 74, 73, 0.06), 0 32px 70px rgba(63, 74, 73, 0.16));
+  
+}
+
+.course-card-media {
+  
+    position: relative;
+    aspect-ratio: 2 / 1;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px 18px;
+  
+}
+
+.course-card-media.tone-clay {
+  
+    background: linear-gradient(135deg, var(--gold, #d4967d) 0%, #c17f66 100%);
+  
+}
+
+.course-card-media.tone-sage {
+  
+    background: linear-gradient(135deg, #9aa89c 0%, #7d8d80 100%);
+  
+}
+
+.course-card-code {
+  
+    font: 500 clamp(28px, 2.4vw, 40px) / 0.9 var(--serif);
+    letter-spacing: -0.03em;
+    color: rgba(255, 255, 255, 0.92);
+  
+}
+
+.course-card-sub {
+  
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: var(--fs-eyebrow);
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 999px;
+    padding: 5px 11px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(4px);
+  
+}
+
+.course-card-body {
+  
+    flex: 1;
+    padding: 20px 20px 0;
+    display: flex;
+    flex-direction: column;
+  
+}
+
+.course-card-meta {
+  
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  
+}
+
+.course-card-meta span {
+  
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--fs-caption);
+    line-height: var(--lh-caption);
+    color: var(--muted);
+    background: var(--fx-gold-soft, rgba(212, 150, 125, 0.14));
+    border-radius: 999px;
+    padding: 5px 11px;
+  
+}
+
+.course-card h3 {
+  
+    font: 500 var(--fs-h3) / var(--lh-h3) var(--serif);
+    letter-spacing: var(--ls-h3);
+    color: var(--ink);
+    margin: 0 0 6px;
+  
+}
+
+.course-card-subtitle {
+  
+    font-size: var(--fs-caption);
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+    color: var(--gold, var(--terracotta));
+    margin: 0 0 14px;
+  
+}
+
+.course-card-copy {
+  
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--muted);
+    margin: 0;
+  
+}
+
+.course-card-foot {
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--line);
+    background: var(--paper);
+  
+}
+
+.course-card-price {
+  
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+  
+}
+
+.course-price-now {
+  
+    font: 500 23px / 1 var(--serif);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  
+}
+
+.course-price-note {
+  
+    font-size: var(--fs-eyebrow);
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+    color: var(--gold, var(--terracotta));
+  
+}
+
+@media (max-width: 860px) {
+  
+  .course-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  
+  .course-listing-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  
+}
+
+@media (max-width: 720px) {
+  
+  .course-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .course-card-foot {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .course-card-foot .button {
+    justify-content: center;
+  }
+  
+}
+
 .program-gallery-head {
   
     padding: 100px 16vw 65px;
