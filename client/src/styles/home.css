@@ -580,10 +580,11 @@ main > .hero.scroll-reveal.is-visible {
 
 .course-price-now {
   
-    font: 500 23px / 1 var(--serif);
+    font-family: span,serif;
     letter-spacing: -0.02em;
     color: var(--ink);
-  
+    font-size: 25px;
+    font-weight: 600;  
 }
 
 .course-price-note {
@@ -1539,6 +1540,26 @@ main > .hero.scroll-reveal.is-visible {
   }
 }
 
+.course-listing-head .eyebrow {
+  
+    font-size: 14px;
+    letter-spacing: var(--ls-eyebrow);
+    line-height: 25px;
+    color: rgb(107, 117, 116);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 400;
+  
+}
+
+.course-listing-head h2 {
+  
+    font-size: 62px;
+    line-height: 65px;
+    color: rgb(23, 24, 29);
+    font-family: span, serif;
+    font-weight: 400;
+  
+}
 
 
 .curriculum-link-row {

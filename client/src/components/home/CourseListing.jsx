@@ -52,7 +52,7 @@ export default function CourseListing({ courses = COURSES }) {
       <div className="course-listing-head">
         <div>
           <Eyebrow>Enrollment</Eyebrow>
-          <h2>One course, two ways to pay.</h2>
+          <h2>Course registrations and payments.</h2>
         </div>
         <div className="course-listing-intro">
           <p>

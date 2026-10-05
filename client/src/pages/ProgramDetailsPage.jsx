@@ -85,7 +85,7 @@ export default function ProgramDetailsPage() {
       </Helmet>
 
       <div className="pd">
-        {hero.note && <p className="curriculum-note">{hero.note}</p>}
+        {/* {hero.note && <p className="curriculum-note">{hero.note}</p>} */}
 
         <section
           className="curriculum-snapshot"

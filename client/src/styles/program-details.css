@@ -1200,3 +1200,16 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+.page-hero {
+    padding: 70px 15vw 70px;
+    min-height: 443px;
+}
+
+.curriculum-block .section-title > p {
+    font-size: 17px;
+    line-height: 27px;
+    font-weight: 400;
+    color: rgb(107, 117, 116);
+    margin: 12px 0 24px;
+}

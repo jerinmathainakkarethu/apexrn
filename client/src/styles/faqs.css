@@ -60,4 +60,6 @@
   }
 }
 
-
+.page-hero {
+    min-height: 450px !important;
+}
