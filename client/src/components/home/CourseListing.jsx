@@ -100,7 +100,7 @@ export default function CourseListing({ courses = COURSES }) {
                 <span className="course-price-note">{course.priceNote}</span>
               </div>
               <a className="button" href={course.href}>
-                Enroll now
+                Enroll
                 <ArrowRight size={17} />
               </a>
             </div>

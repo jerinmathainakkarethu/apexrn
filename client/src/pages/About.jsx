@@ -246,14 +246,14 @@ export default function About() {
                       <span>{item.country || content.testimonials.defaultRole}</span>
                     </div>
                   </div>
-                  {item.video_url && (
+                  {/* {item.video_url && (
                     <span className="testimonial-play" aria-hidden="true">
                       <span className="testimonial-play-icon">
                         <Play size={14} fill="currentColor" />
                       </span>
                       <span className="testimonial-play-label">Watch story</span>
                     </span>
-                  )}
+                  )} */}
                 </article>
               );
             })}

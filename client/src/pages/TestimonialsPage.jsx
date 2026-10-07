@@ -200,12 +200,12 @@ export default function TestimonialsPage() {
       </Helmet>
 
       <div className="tm">
-        {SHOW_PLACEHOLDER_NOTE && (
+        {/* {SHOW_PLACEHOLDER_NOTE && (
           <p className="tm-note">
             Placeholder content. Replace every [bracketed] item with real,
             permission-approved student stories before publishing.
           </p>
-        )}
+        )} */}
 
         {/* ---------- Written stories ---------- */}
         <section className="tm-block section-tone-blush" aria-labelledby="tm-stories">
