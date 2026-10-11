@@ -73,11 +73,13 @@ export default function ProgramDetailsPage() {
     practice,
     finalCta,
   } = data;
+  const isVisible = (key) => data.sectionVisibility?.[key] !== false;
   return (
     <PageFrame
       eyebrow={hero.eyebrow}
       title={hero.title}
       intro={hero.intro}
+      showHero={isVisible("hero")}
     >
       <Helmet>
         <title>{seo.title}</title>
@@ -87,7 +89,7 @@ export default function ProgramDetailsPage() {
       <div className="pd">
         {/* {hero.note && <p className="curriculum-note">{hero.note}</p>} */}
 
-        <section
+        {isVisible("snapshot") && <section
           className="curriculum-snapshot"
           aria-label="Program summary"
         >
@@ -97,9 +99,9 @@ export default function ProgramDetailsPage() {
               {item}
             </span>
           ))}
-        </section>
+        </section>}
 
-        <section className="curriculum-block section-tone-sage">
+        {isVisible("structure") && <section className="curriculum-block section-tone-sage">
           <SectionTitle
             eyebrow={structure.eyebrow}
             copy={structure.copy}
@@ -122,9 +124,9 @@ export default function ProgramDetailsPage() {
               </article>
             ))}
           </div>
-        </section>
+        </section>}
 
-        <section className="curriculum-block curriculum-weeks">
+        {isVisible("weeks") && <section className="curriculum-block curriculum-weeks">
           <SectionTitle eyebrow={weeksIntro.eyebrow} copy={weeksIntro.copy}>
             {weeksIntro.title}
           </SectionTitle>
@@ -172,9 +174,9 @@ export default function ProgramDetailsPage() {
               </details>
             ))}
           </div>
-        </section>
+        </section>}
 
-        <section className="curriculum-block curriculum-systems section-tone-blush">
+        {isVisible("systems") && <section className="curriculum-block curriculum-systems section-tone-blush">
           <SectionTitle eyebrow={systems.eyebrow} copy={systems.copy}>
             {systems.title}
           </SectionTitle>
@@ -206,9 +208,9 @@ export default function ProgramDetailsPage() {
               );
             })}
           </div>
-        </section>
+        </section>}
 
-        <section className="curriculum-block curriculum-resources section-tone-sage">
+        {isVisible("resources") && <section className="curriculum-block curriculum-resources section-tone-sage">
           <SectionTitle
             eyebrow={resourcesIntro.eyebrow}
             copy={resourcesIntro.copy}
@@ -259,9 +261,9 @@ export default function ProgramDetailsPage() {
               );
             })}
           </div>
-        </section>
+        </section>}
 
-        <section className="curriculum-block curriculum-practice section-tone-blush-2">
+        {isVisible("practice") && <section className="curriculum-block curriculum-practice section-tone-blush-2">
           <SectionTitle eyebrow={practice.eyebrow} copy={practice.copy}>
             {practice.title}
           </SectionTitle>
@@ -284,9 +286,9 @@ export default function ProgramDetailsPage() {
               </div>
             ))}
           </div>
-        </section>
+        </section>}
 
-        <section className="final-cta">
+        {isVisible("finalCta") && <section className="final-cta">
           <p className="eyebrow">{finalCta.eyebrow}</p>
           <h2>{finalCta.title}</h2>
           <p>
@@ -298,7 +300,7 @@ export default function ProgramDetailsPage() {
             </Button>
             <Button href="#contact">{finalCta.secondary}</Button>
           </div>
-        </section>
+        </section>}
       </div>
     </PageFrame>
   );

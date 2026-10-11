@@ -12,6 +12,10 @@ import {
 import PageFrame from "../components/layout/PageFrame";
 import Button from "../components/ui/Button";
 import SectionTitle from "../components/ui/SectionTitle";
+import Loading from "../components/ui/Loading";
+import ErrorState from "../components/ui/ErrorState";
+import useRemote from "../hooks/useRemote";
+import { getTestimonialsPageSettings } from "../api/testimonials";
 
 /* ------------------------------------------------------------------
    STATIC CONTENT
@@ -217,11 +221,29 @@ function toEmbedUrl(url = "") {
 }
 
 export default function TestimonialsPage() {
+  const pageSettings = useRemote(getTestimonialsPageSettings);
+  const isVisible = (key) =>
+    pageSettings?.sectionVisibility?.[key] !== false;
+
+  if (pageSettings === null)
+    return (
+      <PageFrame eyebrow={HERO.eyebrow} title={HERO.title} intro={HERO.intro}>
+        <Loading />
+      </PageFrame>
+    );
+  if (pageSettings === false)
+    return (
+      <PageFrame eyebrow={HERO.eyebrow} title={HERO.title} intro={HERO.intro}>
+        <ErrorState />
+      </PageFrame>
+    );
+
   return (
     <PageFrame
       eyebrow={HERO.eyebrow}
       title={HERO.title}
       intro={HERO.intro}
+      showHero={isVisible("hero")}
     >
       <Helmet>
         <title>{SEO.title}</title>
@@ -237,7 +259,7 @@ export default function TestimonialsPage() {
         )} */}
 
         {/* ---------- Written stories ---------- */}
-        <section className="tm-block section-tone-blush" aria-labelledby="tm-stories">
+        {isVisible("stories") && <section className="tm-block section-tone-blush" aria-labelledby="tm-stories">
           <SectionTitle
             eyebrow="Success stories"
             copy="Short stories in three parts: the problem, the solution, and the result."
@@ -278,10 +300,10 @@ export default function TestimonialsPage() {
               </article>
             ))}
           </div>
-        </section>
+        </section>}
 
         {/* ---------- Before / after ---------- */}
-<section className="tm-block section-tone-sage" aria-labelledby="tm-before-after">
+{isVisible("beforeAfter") && <section className="tm-block section-tone-sage" aria-labelledby="tm-before-after">
           <SectionTitle
             eyebrow="Before and after"
             copy="A quick look at where students started and where they ended up."
@@ -340,10 +362,10 @@ export default function TestimonialsPage() {
               </article>
             ))}
           </div>
-        </section>
+        </section>}
 
         {/* ---------- Screenshots ---------- */}
-        <section className="tm-block section-tone-blush-2" aria-labelledby="tm-messages">
+        {isVisible("messages") && <section className="tm-block section-tone-blush-2" aria-labelledby="tm-messages">
           <SectionTitle
             eyebrow="In their own words"
             copy="Messages shared by students, with names and contact details blurred."
@@ -362,10 +384,10 @@ export default function TestimonialsPage() {
             Names, phone numbers, and email addresses are blurred to protect
             student privacy.
           </p>
-        </section>
+        </section>}
 
         {/* ---------- Final CTA ---------- */}
-        <section className="final-cta">
+        {isVisible("finalCta") && <section className="final-cta">
           <p className="eyebrow">{FINAL_CTA.eyebrow}</p>
           <h2>{FINAL_CTA.title}</h2>
           <p>{FINAL_CTA.copy}</p>
@@ -375,7 +397,7 @@ export default function TestimonialsPage() {
               {FINAL_CTA.secondary}
             </Button>
           </div>
-        </section>
+        </section>}
       </div>
     </PageFrame>
   );

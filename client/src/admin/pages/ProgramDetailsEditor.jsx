@@ -18,6 +18,7 @@ import PageEditorShell from "../components/PageEditorShell";
 
 const PROGRAM_DETAILS_NAV = [
   { id: "curriculum-header", label: "Page header" },
+  { id: "curriculum-snapshot", label: "Summary strip" },
   { id: "curriculum-structure", label: "Week structure" },
   { id: "curriculum-weeks", label: "Week by week" },
   { id: "curriculum-systems", label: "Systems" },
@@ -48,6 +49,14 @@ export default function ProgramDetailsEditor({ onNotice }) {
     const current = path.reduce((acc, key) => acc?.[key], content) || [];
     update(path, [...current, entry]);
   };
+  const isVisible = (key) => content.sectionVisibility?.[key] !== false;
+  const toggleVisibility = (key) =>
+    update(["sectionVisibility", key], !isVisible(key));
+  const switchProps = (key) => ({
+    sectionKey: key,
+    visible: isVisible(key),
+    onToggle: toggleVisibility,
+  });
   const newWeek = (index) => ({
     number: String(index + 1).padStart(2, "0"),
     title: "",
@@ -63,6 +72,7 @@ export default function ProgramDetailsEditor({ onNotice }) {
       eyebrow="Curriculum page builder"
       heading="Edit the program details page"
       description="Sections below are in the same order they appear on the live curriculum page. Open one, make your edits, then save once at the end."
+      note="Use the switch on each section to show or hide it on the live curriculum page. Save your changes when finished."
       saveLabel="Save curriculum page"
       successMessage="Curriculum page changes saved successfully."
       emptyTitle="Curriculum content"
@@ -75,10 +85,11 @@ export default function ProgramDetailsEditor({ onNotice }) {
     >
       <HomeSection
         anchorId="curriculum-header"
+        {...switchProps("hero")}
         number="01"
         icon={BookOpen}
         title="Page header"
-        where="Eyebrow, page title, intro, the note under the title and the summary strip."
+        where="Eyebrow, page title, intro and the note under the title."
         preview={content.hero?.title}
       >
         <div className="home-field-grid">
@@ -107,12 +118,6 @@ export default function ProgramDetailsEditor({ onNotice }) {
           multiline
         />
         <HomeField
-          label="Summary strip (one item per line)"
-          value={(content.snapshot || []).join("\n")}
-          onChange={(value) => updateList(["snapshot"], value)}
-          multiline
-        />
-        <HomeField
           label="Page title (browser tab)"
           value={content.seo?.title}
           onChange={(value) => update(["seo", "title"], value)}
@@ -126,8 +131,26 @@ export default function ProgramDetailsEditor({ onNotice }) {
       </HomeSection>
 
       <HomeSection
-        anchorId="curriculum-structure"
+        anchorId="curriculum-snapshot"
+        {...switchProps("snapshot")}
         number="02"
+        icon={ListChecks}
+        title="Summary strip"
+        where="The row of key program facts below the curriculum page header."
+        preview={(content.snapshot || []).join(" · ")}
+      >
+        <HomeField
+          label="Summary strip (one item per line)"
+          value={(content.snapshot || []).join("\n")}
+          onChange={(value) => updateList(["snapshot"], value)}
+          multiline
+        />
+      </HomeSection>
+
+      <HomeSection
+        anchorId="curriculum-structure"
+        {...switchProps("structure")}
+        number="03"
         icon={ListChecks}
         title="Week structure"
         where="The three cards explaining live sessions, self-study and homework."
@@ -212,7 +235,8 @@ export default function ProgramDetailsEditor({ onNotice }) {
 
       <HomeSection
         anchorId="curriculum-weeks"
-        number="03"
+        {...switchProps("weeks")}
+        number="04"
         icon={CalendarDays}
         title="Week by week"
         where="The 11 expandable weeks: summary, live, self-study, homework and topics."
@@ -324,7 +348,8 @@ export default function ProgramDetailsEditor({ onNotice }) {
 
       <HomeSection
         anchorId="curriculum-systems"
-        number="04"
+        {...switchProps("systems")}
+        number="05"
         icon={Layers}
         title="Systems breakdown"
         where="The seven system cards with weeks, live hours and how each block is assessed."
@@ -431,7 +456,8 @@ export default function ProgramDetailsEditor({ onNotice }) {
 
       <HomeSection
         anchorId="curriculum-resources"
-        number="05"
+        {...switchProps("resources")}
+        number="06"
         icon={FileText}
         title="Sample resources"
         where="The sample slides, recorded lesson clip and cheat sheet shown to prospective students."
@@ -549,7 +575,8 @@ export default function ProgramDetailsEditor({ onNotice }) {
 
       <HomeSection
         anchorId="curriculum-practice"
-        number="06"
+        {...switchProps("practice")}
+        number="07"
         icon={Target}
         title="Practice & feedback"
         where="The four numbers and the five steps explaining how questions, mocks and weak areas work."
@@ -659,7 +686,8 @@ export default function ProgramDetailsEditor({ onNotice }) {
 
       <HomeSection
         anchorId="curriculum-cta"
-        number="07"
+        {...switchProps("finalCta")}
+        number="08"
         icon={MessageCircle}
         title="Closing CTA"
         where="The dark band at the bottom of the page, above the footer."

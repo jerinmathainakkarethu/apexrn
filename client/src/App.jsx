@@ -27,7 +27,9 @@ export default function App() {
     let sectionObserver;
     let mutationObserver;
     const observeOpeningSection = () => {
-      const openingSection = document.querySelector("main > section");
+      const openingSection = document.querySelector(
+        "main > section, main > div > section",
+      );
       if (!openingSection) return false;
 
       sectionObserver = new IntersectionObserver(([entry]) => {

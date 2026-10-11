@@ -34,6 +34,15 @@ const fallback = {
     status: "published",
   })),
   testimonials: [],
+  testimonialsPage: {
+    sectionVisibility: {
+      hero: true,
+      stories: true,
+      beforeAfter: true,
+      messages: true,
+      finalCta: true,
+    },
+  },
   faqs: [],
   resources: [],
   contacts: [],

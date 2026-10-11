@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { makeCollectionController } from "../controllers/collectionController.js";
+import * as pageController from "../controllers/testimonialsPageController.js";
 import { authenticateAdmin } from "../middleware/auth.js";
 
 const controller = makeCollectionController({
@@ -12,6 +13,8 @@ const controller = makeCollectionController({
 });
 
 const router = Router();
+router.get("/page-settings", pageController.get);
+router.put("/page-settings", authenticateAdmin, pageController.update);
 router.get("/", controller.list);
 router.post("/", authenticateAdmin, controller.create);
 router.put("/:id", authenticateAdmin, controller.update);
