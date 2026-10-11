@@ -38,12 +38,8 @@ const HOME_SECTION_NAV = [
   { id: "sec-pricing", label: "Pricing" },
 ];
 
-export default function HomeContentEditor({ onNotice }) {
-  const page = usePageContent({
-    load: getHome,
-    save: updateHome,
-    onNotice,
-  });
+export default function HomeContentEditor() {
+  const page = usePageContent({ load: getHome, save: updateHome });
   const { content, update, updateItem, updateList, updateImage } =
     useContentDocument(page.value, page.setValue);
   const [uploadError, setUploadError] = useState("");
@@ -59,6 +55,7 @@ export default function HomeContentEditor({ onNotice }) {
 
   return (
     <PageEditorShell
+      className="admin-page-builder"
       eyebrow="Homepage builder"
       heading="Edit the home page, section by section"
       description="Sections below are in the same order they appear on the live page. Open one, make your edits, then save once at the end."
@@ -70,6 +67,7 @@ export default function HomeContentEditor({ onNotice }) {
       hasContent={Object.keys(content).length > 0}
       loading={page.loading}
       onSave={page.commit}
+      toastOnSave
       nav={HOME_SECTION_NAV}
       uploadError={uploadError}
       onRetry={page.refresh}

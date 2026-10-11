@@ -32,12 +32,8 @@ const ABOUT_SECTION_NAV = [
   { id: "about-testimonials", label: "Testimonials" },
 ];
 
-export default function AboutContentEditor({ onNotice }) {
-  const page = usePageContent({
-    load: getAbout,
-    save: updateAbout,
-    onNotice,
-  });
+export default function AboutContentEditor() {
+  const page = usePageContent({ load: getAbout, save: updateAbout });
   const { content, update, updateItem, updateList } = useContentDocument(
     page.value,
     page.setValue,
@@ -71,6 +67,7 @@ export default function AboutContentEditor({ onNotice }) {
 
   return (
     <PageEditorShell
+      className="admin-page-builder"
       eyebrow="About page builder"
       heading="Edit the about page, section by section"
       description="Sections below are in the same order they appear on the live about page. Open one, make your edits, then save once at the end."
@@ -82,6 +79,7 @@ export default function AboutContentEditor({ onNotice }) {
       hasContent={Object.keys(content).length > 0}
       loading={page.loading}
       onSave={page.commit}
+      toastOnSave
       nav={ABOUT_SECTION_NAV}
       uploadError={uploadError}
       onRetry={page.refresh}
