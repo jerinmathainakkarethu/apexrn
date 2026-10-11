@@ -91,8 +91,8 @@ export default function PageEditorShell({
         <div>
           <Eyebrow>{eyebrow}</Eyebrow>
           <h2>{heading}</h2>
-          <p>{description}</p>
-          {note && <p className="home-visibility-note">{note}</p>}
+          {/* <p>{description}</p>
+          {note && <p className="home-visibility-note">{note}</p>} */}
         </div>
         <div className="home-editor-actions">
           <button

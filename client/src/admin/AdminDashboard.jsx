@@ -33,6 +33,7 @@ import ProgramDetailsEditor from "./pages/ProgramDetailsEditor";
 import TestimonialsEditor from "./pages/TestimonialsEditor";
 import FaqEditor from "./pages/FaqEditor";
 import ResourcesEditor from "./pages/ResourcesEditor";
+import AdminProfileEditor from "./pages/AdminProfileEditor";
 import MessagesEditor from "./pages/MessagesEditor";
 import QaRegistrationsEditor from "./pages/QaRegistrationsEditor";
 
@@ -67,6 +68,10 @@ const sectionGroups = [
       { key: "Messages", icon: Mail },
       { key: "Q&A registrations", icon: Users2 },
     ],
+  },
+  {
+    label: "Account",
+    items: [{ key: "Admin profile", icon: User }],
   },
 ];
 
@@ -284,7 +289,15 @@ export default function AdminDashboard() {
               active === "Overview" ? " admin-workspace-overview" : ""
             }`}
           >
-            <AdminView active={active} onNotice={setNotice} />
+            <AdminView
+              active={active}
+              onNotice={setNotice}
+              admin={admin}
+              onAdminUpdate={(updatedAdmin, updatedToken) => {
+                setAdmin(updatedAdmin);
+                setToken(updatedToken);
+              }}
+            />
           </div>
         </section>
       </div>
@@ -292,7 +305,7 @@ export default function AdminDashboard() {
   );
 }
 
-function AdminView({ active, onNotice }) {
+function AdminView({ active, onNotice, admin, onAdminUpdate }) {
   switch (active) {
     case "Overview":
       return <OverviewEditor />;
@@ -316,6 +329,10 @@ function AdminView({ active, onNotice }) {
       return <MessagesEditor />;
     case "Q&A registrations":
       return <QaRegistrationsEditor />;
+    case "Admin profile":
+      return (
+        <AdminProfileEditor admin={admin} onUpdate={onAdminUpdate} />
+      );
     default:
       return null;
   }

@@ -39,6 +39,7 @@ app.use(
 );
 app.use(express.json({ limit: "2mb" }));
 app.use("/api/auth/login", rateLimit({ windowMs: 15 * 60 * 1000, limit: 10 }));
+app.use("/api/auth/profile", rateLimit({ windowMs: 15 * 60 * 1000, limit: 10 }));
 app.use("/uploads", express.static(uploadDirectoryPath));
 
 app.get("/api/health", async (_, res) => {
