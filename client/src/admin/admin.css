@@ -904,7 +904,26 @@
   font: inherit;
 }
 
-.menu-modal-form input:focus {
+.menu-modal-form textarea,
+.menu-modal-form select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+
+.menu-modal-form textarea {
+  min-height: 112px;
+  resize: vertical;
+}
+
+.menu-modal-form input:focus,
+.menu-modal-form textarea:focus,
+.menu-modal-form select:focus {
   outline: none;
   border-color: var(--terracotta);
   box-shadow: 0 0 0 3px rgba(196, 108, 74, 0.14);
@@ -1861,6 +1880,11 @@ textarea.has-error:focus {
 .admin-page .admin-row-fields select,
 .admin-page .admin-video-field textarea,
 .admin-page .menu-modal-form input {
+  font-size: 15px;
+}
+
+.admin-page .menu-modal-form textarea,
+.admin-page .menu-modal-form select {
   font-size: 15px;
 }
 

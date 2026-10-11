@@ -6,7 +6,6 @@ import {
 } from "../../api/resources";
 import { blankResource } from "../lib/blankRecords";
 import { useCollectionPage } from "../hooks/useCollectionPage";
-import CreateForm from "../components/CreateForm";
 import Collection from "../components/Collection";
 
 const FIELDS = [
@@ -26,34 +25,33 @@ export default function ResourcesEditor({ onNotice }) {
     onNotice,
   });
 
-  if (page.loading)
+  if (page.loading && !page.loaded)
     return <div className="admin-loading">Loading this page from MySQL...</div>;
 
-  if (page.error)
+  if (page.error && !page.loaded)
     return <p className="admin-form-error">{page.error}</p>;
 
   return (
-    <>
-      <CreateForm
-        title="Add resource"
-        value={page.draft}
-        setValue={page.setDraft}
-        fields={FIELDS}
-        onSubmit={page.submit}
-      />
-      <Collection
-        title="Resources"
-        items={page.items}
-        summaryKey="title"
-        fields={[
-          { key: "title", label: "Title" },
-          { key: "slug", label: "Slug" },
-          { key: "excerpt", label: "Excerpt" },
-          { key: "content", label: "Content" },
-        ]}
-        onSave={page.saveItem}
-        onDelete={page.deleteItem}
-      />
-    </>
+    <Collection
+      title="Resources"
+      items={page.items}
+      summaryKey="title"
+      fields={[
+        { key: "title", label: "Title" },
+        { key: "slug", label: "Slug" },
+        { key: "excerpt", label: "Excerpt" },
+        { key: "content", label: "Content" },
+      ]}
+      onSave={page.saveItem}
+      onDelete={page.deleteItem}
+      draft={page.draft}
+      blank={blankResource}
+      setDraft={page.setDraft}
+      addFields={FIELDS}
+      addLabel="Add resource"
+      onAdd={page.submit}
+      loading={page.loading}
+      emptyMessage="No resources yet. Add your first one."
+    />
   );
 }

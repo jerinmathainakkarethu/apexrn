@@ -82,6 +82,7 @@ export default function ProgramDetailsEditor({ onNotice }) {
       onSave={page.commit}
       nav={PROGRAM_DETAILS_NAV}
       onRetry={page.refresh}
+      toastOnSave
     >
       <HomeSection
         anchorId="curriculum-header"

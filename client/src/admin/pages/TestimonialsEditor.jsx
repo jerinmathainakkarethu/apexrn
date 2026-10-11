@@ -9,7 +9,6 @@ import {
 import { blankTestimonial } from "../lib/blankRecords";
 import { useCollectionPage } from "../hooks/useCollectionPage";
 import { usePageContent } from "../hooks/usePageContent";
-import CreateForm from "../components/CreateForm";
 import Collection from "../components/Collection";
 import HomeSection from "../components/HomeSection";
 import PageEditorShell from "../components/PageEditorShell";
@@ -29,6 +28,15 @@ const VISIBILITY = {
     ["draft", "Draft — hidden from the site"],
   ],
 };
+
+const TESTIMONIAL_FIELDS = [
+  ["display_name", "Display name"],
+  ["country", "Country"],
+  ["story", "Story"],
+  ["result", "Result"],
+  ["video_url", "Video", true],
+  ["status", "Visibility", true, VISIBILITY],
+];
 
 export default function TestimonialsEditor({ onNotice }) {
   const page = useCollectionPage({
@@ -57,10 +65,10 @@ export default function TestimonialsEditor({ onNotice }) {
     onToggle: toggleVisibility,
   });
 
-  if (page.loading)
+  if (page.loading && !page.loaded)
     return <div className="admin-loading">Loading this page from MySQL...</div>;
 
-  if (page.error)
+  if (page.error && !page.loaded)
     return <p className="admin-form-error">{page.error}</p>;
 
   return (
@@ -77,6 +85,7 @@ export default function TestimonialsEditor({ onNotice }) {
         loading={settingsPage.loading}
         onSave={settingsPage.commit}
         onRetry={settingsPage.refresh}
+        toastOnSave
       >
         <HomeSection
           {...switchProps("hero")}
@@ -119,20 +128,6 @@ export default function TestimonialsEditor({ onNotice }) {
           preview="Ready to reserve your spot?"
         />
       </PageEditorShell>
-      <CreateForm
-        title="Add testimonial"
-        value={page.draft}
-        setValue={page.setDraft}
-        fields={[
-          ["display_name", "Display name"],
-          ["country", "Country"],
-          ["story", "Story"],
-          ["result", "Result"],
-          ["video_url", "Video", true],
-          ["status", "Visibility", true, VISIBILITY],
-        ]}
-        onSubmit={page.submit}
-      />
       <Collection
         title="Testimonials"
         items={page.items}
@@ -147,6 +142,14 @@ export default function TestimonialsEditor({ onNotice }) {
         ]}
         onSave={page.saveItem}
         onDelete={page.deleteItem}
+        draft={page.draft}
+        blank={blankTestimonial}
+        setDraft={page.setDraft}
+        addFields={TESTIMONIAL_FIELDS}
+        addLabel="Add testimonial"
+        onAdd={page.submit}
+        loading={page.loading}
+        emptyMessage="No testimonials yet. Add your first one."
       />
     </>
   );

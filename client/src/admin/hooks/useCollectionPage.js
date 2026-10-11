@@ -65,7 +65,7 @@ export function useCollectionPage({ load, create, update, remove, blank, onNotic
     loaded,
     error,
     refresh,
-    submit: () => run(() => create(draft), true),
+    submit: (value = draft) => run(() => create(value), true),
     saveItem: (id, value) => run(() => update(id, value)),
     deleteItem: (id) => run(() => remove(id)),
   };
