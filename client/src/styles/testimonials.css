@@ -251,6 +251,8 @@
 }
 
 .tm-ba-side {
+  display: flex;
+  flex-direction: column;
   border-radius: var(--tm-radius-sm);
   padding: 20px 22px;
 }
@@ -266,7 +268,11 @@
 
 .tm-ba-side p {
   margin: 0;
-  font: 500 19px/1.4 var(--tm-serif);
+  font: 500 16px/1.5 var(--tm-serif);
+}
+
+.tm-ba-side p + p {
+  margin-top: 10px;
 }
 
 .tm-ba-before {
@@ -291,6 +297,10 @@
   color: var(--tm-gold);
 }
 
+.tm-ba-after p {
+  color: var(--tm-ink);
+}
+
 .tm-ba-arrow {
   align-self: center;
   display: grid;
@@ -301,6 +311,59 @@
   background: var(--tm-gold);
   color: #fff;
   box-shadow: 0 8px 20px color-mix(in srgb, var(--tm-gold) 35%, transparent);
+}
+
+/* "After" video Ã¢â‚¬â€ fills whatever height .tm-ba-row stretches the row to,
+   so it always lines up with the "Before" text box beside it instead of
+   being sized by its own aspect ratio. */
+.tm-ba-video {
+  position: relative;
+  flex: 1;
+  min-height: 230px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #15110d;
+  box-shadow: 0 1px 2px rgba(29, 26, 22, 0.08);
+}
+
+.tm-ba-video video,
+.tm-ba-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  object-fit: cover;
+}
+
+/* Empty state when an item has neither a video nor fallback text yet Ã¢â‚¬â€
+   mirrors the .tm-shot-slot "Add screenshot" placeholder below. */
+.tm-ba-video-empty {
+  flex: 1;
+  min-height: 130px;
+  border-radius: 10px;
+  background: var(--tm-cream);
+  border: 1px dashed var(--tm-gold-line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--tm-gold);
+}
+
+.tm-ba-video-empty svg {
+  opacity: 0.85;
+}
+
+.tm-ba-video-empty span {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tm-gold);
 }
 
 /* ---------- Screenshots ---------- */
@@ -583,6 +646,11 @@
     transform: rotate(90deg);
   }
 
+  .tm-ba-video,
+  .tm-ba-video-empty {
+    min-height: 200px;
+  }
+
   .tm .final-cta {
     margin: 0 7vw 30px;
     padding: 52px 24px;
@@ -616,13 +684,10 @@
 
 .testimonials-heading h2 {
   
-    font-family: span, "Serif";
+    font: 400 62px/65px var(--serif);
     letter-spacing: -0.05em;
     margin: 0;
-    font-size: 62px;
-    line-height: 65px;
     color: rgb(23, 24, 29);
-    font-weight: 400;
   
 }
 
@@ -682,10 +747,9 @@
 
 .stars {
   
-    color: #f0a93c;
+    color: #f5b400;
     font-family: Arial, sans-serif;
-    font-size: 18px;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
   
 }
 
@@ -1010,13 +1074,29 @@
       
   }
 }
-
-.stars {
-  
-    color: #f5b400;
-    font-family: Arial, sans-serif;
-    letter-spacing: 1px;
-  
+@media (max-width: 800px) {
+  .tm-ba-side p {
+    font-size: 15px;
+  }
+  .tm-ba-video,
+  .tm-ba-video-empty {
+    min-height: 110px;
+  }
+  .tm-ba-side {
+    padding: 16px 18px;
+  }
 }
 
+.tm-ba-video-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
 
+.tm-ba-video-caption {
+  margin: 0;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--tm-ink);
+}

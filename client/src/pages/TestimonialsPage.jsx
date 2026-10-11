@@ -6,6 +6,7 @@ import {
   Mail,
   MapPin,
   MessageCircle,
+  Play,
   Quote,
 } from "lucide-react";
 import PageFrame from "../components/layout/PageFrame";
@@ -77,21 +78,24 @@ const STORIES = [
 const BEFORE_AFTER = [
   {
     id: "ba-1",
-    who: "[Initials], [Country]",
-    before: "[Before: for example, failed NCLEX X times]",
-    after: "[After: for example, passed with X questions]",
+    who: "Mathew, United States",
+    before: "I had already attempted the NCLEX-RN once, but I struggled to understand why I was getting questions wrong. I knew the nursing concepts but found it difficult to prioritize the most important information in a question and apply clinical judgment. I was using multiple study resources without a clear structure and wasn't sure what I should focus on each day..",
+    after: "I passed my next NCLEX-RN attempt with confidence.",
+    video: "/sample-after.mp4",
   },
   {
     id: "ba-2",
     who: "[Initials], [Country]",
     before: "[Before: for example, studying alone with no plan]",
     after: "[After: for example, finished the 11-week program and passed]",
+    video: "/sample-after.mp4",
   },
   {
     id: "ba-3",
     who: "[Initials], [Country]",
     before: "[Before: for example, X years away from nursing study]",
     after: "[After: for example, passed in [US State]]",
+    video: "/sample-after.mp4",
   },
 ];
 
@@ -187,6 +191,31 @@ function ScreenshotCard({ shot }) {
   );
 }
 
+function isEmbeddableVideoUrl(url = "") {
+  return /youtube\.com|youtu\.be|vimeo\.com/.test(url);
+}
+
+function toEmbedUrl(url = "") {
+  try {
+    if (url.includes("youtu.be/")) {
+      const id = url.split("youtu.be/")[1]?.split(/[?&]/)[0];
+      return `https://www.youtube.com/embed/${id}`;
+    }
+    if (url.includes("youtube.com/watch")) {
+      const id = new URL(url).searchParams.get("v");
+      return `https://www.youtube.com/embed/${id}`;
+    }
+    if (url.includes("youtube.com/embed/")) return url;
+    if (url.includes("vimeo.com/")) {
+      const id = url.split("vimeo.com/")[1]?.split(/[?&]/)[0];
+      return `https://player.vimeo.com/video/${id}`;
+    }
+  } catch {
+    return url;
+  }
+  return url;
+}
+
 export default function TestimonialsPage() {
   return (
     <PageFrame
@@ -252,7 +281,7 @@ export default function TestimonialsPage() {
         </section>
 
         {/* ---------- Before / after ---------- */}
-        <section className="tm-block section-tone-sage" aria-labelledby="tm-before-after">
+<section className="tm-block section-tone-sage" aria-labelledby="tm-before-after">
           <SectionTitle
             eyebrow="Before and after"
             copy="A quick look at where students started and where they ended up."
@@ -274,7 +303,38 @@ export default function TestimonialsPage() {
                   </span>
                   <div className="tm-ba-side tm-ba-after">
                     <span>After</span>
-                    <p>{item.after}</p>
+                    {item.video ? (
+                      <div className="tm-ba-video-wrap">
+                        <div className="tm-ba-video">
+                          {isEmbeddableVideoUrl(item.video) ? (
+                            <iframe
+                              src={toEmbedUrl(item.video)}
+                              title={`${item.who} — after story`}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              loading="lazy"
+                            />
+                          ) : (
+                            <video
+                              src={item.video}
+                              poster={item.videoPoster}
+                              controls
+                              preload="metadata"
+                            />
+                          )}
+                        </div>
+                        <p className="tm-ba-video-caption">
+                          {item.after || "After: result shown above"}
+                        </p>
+                      </div>
+                    ) : item.after ? (
+                      <p>{item.after}</p>
+                    ) : (
+                      <div className="tm-ba-video-empty">
+                        <Play size={20} aria-hidden="true" />
+                        <span>Add video</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </article>
