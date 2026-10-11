@@ -52,7 +52,7 @@ export default function Header({ transparent = false, logo = siteLogo }) {
           </a>
         ))}
       </nav>
-      <div className="header-tools">
+      {/* <div className="header-tools">
         <button aria-label="Shopping cart" className="header-tool">
           <ShoppingBag />
           <b>0</b>
@@ -67,7 +67,7 @@ export default function Header({ transparent = false, logo = siteLogo }) {
         >
           {open ? <X /> : <Grid2X2 />}
         </button>
-      </div>
+      </div> */}
     </header>
   );
 }
