@@ -257,69 +257,35 @@ export default function AdminDashboard() {
         </aside>
 
         <section className="admin-content">
-          <header className="admin-topbar">
-            <Link className="brand" to="/">
-              <span>APEX</span>
-              <small>RN PREP</small>
-            </Link>
+      
 
-            <nav className="admin-main-nav" aria-label="Main navigation">
-              {dashboardNav.map((item, index) => (
-                <a
-                  key={item}
-                  href="#"
-                  className={index === 0 ? "active" : ""}
-                  onClick={(event) => event.preventDefault()}
-                >
-                  {item}
-                </a>
-              ))}
-            </nav>
 
-            <div className="admin-header-actions">
-              <button type="button" aria-label="Notifications">
-                <Mail size={16} />
-              </button>
-              <button type="button" aria-label="Saved items">
-                <Check size={16} />
-              </button>
-              <button type="button" aria-label="Profile">
-                <User size={16} />
-              </button>
-              <button type="button" className="admin-lang-toggle" aria-label="Language selector">
-                AM
-              </button>
+
+          {active === "Overview" && (
+            <div className="admin-hero-panel">
+              <div className="admin-hero-copy">
+                <Eyebrow>Admin dashboard</Eyebrow>
+                <h1>Overview</h1>
+                <p>Here&apos;s what&apos;s happening with your program.</p>
+              </div>
+
+              <div className="admin-hero-welcome">
+                <span>Welcome back,</span>
+                <strong>Admin</strong>
+                <div className="admin-hero-rule" aria-hidden="true" />
+              </div>
             </div>
-          </header>
+          )}
 
-          <div className="admin-hero-panel">
-            <div className="admin-hero-copy">
-              <Eyebrow>Admin dashboard</Eyebrow>
-              <h1>{active}</h1>
-              <p>Here&apos;s what&apos;s happening with your program.</p>
-            </div>
+         
 
-            <div className="admin-hero-welcome">
-              <span>Welcome back,</span>
-              <strong>Admin</strong>
-              <div className="admin-hero-rule" aria-hidden="true" />
-            </div>
+          <div
+            className={`admin-workspace${
+              active === "Overview" ? " admin-workspace-overview" : ""
+            }`}
+          >
+            <AdminView active={active} onNotice={setNotice} />
           </div>
-
-          <div className="admin-subheading">
-            <div>
-              <Eyebrow>{admin?.email || "Admin workspace"}</Eyebrow>
-              <h2>{active}.</h2>
-            </div>
-            {notice && (
-              <span className="admin-notice">
-                <Check size={15} />
-                {notice}
-              </span>
-            )}
-          </div>
-
-          <AdminView active={active} onNotice={setNotice} />
         </section>
       </div>
     </div>
