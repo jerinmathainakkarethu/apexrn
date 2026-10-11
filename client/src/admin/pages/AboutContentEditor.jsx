@@ -28,6 +28,7 @@ const ABOUT_SECTION_NAV = [
   { id: "about-images", label: "Images" },
   { id: "about-benefits", label: "Benefits" },
   { id: "about-video", label: "Video" },
+  { id: "about-gallery", label: "Image gallery" },
   { id: "about-testimonials", label: "Testimonials" },
 ];
 
@@ -43,15 +44,22 @@ export default function AboutContentEditor({ onNotice }) {
   );
   const [uploadError, setUploadError] = useState("");
   const removeItem = (path, index) => {
-    const current = path.reduce((acc, key) => acc?.[key], content) || [];
+    const current =
+      path[0] === "gallery" && path[1] === "items"
+        ? content.gallery?.items ?? content.images ?? []
+        : path.reduce((acc, key) => acc?.[key], content) || [];
     const next = [...current];
     next.splice(index, 1);
     update(path, next);
   };
   const addItem = (path, entry) => {
-    const current = path.reduce((acc, key) => acc?.[key], content) || [];
+    const current =
+      path[0] === "gallery" && path[1] === "items"
+        ? content.gallery?.items ?? content.images ?? []
+        : path.reduce((acc, key) => acc?.[key], content) || [];
     update(path, [...current, entry]);
   };
+  const galleryItems = content.gallery?.items ?? content.images ?? [];
   const isVisible = (key) => content.sectionVisibility?.[key] !== false;
   const toggleVisibility = (key) =>
     update(["sectionVisibility", key], !isVisible(key));
@@ -455,9 +463,71 @@ export default function AboutContentEditor({ onNotice }) {
       </HomeSection>
 
       <HomeSection
+        anchorId="about-gallery"
+        {...switchProps("gallery")}
+        number="09"
+        icon={ImageIcon}
+        title="Image gallery"
+        where="A photo gallery shown on the live about page."
+        preview={content.gallery?.title}
+      >
+        <div className="home-field-grid">
+          <HomeField
+            label="Eyebrow"
+              value={content.gallery?.eyebrow || "Inside APEX RN Prep"}
+            onChange={(value) => update(["gallery", "eyebrow"], value)}
+          />
+          <HomeField
+            label="Heading"
+              value={
+                content.gallery?.title ||
+                "Learning, growing, and moving forward together."
+              }
+            onChange={(value) => update(["gallery", "title"], value)}
+            multiline
+          />
+        </div>
+        <div className="home-repeatable-grid">
+          {galleryItems.map((item, index) => (
+            <div className="home-repeatable" key={`about-gallery-${index}`}>
+              <b>Gallery image {index + 1}</b>
+              <ImageField
+                label={`Gallery image ${index + 1}`}
+                image={item}
+                onChange={(image) => {
+                  const items = [...galleryItems];
+                  items[index] = image;
+                  update(["gallery", "items"], items);
+                }}
+                onError={setUploadError}
+              />
+              <button
+                type="button"
+                className="icon-danger"
+                aria-label={`Remove gallery image ${index + 1}`}
+                onClick={() => removeItem(["gallery", "items"], index)}
+              >
+                <Trash2 size={15} />
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="admin-add-row"
+            onClick={() =>
+              addItem(["gallery", "items"], { url: "", alt: "" })
+            }
+          >
+            <Plus size={15} />
+            Add gallery image
+          </button>
+        </div>
+      </HomeSection>
+
+      <HomeSection
         anchorId="about-testimonials"
         {...switchProps("testimonials")}
-        number="09"
+        number="10"
         icon={MessageSquareQuote}
         title="Testimonials heading"
         where="The heading above the two student quotes. The quotes themselves come from the Testimonials tab."

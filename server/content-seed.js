@@ -369,6 +369,24 @@ export const aboutContent = {
     alt: "A team learning together",
     buttonLabel: "Play video",
   },
+  gallery: {
+    eyebrow: "Inside APEX RN Prep",
+    title: "Learning, growing, and moving forward together.",
+    items: [
+      {
+        url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1000&q=85",
+        alt: "Students learning together",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1000&q=85",
+        alt: "Healthcare professional studying",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1000&q=85",
+        alt: "Students celebrating together",
+      },
+    ],
+  },
   testimonials: {
     eyebrow: "Testimonials",
     title: "What Our Clients Say",

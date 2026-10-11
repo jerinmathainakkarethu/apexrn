@@ -87,6 +87,7 @@ export default function About() {
     });
   };
   const isVisible = (key) => content.sectionVisibility?.[key] !== false;
+  const galleryItems = content.gallery?.items ?? content.images ?? [];
 
   return (
     <>
@@ -208,6 +209,33 @@ export default function About() {
             <Play size={22} fill="currentColor" />
           </button>
         </section>}
+
+        {isVisible("gallery") && galleryItems.some((item) => item.url) && (
+          <section className="about-gallery scroll-reveal">
+            <div className="about-section-heading">
+              <Eyebrow>
+                {content.gallery?.eyebrow || "Inside APEX RN Prep"}
+              </Eyebrow>
+              <h2>
+                {content.gallery?.title ||
+                  "Learning, growing, and moving forward together."}
+              </h2>
+            </div>
+            <div className="about-gallery-grid">
+              {galleryItems
+                .filter((item) => item.url)
+                .map((item, index) => (
+                  <figure className="about-gallery-item" key={`${item.url}-${index}`}>
+                    <img
+                      src={imageUrl(item.url)}
+                      alt={item.alt || ""}
+                      loading="lazy"
+                    />
+                  </figure>
+                ))}
+            </div>
+          </section>
+        )}
 
         {isVisible("testimonials") && <section className="about-testimonials scroll-reveal">
           <div className="about-testimonials-heading">
