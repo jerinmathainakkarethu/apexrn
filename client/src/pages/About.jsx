@@ -86,6 +86,7 @@ export default function About() {
       story: content.video.caption || "",
     });
   };
+  const isVisible = (key) => content.sectionVisibility?.[key] !== false;
 
   return (
     <>
@@ -95,7 +96,7 @@ export default function About() {
       </Helmet>
       <Header />
       <main className="about-page" ref={mainRef}>
-        <section className="about-benefits scroll-reveal">
+        {isVisible("benefits") && <section className="about-benefits scroll-reveal">
           <div className="about-benefit-images">
             <img src={imageUrl(content.images[0].url)} alt={content.images[0].alt} />
             <img src={imageUrl(content.images[1].url)} alt={content.images[1].alt} />
@@ -114,9 +115,9 @@ export default function About() {
             </ul>
             <Button>{content.benefits.button}</Button>
           </div>
-        </section>
+        </section>}
 
-        <section className="about-story section-tone-sage scroll-reveal">
+        {isVisible("story") && <section className="about-story section-tone-sage scroll-reveal">
           <div className="about-story-copy">
             <Eyebrow>{content.sectionEyebrow}</Eyebrow>
             <h2>{content.sectionTitle}</h2>
@@ -129,9 +130,9 @@ export default function About() {
               alt={content.imageAlt || content.sectionTitle}
             />
           </div>
-        </section>
+        </section>}
 
-        {content.philosophy && (
+        {isVisible("philosophy") && content.philosophy && (
           <section className="about-philosophy scroll-reveal">
             <div className="about-section-heading">
               <Eyebrow>{content.philosophy.eyebrow}</Eyebrow>
@@ -152,7 +153,7 @@ export default function About() {
           </section>
         )}
 
-        {content.credentials && (
+        {isVisible("credentials") && content.credentials && (
           <section className="about-credentials section-tone-sage scroll-reveal">
             <div className="about-section-heading">
               <Eyebrow>{content.credentials.eyebrow}</Eyebrow>
@@ -170,7 +171,7 @@ export default function About() {
           </section>
         )}
 
-        {content.principles && (
+        {isVisible("principles") && content.principles && (
           <section className="about-principles scroll-reveal">
             <div className="about-section-heading">
               <Eyebrow>{content.principles.eyebrow}</Eyebrow>
@@ -190,7 +191,7 @@ export default function About() {
           </section>
         )}
 
-        <section className="about-video scroll-reveal">
+        {isVisible("video") && <section className="about-video scroll-reveal">
           <img src={imageUrl(content.video.image)} alt={content.video.alt} />
           <div className="about-video-scrim" aria-hidden="true" />
           {content.video.caption && (
@@ -206,9 +207,9 @@ export default function About() {
             <span className="about-video-ring about-video-ring-delay" aria-hidden="true" />
             <Play size={22} fill="currentColor" />
           </button>
-        </section>
+        </section>}
 
-        <section className="about-testimonials scroll-reveal">
+        {isVisible("testimonials") && <section className="about-testimonials scroll-reveal">
           <div className="about-testimonials-heading">
             <Eyebrow>{content.testimonials.eyebrow}</Eyebrow>
             <h2>{content.testimonials.title}</h2>
@@ -258,7 +259,7 @@ export default function About() {
               );
             })}
           </div>
-        </section>
+        </section>}
       </main>
       {activeVideo && (
         <TestimonialVideoModal

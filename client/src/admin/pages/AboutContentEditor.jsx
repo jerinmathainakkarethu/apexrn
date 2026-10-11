@@ -52,12 +52,21 @@ export default function AboutContentEditor({ onNotice }) {
     const current = path.reduce((acc, key) => acc?.[key], content) || [];
     update(path, [...current, entry]);
   };
+  const isVisible = (key) => content.sectionVisibility?.[key] !== false;
+  const toggleVisibility = (key) =>
+    update(["sectionVisibility", key], !isVisible(key));
+  const switchProps = (key) => ({
+    sectionKey: key,
+    visible: isVisible(key),
+    onToggle: toggleVisibility,
+  });
 
   return (
     <PageEditorShell
       eyebrow="About page builder"
       heading="Edit the about page, section by section"
       description="Sections below are in the same order they appear on the live about page. Open one, make your edits, then save once at the end."
+      note="Use the switch on each section to show or hide it on the live about page. Save your changes when finished."
       saveLabel="Save about page"
       successMessage="About page changes saved successfully."
       emptyTitle="About content"
@@ -100,6 +109,7 @@ export default function AboutContentEditor({ onNotice }) {
 
       <HomeSection
         anchorId="about-story"
+        {...switchProps("story")}
         number="02"
         icon={MessageSquareQuote}
         title="Your story"
@@ -135,6 +145,7 @@ export default function AboutContentEditor({ onNotice }) {
 
       <HomeSection
         anchorId="about-philosophy"
+        {...switchProps("philosophy")}
         number="03"
         icon={BookOpen}
         title="Teaching philosophy"
@@ -204,6 +215,7 @@ export default function AboutContentEditor({ onNotice }) {
 
       <HomeSection
         anchorId="about-credentials"
+        {...switchProps("credentials")}
         number="04"
         icon={Award}
         title="Credentials"
@@ -278,6 +290,7 @@ export default function AboutContentEditor({ onNotice }) {
 
       <HomeSection
         anchorId="about-principles"
+        {...switchProps("principles")}
         number="05"
         icon={Compass}
         title="Values"
@@ -377,6 +390,7 @@ export default function AboutContentEditor({ onNotice }) {
 
       <HomeSection
         anchorId="about-benefits"
+        {...switchProps("benefits")}
         number="07"
         icon={ListChecks}
         title="Key benefits"
@@ -417,6 +431,7 @@ export default function AboutContentEditor({ onNotice }) {
 
       <HomeSection
         anchorId="about-video"
+        {...switchProps("video")}
         number="08"
         icon={Search}
         title="Video banner"
@@ -441,6 +456,7 @@ export default function AboutContentEditor({ onNotice }) {
 
       <HomeSection
         anchorId="about-testimonials"
+        {...switchProps("testimonials")}
         number="09"
         icon={MessageSquareQuote}
         title="Testimonials heading"
