@@ -1,4 +1,6 @@
 import {
+  ArrowUpRight,
+  Bell,
   BookMarked,
   CalendarDays,
   HelpCircle,
@@ -27,16 +29,30 @@ export default function OverviewEditor() {
     return <p className="admin-form-error">{page.error}</p>;
 
   return (
-    <>
+    <div className="overview-layout">
       <div className="admin-stats">
         {STAT_CARDS.map(([label, key, Icon]) => (
-          <div key={label}>
+          <div key={label} className="admin-stat-card">
             <Icon size={18} className="admin-stat-icon" />
             <span>{page.counts[key]}</span>
             <p>{label}</p>
+            <button type="button" className="admin-stat-arrow" aria-label={`Open ${label}`}>
+              <ArrowUpRight size={16} />
+            </button>
           </div>
         ))}
       </div>
-    </>
+
+      <aside className="admin-activity-panel">
+        <div className="admin-activity-head">
+          <span className="admin-activity-bell">
+            <Bell size={15} />
+          </span>
+          <h3>Recent Activity</h3>
+        </div>
+
+        <p className="admin-activity-empty">No recent activity to show.</p>
+      </aside>
+    </div>
   );
 }

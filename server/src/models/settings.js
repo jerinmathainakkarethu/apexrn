@@ -6,7 +6,16 @@ export async function getSettings(sectionKey, fallbackValue) {
     "SELECT content FROM homepage_sections WHERE section_key = :sectionKey LIMIT 1",
     { sectionKey },
   );
-  return rows[0]?.content ? JSON.parse(rows[0].content) : fallbackValue;
+  const stored = rows[0]?.content ? JSON.parse(rows[0].content) : null;
+  if (!stored) return fallbackValue;
+  if (
+    Array.isArray(stored) ||
+    Array.isArray(fallbackValue) ||
+    typeof stored !== "object"
+  ) {
+    return stored;
+  }
+  return { ...fallbackValue, ...stored };
 }
 
 export async function saveSettings(sectionKey, content) {

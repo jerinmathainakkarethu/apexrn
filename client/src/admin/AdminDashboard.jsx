@@ -6,10 +6,13 @@ import {
   BookMarked,
   CalendarDays,
   Check,
+  Eye,
+  EyeOff,
   HelpCircle,
   Home as HomeIcon,
   LayoutGrid,
   ListChecks,
+  Lock,
   LogOut,
   Mail,
   MenuIcon as MenuGlyph,
@@ -72,6 +75,8 @@ const sectionGroups = [
  * Every page below loads and saves its own data through its own hook, so
  * opening or saving one page never calls another page's API.
  */
+const dashboardNav = ["Home", "Pages", "Blog", "Shop", "Contact"];
+
 export default function AdminDashboard() {
   const [token, setToken] = useState(() =>
     localStorage.getItem("apex_admin_token"),
@@ -82,6 +87,7 @@ export default function AdminDashboard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [active, setActive] = useState("Overview");
   const [notice, setNotice] = useState("");
 
@@ -120,40 +126,96 @@ export default function AdminDashboard() {
 
   if (!token)
     return (
-      <div className="admin-page">
-        <form className="admin-login" onSubmit={signIn}>
-          <Link className="brand" to="/">
-            <span>APEX</span>
-            <small>RN PREP</small>
-          </Link>
-          <Eyebrow>Admin workspace</Eyebrow>
-          <h1>Welcome back.</h1>
-          <p>
-            Sign in with the admin credentials from your server environment.
-          </p>
-          <label>
-            Email
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              required
-            />
-          </label>
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-            />
-          </label>
-          {loginError && <p className="admin-error">{loginError}</p>}
-          <button className="button" type="submit">
-            Sign in <ArrowRight size={17} />
-          </button>
-        </form>
+      <div className="admin-auth-page">
+        <div className="admin-auth-hero">
+          <header className="admin-auth-topbar">
+            <Link className="brand" to="/">
+              <span>APEX</span>
+              <small>RN PREP</small>
+            </Link>
+          </header>
+
+          <div className="admin-auth-copy">
+            <Eyebrow>Admin workspace</Eyebrow>
+            <h1>Welcome back.</h1>
+            <p>
+              Sign in with the admin credentials from your server environment.
+            </p>
+          </div>
+
+          <div className="admin-auth-plant" aria-hidden="true">
+            <svg viewBox="0 0 240 210">
+              <path d="M95 175 C 92 145, 86 104, 98 70 C 110 44, 130 35, 145 34" />
+              <path d="M98 77 C 88 95, 72 108, 47 119 C 64 116, 79 110, 90 100" />
+              <path d="M110 62 C 126 57, 139 44, 154 23 C 151 45, 141 57, 124 68" />
+              <path d="M118 86 C 135 86, 152 78, 171 62 C 164 83, 151 93, 130 100" />
+              <path d="M91 118 C 82 128, 67 136, 48 145 C 61 145, 76 139, 86 128" />
+              <path d="M96 154 C 118 152, 135 144, 153 127 C 149 145, 136 158, 113 164" />
+            </svg>
+          </div>
+        </div>
+
+        <main className="admin-auth-panel">
+          <div className="admin-auth-panel-header">
+            <span className="admin-auth-panel-rule" aria-hidden="true" />
+            <span>Admin workspace</span>
+          </div>
+
+          <form className="admin-login" onSubmit={signIn}>
+            <label className="admin-field">
+              <span>Email</span>
+              <div className="input-wrap">
+                <Mail size={18} />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  required
+                  placeholder="name@domain.com"
+                />
+              </div>
+            </label>
+
+            <label className="admin-field">
+              <span>Password</span>
+              <div className="input-wrap password-wrap">
+                <Lock size={18} />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  required
+                  placeholder="••••••••••"
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((current) => !current)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </label>
+
+            <div className="admin-login-meta">
+              <label className="remember-me">
+                <input type="checkbox" defaultChecked />
+                <span className="checkmark" />
+                Remember me
+              </label>
+              <Link className="forgot-link" to="/admin/login">
+                Forgot password?
+              </Link>
+            </div>
+
+            {loginError && <p className="admin-error">{loginError}</p>}
+
+            <button className="button admin-submit" type="submit">
+              Sign in <ArrowRight size={17} />
+            </button>
+          </form>
+        </main>
       </div>
     );
 
@@ -161,10 +223,13 @@ export default function AdminDashboard() {
     <div className="admin-page">
       <div className="admin-shell">
         <aside>
-          <Link className="brand" to="/">
-            <span>APEX</span>
-            <small>RN PREP</small>
-          </Link>
+          <div className="admin-sidebar-brand-wrap">
+            <Link className="brand" to="/">
+              <span>APEX</span>
+              <small>RN PREP</small>
+            </Link>
+          </div>
+
           <div className="admin-nav">
             {sectionGroups.map((group) => (
               <div className="admin-nav-group" key={group.label}>
@@ -185,15 +250,66 @@ export default function AdminDashboard() {
               </div>
             ))}
           </div>
+
           <button className="admin-logout" onClick={logout}>
             <LogOut size={15} /> Log out
           </button>
         </aside>
+
         <section className="admin-content">
-          <div className="admin-heading">
+          <header className="admin-topbar">
+            <Link className="brand" to="/">
+              <span>APEX</span>
+              <small>RN PREP</small>
+            </Link>
+
+            <nav className="admin-main-nav" aria-label="Main navigation">
+              {dashboardNav.map((item, index) => (
+                <a
+                  key={item}
+                  href="#"
+                  className={index === 0 ? "active" : ""}
+                  onClick={(event) => event.preventDefault()}
+                >
+                  {item}
+                </a>
+              ))}
+            </nav>
+
+            <div className="admin-header-actions">
+              <button type="button" aria-label="Notifications">
+                <Mail size={16} />
+              </button>
+              <button type="button" aria-label="Saved items">
+                <Check size={16} />
+              </button>
+              <button type="button" aria-label="Profile">
+                <User size={16} />
+              </button>
+              <button type="button" className="admin-lang-toggle" aria-label="Language selector">
+                AM
+              </button>
+            </div>
+          </header>
+
+          <div className="admin-hero-panel">
+            <div className="admin-hero-copy">
+              <Eyebrow>Admin dashboard</Eyebrow>
+              <h1>{active}</h1>
+              <p>Here&apos;s what&apos;s happening with your program.</p>
+            </div>
+
+            <div className="admin-hero-welcome">
+              <span>Welcome back,</span>
+              <strong>Admin</strong>
+              <div className="admin-hero-rule" aria-hidden="true" />
+            </div>
+          </div>
+
+          <div className="admin-subheading">
             <div>
               <Eyebrow>{admin?.email || "Admin workspace"}</Eyebrow>
-              <h1>{active}.</h1>
+              <h2>{active}.</h2>
             </div>
             {notice && (
               <span className="admin-notice">
@@ -202,6 +318,7 @@ export default function AdminDashboard() {
               </span>
             )}
           </div>
+
           <AdminView active={active} onNotice={setNotice} />
         </section>
       </div>

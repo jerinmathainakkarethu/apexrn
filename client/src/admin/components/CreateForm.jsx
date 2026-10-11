@@ -50,18 +50,25 @@ export default function CreateForm({ title, value, setValue, fields, onSubmit })
                 {label}
                 {!optional && <em className="admin-required">*</em>}
               </span>
-              <textarea
-                rows={
-                  key === "story" || key === "answer" || key === "content"
-                    ? 3
-                    : 1
-                }
-                value={value[key] || ""}
-                onChange={(event) => {
-                  setErrors({ ...errors, [key]: "" });
-                  setValue({ ...value, [key]: event.target.value });
-                }}
-              />
+              {key === "story" || key === "answer" || key === "content" ? (
+                <textarea
+                  rows={3}
+                  value={value[key] || ""}
+                  onChange={(event) => {
+                    setErrors({ ...errors, [key]: "" });
+                    setValue({ ...value, [key]: event.target.value });
+                  }}
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={value[key] || ""}
+                  onChange={(event) => {
+                    setErrors({ ...errors, [key]: "" });
+                    setValue({ ...value, [key]: event.target.value });
+                  }}
+                />
+              )}
               {errors[key] && (
                 <small className="admin-field-error">{errors[key]}</small>
               )}

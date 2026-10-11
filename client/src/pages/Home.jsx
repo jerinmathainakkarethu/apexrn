@@ -102,6 +102,14 @@ export default function Home() {
         <Footer />
       </>
     );
+  if (!content.seo || !content.hero)
+    return (
+      <>
+        <Header logo={homeLogo} />
+        <ErrorState />
+        <Footer />
+      </>
+    );
   const c = content;
   const ICONS = [Target, FileSignature, Briefcase, LineChart];
   const show = (key) => c.sectionVisibility?.[key] !== false;
