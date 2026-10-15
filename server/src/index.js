@@ -44,7 +44,13 @@ app.use(
   rateLimit({ windowMs: 15 * 60 * 1000, limit: 10 }),
 );
 app.use("/api/auth/profile", rateLimit({ windowMs: 15 * 60 * 1000, limit: 10 }));
-app.use("/uploads", express.static(uploadDirectoryPath));
+app.use(
+  "/uploads",
+  express.static(uploadDirectoryPath, {
+    setHeaders: (res) =>
+      res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"),
+  }),
+);
 
 app.get("/api/health", async (_, res) => {
   if (!databaseConfigured)
