@@ -2093,3 +2093,83 @@ textarea.has-error:focus {
     width: 100%;
   }
 }
+
+/* Keep typography consistent by role throughout the admin workspace. */
+.admin-page {
+  --admin-title-family: var(--serif);
+  --admin-copy-family: var(--sans);
+  --admin-page-title-size: 28px;
+  --admin-section-title-size: 20px;
+  --admin-record-title-size: 16px;
+  --admin-copy-size: 15px;
+  --admin-label-size: 12px;
+}
+
+.admin-page .home-editor-toolbar h2,
+.admin-page .admin-profile-heading h2,
+.admin-page .menu-modal-header h2 {
+  font-family: var(--admin-title-family);
+  font-size: var(--admin-page-title-size);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.admin-page .home-section-heading h3 {
+  font-family: var(--admin-title-family);
+  font-size: var(--admin-section-title-size);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.admin-page .admin-row-summary,
+.admin-page .admin-row-summary strong {
+  font-family: var(--admin-title-family);
+  font-size: var(--admin-record-title-size);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.admin-page .home-editor-toolbar p,
+.admin-page .home-visibility-note,
+.admin-page .home-section-where,
+.admin-page .home-section-preview,
+.admin-page .admin-profile-heading p,
+.admin-page .admin-profile-divider small {
+  font-family: var(--admin-copy-family);
+  font-size: var(--admin-copy-size);
+  line-height: 1.55;
+}
+
+.admin-page .home-field,
+.admin-page .admin-create label,
+.admin-page .admin-row-fields label,
+.admin-page .admin-video-field label,
+.admin-page .admin-profile-field {
+  font-family: var(--admin-copy-family);
+}
+
+.admin-page .home-field span,
+.admin-page .admin-create label > span,
+.admin-page .admin-row-fields label > span,
+.admin-page .admin-video-field > label,
+.admin-page .admin-profile-field > span,
+.admin-page .menu-modal-form label > span {
+  font-family: var(--admin-copy-family);
+  font-size: var(--admin-label-size);
+}
+
+.admin-page .home-field input,
+.admin-page .home-field textarea,
+.admin-page .home-field select,
+.admin-page .admin-create input,
+.admin-page .admin-create textarea,
+.admin-page .admin-create select,
+.admin-page .admin-row-fields textarea,
+.admin-page .admin-row-fields select,
+.admin-page .admin-profile-field input,
+.admin-page .menu-modal-form input,
+.admin-page .menu-modal-form textarea,
+.admin-page .menu-modal-form select {
+  font-family: var(--admin-copy-family);
+  font-size: var(--admin-copy-size);
+}
