@@ -1,15 +1,31 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import { login, updateProfile } from "../controllers/authController.js";
+import {
+  requestLoginOtp,
+  updateProfile,
+  verifyLoginOtp,
+} from "../controllers/authController.js";
 import { authenticateAdmin } from "../middleware/auth.js";
 import { validate } from "../utils/validation.js";
 
 const router = Router();
 router.post(
   "/login",
-  [body("email").isEmail(), body("password").isLength({ min: 6 })],
+  [
+    body("email").isEmail().trim().normalizeEmail(),
+    body("password").isLength({ min: 6 }),
+  ],
   validate,
-  login,
+  requestLoginOtp,
+);
+router.post(
+  "/verify-otp",
+  [
+    body("email").isEmail().trim().normalizeEmail(),
+    body("code").isLength({ min: 6, max: 6 }).isNumeric(),
+  ],
+  validate,
+  verifyLoginOtp,
 );
 router.put(
   "/profile",
