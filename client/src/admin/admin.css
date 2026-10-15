@@ -2023,6 +2023,40 @@ textarea.has-error:focus {
   padding-top: 24px;
 }
 
+.admin-password-change {
+  margin-top: 26px;
+  border-top: 1px solid var(--line);
+}
+
+.admin-profile-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--terracotta);
+}
+
+.admin-profile-section-heading h3 {
+  margin: 0;
+  color: var(--ink);
+  font: 500 20px/1.25 var(--serif);
+}
+
+.admin-profile-help {
+  margin: -8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.admin-profile-help strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.admin-profile-otp-hint {
+  margin-top: -14px;
+}
+
 .admin-profile-field {
   display: grid;
   gap: 8px;
@@ -2107,7 +2141,10 @@ textarea.has-error:focus {
 
 .admin-profile-actions {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   justify-content: flex-end;
+  gap: 10px;
   padding-top: 4px;
 }
 

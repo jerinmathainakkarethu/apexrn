@@ -7,14 +7,17 @@ import {
   findAdminByEmail,
   findAdminByEmailExcludingId,
   findAdminById,
+  findOtpChallenge,
+  updateAdminPassword,
   updateAdminProfile,
+  deleteOtpChallenge,
+  incrementOtpAttempts,
+  saveOtpChallenge,
 } from "../models/admin.js";
 
 const OTP_LIFETIME_MS = 10 * 60 * 1000;
 const OTP_RESEND_DELAY_MS = 60 * 1000;
 const OTP_MAX_ATTEMPTS = 5;
-const otpChallenges = new Map();
-const otpLastSent = new Map();
 
 function digestOtp(code) {
   return createHash("sha256").update(code).digest();
@@ -23,6 +26,35 @@ function digestOtp(code) {
 function maskEmail(email) {
   const [name, domain] = email.split("@");
   return `${name.slice(0, 1)}${"*".repeat(Math.max(3, name.length - 1))}@${domain}`;
+}
+
+async function deliverOtp(destination, purpose) {
+  const smtpUser = process.env.SMTP_USER?.trim();
+  const smtpPass = process.env.SMTP_PASS;
+  if (!smtpUser || !smtpPass) {
+    const error = new Error("Email delivery is not configured on the server.");
+    error.status = 503;
+    throw error;
+  }
+
+  const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST || "smtp.gmail.com",
+    port: Number(process.env.SMTP_PORT || 465),
+    secure: process.env.SMTP_SECURE
+      ? process.env.SMTP_SECURE === "true"
+      : Number(process.env.SMTP_PORT || 465) === 465,
+    auth: { user: smtpUser, pass: smtpPass },
+  });
+  const action = purpose === "login" ? "admin sign-in" : "password change";
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM || smtpUser,
+    to: destination,
+    subject: `Your APEX RN Prep ${action} verification code`,
+    text: `Your ${action} verification code is ${code}. It expires in 10 minutes. If you did not request this code, you can ignore this email.`,
+    html: `<p>Your APEX RN Prep ${action} verification code is:</p><p style="font-size:28px;font-weight:bold;letter-spacing:8px">${code}</p><p>This code expires in 10 minutes. If you did not request it, you can ignore this email.</p>`,
+  });
+  return code;
 }
 
 export async function requestLoginOtp(req, res, next) {
@@ -51,52 +83,131 @@ export async function requestLoginOtp(req, res, next) {
       return res.status(401).json({ message: "Invalid email or password." });
 
     const now = Date.now();
-    const lastSent = otpLastSent.get(String(admin.id)) || 0;
-    if (now - lastSent < OTP_RESEND_DELAY_MS) {
+    const existingChallenge = await findOtpChallenge(admin.id, "login");
+    if (
+      existingChallenge &&
+      now - Number(existingChallenge.created_at_ms) < OTP_RESEND_DELAY_MS
+    ) {
       return res.status(429).json({
         message: "Please wait a minute before requesting another code.",
       });
     }
 
-    const smtpUser = process.env.SMTP_USER?.trim();
-    const smtpPass = process.env.SMTP_PASS;
-    if (!smtpUser || !smtpPass) {
-      return res.status(503).json({
-        message: "Email delivery is not configured on the server.",
-      });
-    }
-
     const destination = admin.email;
-    const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || "smtp.gmail.com",
-      port: Number(process.env.SMTP_PORT || 465),
-      secure: process.env.SMTP_SECURE
-        ? process.env.SMTP_SECURE === "true"
-        : Number(process.env.SMTP_PORT || 465) === 465,
-      auth: { user: smtpUser, pass: smtpPass },
-    });
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM || smtpUser,
-      to: destination,
-      subject: "Your APEX RN Prep admin verification code",
-      text: `Your admin sign-in code is ${code}. It expires in 10 minutes. If you did not request this code, you can ignore this email.`,
-      html: `<p>Your APEX RN Prep admin sign-in code is:</p><p style="font-size:28px;font-weight:bold;letter-spacing:8px">${code}</p><p>This code expires in 10 minutes. If you did not request it, you can ignore this email.</p>`,
-    });
-    otpChallenges.set(String(admin.id), {
+    const code = await deliverOtp(destination, "login");
+    await saveOtpChallenge({
       adminId: admin.id,
       email: admin.email,
-      role: admin.role,
-      codeHash: digestOtp(code),
+      purpose: "login",
+      codeHash: digestOtp(code).toString("hex"),
       expiresAt: now + OTP_LIFETIME_MS,
-      attempts: 0,
+      createdAt: now,
     });
-    otpLastSent.set(String(admin.id), now);
 
     res.json({
       message: "A verification code has been sent to your admin email.",
       destination: maskEmail(destination),
     });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function requestPasswordChangeOtp(req, res, next) {
+  try {
+    if (!databaseConfigured) {
+      return res.status(503).json({
+        message: "Password changes require a configured MySQL database.",
+      });
+    }
+
+    const admin = await findAdminById(req.admin.id);
+    if (!admin)
+      return res.status(404).json({ message: "Admin account was not found." });
+
+    const now = Date.now();
+    const existingChallenge = await findOtpChallenge(
+      admin.id,
+      "password-change",
+    );
+    if (
+      existingChallenge &&
+      now - Number(existingChallenge.created_at_ms) < OTP_RESEND_DELAY_MS
+    ) {
+      return res.status(429).json({
+        message: "Please wait a minute before requesting another code.",
+      });
+    }
+
+    const code = await deliverOtp(admin.email, "password-change");
+    await saveOtpChallenge({
+      adminId: admin.id,
+      email: admin.email,
+      purpose: "password-change",
+      codeHash: digestOtp(code).toString("hex"),
+      expiresAt: now + OTP_LIFETIME_MS,
+      createdAt: now,
+    });
+
+    res.json({
+      message: "A password change verification code has been sent.",
+      destination: maskEmail(admin.email),
+    });
+  } catch (error) {
+    if (error.status === 503)
+      return res.status(503).json({ message: error.message });
+    next(error);
+  }
+}
+
+export async function verifyPasswordChangeOtp(req, res, next) {
+  try {
+    if (!databaseConfigured) {
+      return res.status(503).json({
+        message: "Password changes require a configured MySQL database.",
+      });
+    }
+
+    const admin = await findAdminById(req.admin.id);
+    if (!admin)
+      return res.status(404).json({ message: "Admin account was not found." });
+
+    const challenge = await findOtpChallenge(admin.id, "password-change");
+    if (
+      !challenge ||
+      challenge.email.toLowerCase() !== admin.email.toLowerCase() ||
+      Number(challenge.expires_at_ms) <= Date.now()
+    ) {
+      await deleteOtpChallenge(admin.id, "password-change");
+      return res.status(401).json({
+        message: "That verification code is invalid or expired. Request a new code.",
+      });
+    }
+
+    const updatedChallenge = await incrementOtpAttempts(
+      admin.id,
+      "password-change",
+    );
+    const codeMatches = timingSafeEqual(
+      Buffer.from(challenge.code_hash, "hex"),
+      digestOtp(req.body.code),
+    );
+    if (!codeMatches) {
+      if (Number(updatedChallenge.attempts) >= OTP_MAX_ATTEMPTS) {
+        await deleteOtpChallenge(admin.id, "password-change");
+        return res.status(401).json({
+          message: "Too many incorrect codes. Request a new code.",
+        });
+      }
+      return res.status(401).json({
+        message: "The verification code is incorrect.",
+      });
+    }
+
+    const passwordHash = await bcrypt.hash(req.body.newPassword, 12);
+    await updateAdminPassword(admin.id, passwordHash);
+    await deleteOtpChallenge(admin.id, "password-change");
+    res.json({ message: "Your password has been updated successfully." });
   } catch (error) {
     next(error);
   }
@@ -118,24 +229,27 @@ export async function verifyLoginOtp(req, res, next) {
       };
     }
 
-    const challenge = admin && otpChallenges.get(String(admin.id));
+    const challenge = admin && (await findOtpChallenge(admin.id, "login"));
     if (
       !challenge ||
       challenge.email.toLowerCase() !== email ||
-      challenge.expiresAt <= Date.now()
+      Number(challenge.expires_at_ms) <= Date.now()
     ) {
-      if (admin) otpChallenges.delete(String(admin.id));
+      if (admin) await deleteOtpChallenge(admin.id, "login");
       return res.status(401).json({
         message: "That verification code is invalid or expired. Sign in again to request another.",
       });
     }
 
-    challenge.attempts += 1;
+    const updatedChallenge = await incrementOtpAttempts(admin.id, "login");
     const suppliedHash = digestOtp(req.body.code);
-    const codeMatches = timingSafeEqual(challenge.codeHash, suppliedHash);
+    const codeMatches = timingSafeEqual(
+      Buffer.from(challenge.code_hash, "hex"),
+      suppliedHash,
+    );
     if (!codeMatches) {
-      if (challenge.attempts >= OTP_MAX_ATTEMPTS) {
-        otpChallenges.delete(String(admin.id));
+      if (Number(updatedChallenge.attempts) >= OTP_MAX_ATTEMPTS) {
+        await deleteOtpChallenge(admin.id, "login");
         return res.status(401).json({
           message: "Too many incorrect codes. Sign in again to request a new code.",
         });
@@ -145,8 +259,7 @@ export async function verifyLoginOtp(req, res, next) {
       });
     }
 
-    otpChallenges.delete(String(admin.id));
-    otpLastSent.delete(String(admin.id));
+    await deleteOtpChallenge(admin.id, "login");
     const token = jwt.sign(
       { id: admin.id, email: admin.email, role: admin.role, otp: true },
       process.env.JWT_SECRET || "development-secret",
@@ -173,27 +286,9 @@ export async function updateProfile(req, res, next) {
     if (!admin)
       return res.status(404).json({ message: "Admin account was not found." });
 
-    const { email, currentPassword, newPassword, confirmNewPassword } = req.body;
+    const { email, currentPassword } = req.body;
     if (!(await bcrypt.compare(currentPassword, admin.password_hash))) {
       return res.status(401).json({ message: "Current password is incorrect." });
-    }
-
-    if (newPassword || confirmNewPassword) {
-      if (!newPassword || !confirmNewPassword) {
-        return res.status(422).json({
-          message: "Enter and confirm the new password.",
-        });
-      }
-      if (newPassword !== confirmNewPassword) {
-        return res.status(422).json({
-          message: "The new passwords do not match.",
-        });
-      }
-      if (newPassword.length < 8) {
-        return res.status(422).json({
-          message: "The new password must be at least 8 characters.",
-        });
-      }
     }
 
     const normalizedEmail = email.trim().toLowerCase();
@@ -206,12 +301,8 @@ export async function updateProfile(req, res, next) {
       });
     }
 
-    const passwordHash = newPassword
-      ? await bcrypt.hash(newPassword, 12)
-      : undefined;
     const updatedAdmin = await updateAdminProfile(admin.id, {
       email: normalizedEmail,
-      passwordHash,
     });
     const token = jwt.sign(
       {

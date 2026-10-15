@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { KeyRound, LoaderCircle, Mail, Save, X } from "lucide-react";
+import { KeyRound, LoaderCircle, Mail, Save, ShieldCheck, X } from "lucide-react";
 import Eyebrow from "../../components/ui/Eyebrow";
-import { updateAdminProfile } from "../../api/auth";
+import {
+  requestPasswordChangeOtp,
+  updateAdminProfile,
+  verifyPasswordChangeOtp,
+} from "../../api/auth";
 import { apiError } from "../lib/helpers";
 
 export default function AdminProfileEditor({ admin, onUpdate }) {
@@ -9,46 +13,36 @@ export default function AdminProfileEditor({ admin, onUpdate }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpDestination, setOtpDestination] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [toast, setToast] = useState(null);
-  const [saving, setSaving] = useState(false);
+  const [emailSaving, setEmailSaving] = useState(false);
+  const [passwordSaving, setPasswordSaving] = useState(false);
   const passwordMismatch =
     Boolean(confirmPassword) && newPassword !== confirmPassword;
   const passwordTooShort = Boolean(newPassword) && newPassword.length < 8;
 
-  const saveProfile = async (event) => {
+  const saveEmail = async (event) => {
     event.preventDefault();
-    setError("");
+    setEmailError("");
     setToast(null);
-
     if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
-      setError("Enter a valid email address.");
+      setEmailError("Enter a valid email address.");
       return;
     }
     if (!currentPassword) {
-      setError("Enter your current password to confirm these changes.");
-      return;
-    }
-    if (passwordTooShort) {
-      setError("The new password must be at least 8 characters.");
-      return;
-    }
-    if (passwordMismatch) {
-      setError("The new passwords do not match.");
-      return;
-    }
-    if (newPassword && !confirmPassword) {
-      setError("Confirm your new password.");
+      setEmailError("Enter your current password to confirm the email change.");
       return;
     }
 
-    setSaving(true);
+    setEmailSaving(true);
     try {
       const response = await updateAdminProfile({
         email: email.trim(),
         currentPassword,
-        newPassword,
-        confirmNewPassword: confirmPassword,
       });
       localStorage.setItem("apex_admin_token", response.data.token);
       localStorage.setItem(
@@ -58,13 +52,90 @@ export default function AdminProfileEditor({ admin, onUpdate }) {
       onUpdate(response.data.admin, response.data.token);
       setEmail(response.data.admin.email);
       setCurrentPassword("");
+      setToast("Your email address was updated.");
+    } catch (cause) {
+      setEmailError(
+        apiError(cause, "Your email address could not be updated."),
+      );
+    } finally {
+      setEmailSaving(false);
+    }
+  };
+
+  const sendPasswordOtp = async () => {
+    setPasswordError("");
+    setToast(null);
+    if (passwordTooShort) {
+      setPasswordError("The new password must be at least 8 characters.");
+      return;
+    }
+    if (!newPassword) {
+      setPasswordError("Enter a new password.");
+      return;
+    }
+    if (!confirmPassword) {
+      setPasswordError("Re-enter the new password to confirm it.");
+      return;
+    }
+    if (passwordMismatch) {
+      setPasswordError("The new passwords do not match.");
+      return;
+    }
+
+    setPasswordSaving(true);
+    try {
+      const response = await requestPasswordChangeOtp();
+      setOtpSent(true);
+      setOtpDestination(response.data.destination);
+      setOtp("");
+      setToast(response.data.message);
+    } catch (cause) {
+      setPasswordError(
+        apiError(cause, "The verification code could not be sent."),
+      );
+    } finally {
+      setPasswordSaving(false);
+    }
+  };
+
+  const changePassword = async (event) => {
+    event.preventDefault();
+    setPasswordError("");
+    setToast(null);
+    if (!/^\d{6}$/.test(otp)) {
+      setPasswordError("Enter the 6-digit verification code.");
+      return;
+    }
+    if (passwordTooShort) {
+      setPasswordError("The new password must be at least 8 characters.");
+      return;
+    }
+    if (!newPassword || !confirmPassword || passwordMismatch) {
+      setPasswordError(
+        passwordMismatch
+          ? "The new passwords do not match."
+          : "Enter and confirm the new password.",
+      );
+      return;
+    }
+
+    setPasswordSaving(true);
+    try {
+      const response = await verifyPasswordChangeOtp({
+        code: otp,
+        newPassword,
+        confirmNewPassword: confirmPassword,
+      });
+      setOtpSent(false);
+      setOtp("");
+      setOtpDestination("");
       setNewPassword("");
       setConfirmPassword("");
-      setToast("Your admin profile was updated.");
+      setToast(response.data.message);
     } catch (cause) {
-      setError(apiError(cause, "Your profile could not be updated."));
+      setPasswordError(apiError(cause, "The password could not be changed."));
     } finally {
-      setSaving(false);
+      setPasswordSaving(false);
     }
   };
 
@@ -73,12 +144,16 @@ export default function AdminProfileEditor({ admin, onUpdate }) {
       <header className="admin-profile-heading">
         <Eyebrow>Account settings</Eyebrow>
         <h2>Admin profile</h2>
-        <p>Update your sign-in email or choose a new password.</p>
+        <p>Update your sign-in email or change your password securely.</p>
       </header>
 
-      <form className="admin-profile-form" onSubmit={saveProfile}>
+      <form className="admin-profile-form" onSubmit={saveEmail}>
+        <div className="admin-profile-section-heading">
+          <Mail size={17} aria-hidden="true" />
+          <h3>Email address</h3>
+        </div>
         <label className="admin-profile-field">
-          <span>Email address</span>
+          <span>Sign-in email</span>
           <div>
             <Mail size={18} aria-hidden="true" />
             <input
@@ -90,19 +165,8 @@ export default function AdminProfileEditor({ admin, onUpdate }) {
             />
           </div>
         </label>
-
-        <div className="admin-profile-divider">
-          <KeyRound size={17} aria-hidden="true" />
-          <span>Change password</span>
-          <small>
-            Leave the new password fields empty to keep your current one.
-          </small>
-        </div>
-
         <label className="admin-profile-field">
-          <span>
-            Current password <em>*</em>
-          </span>
+          <span>Current password to confirm email change</span>
           <input
             autoComplete="current-password"
             type="password"
@@ -111,6 +175,37 @@ export default function AdminProfileEditor({ admin, onUpdate }) {
             required
           />
         </label>
+        {emailError && <p className="admin-form-error">{emailError}</p>}
+        <div className="admin-profile-actions">
+          <button type="submit" className="button" disabled={emailSaving}>
+            {emailSaving ? (
+              <LoaderCircle size={16} className="admin-save-spinner" />
+            ) : (
+              <Save size={16} />
+            )}
+            {emailSaving ? "Saving..." : "Save email"}
+          </button>
+        </div>
+      </form>
+
+      <form
+        className="admin-profile-form admin-password-change"
+        onSubmit={(event) => {
+          if (otpSent) changePassword(event);
+          else {
+            event.preventDefault();
+            sendPasswordOtp();
+          }
+        }}
+      >
+        <div className="admin-profile-section-heading">
+          <KeyRound size={17} aria-hidden="true" />
+          <h3>Change password</h3>
+        </div>
+        <p className="admin-profile-help">
+          Enter and confirm a new password. We’ll send a one-time code to{" "}
+          <strong>{admin?.email}</strong>. Your current password is not required.
+        </p>
         <div className="admin-profile-password-grid">
           <label className="admin-profile-field">
             <span>New password</span>
@@ -122,23 +217,24 @@ export default function AdminProfileEditor({ admin, onUpdate }) {
               aria-invalid={passwordTooShort || passwordMismatch}
               onChange={(event) => {
                 setNewPassword(event.target.value);
-                setError("");
+                setPasswordError("");
               }}
+              required
             />
           </label>
           <label className="admin-profile-field">
-            <span>Confirm new password</span>
+            <span>Re-enter new password</span>
             <input
               autoComplete="new-password"
               type="password"
               minLength={8}
-              required={Boolean(newPassword)}
               value={confirmPassword}
               aria-invalid={passwordMismatch}
               onChange={(event) => {
                 setConfirmPassword(event.target.value);
-                setError("");
+                setPasswordError("");
               }}
+              required
             />
           </label>
         </div>
@@ -153,15 +249,59 @@ export default function AdminProfileEditor({ admin, onUpdate }) {
           </p>
         )}
 
-        {error && <p className="admin-form-error">{error}</p>}
+        {otpSent && (
+          <>
+            <label className="admin-profile-field">
+              <span>One-time verification code</span>
+              <input
+                autoComplete="one-time-code"
+                inputMode="numeric"
+                pattern="[0-9]{6}"
+                maxLength={6}
+                value={otp}
+                onChange={(event) =>
+                  setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                required
+                aria-describedby="admin-password-otp-hint"
+              />
+            </label>
+            <small
+              id="admin-password-otp-hint"
+              className="admin-profile-help admin-profile-otp-hint"
+            >
+              Code sent to {otpDestination}. It expires in 10 minutes.
+            </small>
+          </>
+        )}
+
+        {passwordError && (
+          <p className="admin-form-error" role="alert">
+            {passwordError}
+          </p>
+        )}
         <div className="admin-profile-actions">
-          <button type="submit" className="button" disabled={saving}>
-            {saving ? (
+          <button
+            type="submit"
+            className="button"
+            disabled={
+              passwordSaving || passwordTooShort || passwordMismatch
+            }
+          >
+            {passwordSaving ? (
               <LoaderCircle size={16} className="admin-save-spinner" />
+            ) : otpSent ? (
+              <ShieldCheck size={16} />
             ) : (
-              <Save size={16} />
+              <KeyRound size={16} />
             )}
-            {saving ? "Saving..." : "Save profile"}
+            {passwordSaving
+              ? otpSent
+                ? "Updating..."
+                : "Sending code..."
+              : otpSent
+                ? "Verify code and update password"
+                : "Send verification code"}
           </button>
         </div>
       </form>
