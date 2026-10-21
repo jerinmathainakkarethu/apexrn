@@ -1,5 +1,8 @@
 import { databaseConfigured } from "../db.js";
-import { listContacts as fetchContacts } from "../models/contact.js";
+import {
+  listContacts as fetchContacts,
+  markContactRead as setContactRead,
+} from "../models/contact.js";
 import { listRegistrations } from "../models/qaRegistration.js";
 import { listCollection } from "../models/collection.js";
 import { imageUpload, videoUpload } from "../middleware/upload.js";
@@ -23,6 +26,24 @@ export async function listContacts(req, res, next) {
     res.json(databaseConfigured ? await fetchContacts() : fallback.contacts);
   } catch (error) {
     next(error);
+  }
+}
+
+export async function markContactRead(req, res, next) {
+  try {
+    if (databaseConfigured) {
+      await setContactRead(Number(req.params.id));
+    } else {
+      const contact = fallback.contacts.find(
+        (item) => item.id === Number(req.params.id),
+      );
+      if (!contact)
+        return res.status(404).json({ message: "Contact submission not found." });
+      contact.status = "read";
+    }
+    return res.json({ id: Number(req.params.id), status: "read" });
+  } catch (error) {
+    return next(error);
   }
 }
 

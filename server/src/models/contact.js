@@ -10,3 +10,10 @@ export async function insertContact(payload) {
 export async function listContacts() {
   return query("SELECT * FROM contact_submissions ORDER BY created_at DESC");
 }
+
+export async function markContactRead(id) {
+  await query(
+    "UPDATE contact_submissions SET status = 'read' WHERE id = :id",
+    { id },
+  );
+}

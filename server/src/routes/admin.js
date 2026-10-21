@@ -9,6 +9,17 @@ router.get(
   adminController.listTestimonials,
 );
 router.get("/contact", authenticateAdmin, adminController.listContacts);
+router.patch(
+  "/contact/:id/read",
+  authenticateAdmin,
+  (req, res, next) => {
+    if (!/^\d+$/.test(req.params.id) || Number(req.params.id) < 1) {
+      return res.status(400).json({ message: "Invalid contact submission ID." });
+    }
+    return next();
+  },
+  adminController.markContactRead,
+);
 router.get("/qa", authenticateAdmin, adminController.listQa);
 router.post("/upload", authenticateAdmin, adminController.upload);
 router.post("/upload/video", authenticateAdmin, adminController.uploadVideo);

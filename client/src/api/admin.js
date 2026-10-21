@@ -1,6 +1,8 @@
 import api from "../services/api";
 
 export const getAdminContacts = () => api.get("/admin/contact");
+export const markAdminContactRead = (id) =>
+  api.patch(`/admin/contact/${id}/read`);
 export const getAdminQa = () => api.get("/admin/qa");
 export const uploadImage = (file) => {
   const formData = new FormData();
