@@ -2646,3 +2646,124 @@ textarea.has-error:focus {
   font-family: var(--admin-copy-family);
   font-size: var(--admin-copy-size);
 }
+
+.integration-settings {
+  display: grid;
+  gap: 22px;
+}
+
+.integration-settings-toolbar,
+.integration-settings-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.integration-settings-toolbar {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fff 0%, #fbf8f4 100%);
+  box-shadow: 0 8px 24px rgba(43, 38, 32, 0.06);
+}
+
+.integration-settings-toolbar h2,
+.integration-settings-card-heading h3 {
+  margin: 7px 0 0;
+  color: var(--ink);
+  font: 500 25px/1.2 var(--serif);
+}
+
+.integration-settings-toolbar p,
+.integration-settings-card-heading p,
+.integration-field-map > p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.integration-settings-card {
+  display: grid;
+  gap: 22px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.integration-settings-card-heading h3 {
+  font-size: 21px;
+}
+
+.integration-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px 20px;
+}
+
+.integration-settings-grid > label {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.integration-settings-grid input:not([type="checkbox"]) {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fcfbf9;
+  color: var(--ink);
+  font: 400 14px/1.4 var(--admin-copy-family, inherit);
+}
+
+.integration-settings-grid input:focus {
+  border-color: var(--terracotta);
+  outline: 3px solid color-mix(in srgb, var(--terracotta) 14%, transparent);
+}
+
+.integration-settings-wide {
+  grid-column: 1 / -1;
+}
+
+.integration-settings-grid > .integration-settings-checkbox {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 9px;
+  font-weight: 500;
+}
+
+.integration-settings-checkbox input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--terracotta);
+}
+
+.integration-test-button {
+  width: auto !important;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 700px) {
+  .integration-settings-toolbar,
+  .integration-settings-card-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .integration-settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .integration-settings-wide {
+    grid-column: auto;
+  }
+}

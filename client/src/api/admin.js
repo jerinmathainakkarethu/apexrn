@@ -4,6 +4,12 @@ export const getAdminContacts = () => api.get("/admin/contact");
 export const markAdminContactRead = (id) =>
   api.patch(`/admin/contact/${id}/read`);
 export const getAdminQa = () => api.get("/admin/qa");
+export const getIntegrationSettings = () =>
+  api.get("/admin/settings/integrations");
+export const saveIntegrationSettings = (settings) =>
+  api.put("/admin/settings/integrations", settings);
+export const sendSmtpTestEmail = () =>
+  api.post("/admin/settings/integrations/test-email");
 export const uploadImage = (file) => {
   const formData = new FormData();
   formData.append("image", file);

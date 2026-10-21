@@ -17,6 +17,7 @@ import {
   Mail,
   MenuIcon as MenuGlyph,
   MessageSquareQuote,
+  Settings,
   User,
   Users2,
 } from "lucide-react";
@@ -34,6 +35,7 @@ import TestimonialsEditor from "./pages/TestimonialsEditor";
 import FaqEditor from "./pages/FaqEditor";
 import AdminProfileEditor from "./pages/AdminProfileEditor";
 import MessagesEditor from "./pages/MessagesEditor";
+import SmtpSettingsEditor from "./pages/SmtpSettingsEditor";
 
 // "Pages" removed — every content type below already has its own sidebar entry,
 // so a separate page-picker just duplicated navigation.
@@ -65,7 +67,10 @@ const sectionGroups = [
   },
   {
     label: "Account",
-    items: [{ key: "Admin profile", icon: User }],
+    items: [
+      { key: "Admin profile", icon: User },
+      { key: "Settings", icon: Settings },
+    ],
   },
 ];
 
@@ -400,6 +405,8 @@ function AdminView({ active, onNotice, admin, onAdminUpdate }) {
       return (
         <AdminProfileEditor admin={admin} onUpdate={onAdminUpdate} />
       );
+    case "Settings":
+      return <SmtpSettingsEditor />;
     default:
       return null;
   }

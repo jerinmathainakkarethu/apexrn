@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as adminController from "../controllers/adminController.js";
+import * as integrationSettingsController from "../controllers/integrationSettingsController.js";
 import { authenticateAdmin } from "../middleware/auth.js";
 
 const router = Router();
@@ -21,6 +22,21 @@ router.patch(
   adminController.markContactRead,
 );
 router.get("/qa", authenticateAdmin, adminController.listQa);
+router.get(
+  "/settings/integrations",
+  authenticateAdmin,
+  integrationSettingsController.getSettings,
+);
+router.put(
+  "/settings/integrations",
+  authenticateAdmin,
+  integrationSettingsController.updateSettings,
+);
+router.post(
+  "/settings/integrations/test-email",
+  authenticateAdmin,
+  integrationSettingsController.sendTestEmail,
+);
 router.post("/upload", authenticateAdmin, adminController.upload);
 router.post("/upload/video", authenticateAdmin, adminController.uploadVideo);
 

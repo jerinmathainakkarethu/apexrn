@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import "../styles/content-pages.css";
 import PageFrame from "../components/layout/PageFrame";
 import jotformConfig from "../config/jotform";

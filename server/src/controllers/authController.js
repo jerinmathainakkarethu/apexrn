@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { createHash, randomInt, timingSafeEqual } from "node:crypto";
-import nodemailer from "nodemailer";
 import { databaseConfigured } from "../db.js";
+import { createSmtpTransport } from "../utils/smtp.js";
 import {
   findAdminByEmail,
   findAdminByEmailExcludingId,
@@ -29,26 +29,11 @@ function maskEmail(email) {
 }
 
 async function deliverOtp(destination, purpose) {
-  const smtpUser = process.env.SMTP_USER?.trim();
-  const smtpPass = process.env.SMTP_PASS;
-  if (!smtpUser || !smtpPass) {
-    const error = new Error("Email delivery is not configured on the server.");
-    error.status = 503;
-    throw error;
-  }
-
   const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "smtp.gmail.com",
-    port: Number(process.env.SMTP_PORT || 465),
-    secure: process.env.SMTP_SECURE
-      ? process.env.SMTP_SECURE === "true"
-      : Number(process.env.SMTP_PORT || 465) === 465,
-    auth: { user: smtpUser, pass: smtpPass },
-  });
+  const { smtp, transporter } = await createSmtpTransport();
   const action = purpose === "login" ? "admin sign-in" : "password change";
   await transporter.sendMail({
-    from: process.env.SMTP_FROM || smtpUser,
+    from: smtp.from || smtp.user,
     to: destination,
     subject: `Your APEX RN Prep ${action} verification code`,
     text: `Your ${action} verification code is ${code}. It expires in 10 minutes. If you did not request this code, you can ignore this email.`,

@@ -1,19 +1,11 @@
-import nodemailer from "nodemailer";
 import { databaseConfigured } from "../db.js";
 import { insertContact } from "../models/contact.js";
 import { listAdminEmails } from "../models/admin.js";
+import { createSmtpTransport } from "../utils/smtp.js";
 
 export async function submit(req, res, next) {
   try {
     if (!databaseConfigured) {
-      return res.status(503).json({
-        message: "Contact submissions are temporarily unavailable.",
-      });
-    }
-
-    const smtpUser = process.env.SMTP_USER?.trim();
-    const smtpPass = process.env.SMTP_PASS;
-    if (!smtpUser || !smtpPass) {
       return res.status(503).json({
         message: "Contact submissions are temporarily unavailable.",
       });
@@ -28,19 +20,10 @@ export async function submit(req, res, next) {
 
     await insertContact(req.body);
 
-    const smtpPort = Number(process.env.SMTP_PORT || 465);
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || "smtp.gmail.com",
-      port: smtpPort,
-      secure: process.env.SMTP_SECURE
-        ? process.env.SMTP_SECURE === "true"
-        : smtpPort === 465,
-      auth: { user: smtpUser, pass: smtpPass },
-    });
-
     try {
+      const { smtp, transporter } = await createSmtpTransport();
       await transporter.sendMail({
-        from: process.env.SMTP_FROM || smtpUser,
+        from: smtp.from || smtp.user,
         to: recipients,
         replyTo: req.body.email,
         subject: "New APEX RN Prep contact message",
