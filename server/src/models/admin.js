@@ -16,6 +16,13 @@ export async function findAdminById(id) {
   return rows[0];
 }
 
+export async function listAdminEmails() {
+  const rows = await query(
+    "SELECT email FROM admins WHERE email IS NOT NULL AND email != ''",
+  );
+  return rows.map(({ email }) => email);
+}
+
 export async function findAdminByEmailExcludingId(email, id) {
   const rows = await query(
     "SELECT id FROM admins WHERE email = :email AND id != :id LIMIT 1",

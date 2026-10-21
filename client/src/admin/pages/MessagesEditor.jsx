@@ -11,5 +11,5 @@ export default function MessagesEditor() {
   if (page.error)
     return <p className="admin-form-error">{page.error}</p>;
 
-  return <Inbox items={page.items} title="Contact messages" />;
+  return <Inbox items={page.items} title="Contact form submissions" />;
 }

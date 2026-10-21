@@ -77,7 +77,11 @@ app.use("/api/program-details", programDetailsRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/faqs", faqRoutes);
 app.use("/api/resources", resourceRoutes);
-app.use("/api/contact", contactRoutes);
+app.use(
+  "/api/contact",
+  rateLimit({ windowMs: 15 * 60 * 1000, limit: 5 }),
+  contactRoutes,
+);
 app.use("/api/qa", qaRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/jotform", jotformRoutes);

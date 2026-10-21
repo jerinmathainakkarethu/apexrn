@@ -8,6 +8,7 @@ const STEPS = ["Send your message", "We review it", "We get back to you"];
 
 export default function ContactPage() {
   const [status, setStatus] = useState("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -15,11 +16,16 @@ export default function ContactPage() {
     // so calling reset() on it after the request would throw.
     const form = event.currentTarget;
     setStatus("loading");
+    setErrorMessage("");
     try {
       await submitContact(Object.fromEntries(new FormData(form).entries()));
       form.reset();
       setStatus("success");
-    } catch {
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      );
       setStatus("error");
     }
   }
@@ -123,7 +129,7 @@ export default function ContactPage() {
                   <span className="status-icon">
                     <X size={14} />
                   </span>
-                  Something went wrong. Please try again.
+                  {errorMessage}
                 </p>
               )}
             </div>

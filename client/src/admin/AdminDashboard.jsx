@@ -33,6 +33,7 @@ import ProgramDetailsEditor from "./pages/ProgramDetailsEditor";
 import TestimonialsEditor from "./pages/TestimonialsEditor";
 import FaqEditor from "./pages/FaqEditor";
 import AdminProfileEditor from "./pages/AdminProfileEditor";
+import MessagesEditor from "./pages/MessagesEditor";
 
 // "Pages" removed — every content type below already has its own sidebar entry,
 // so a separate page-picker just duplicated navigation.
@@ -57,6 +58,10 @@ const sectionGroups = [
       { key: "Testimonials", icon: MessageSquareQuote },
       { key: "FAQs", icon: HelpCircle },
     ],
+  },
+  {
+    label: "Inbox",
+    items: [{ key: "Contact submissions", icon: Mail }],
   },
   {
     label: "Account",
@@ -389,6 +394,8 @@ function AdminView({ active, onNotice, admin, onAdminUpdate }) {
       return <TestimonialsEditor onNotice={onNotice} />;
     case "FAQs":
       return <FaqEditor onNotice={onNotice} />;
+    case "Contact submissions":
+      return <MessagesEditor />;
     case "Admin profile":
       return (
         <AdminProfileEditor admin={admin} onUpdate={onAdminUpdate} />
