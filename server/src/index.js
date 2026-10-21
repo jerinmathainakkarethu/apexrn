@@ -1,4 +1,4 @@
-import "dotenv/config";
+﻿import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -16,6 +16,7 @@ import resourceRoutes from "./routes/resources.js";
 import contactRoutes from "./routes/contact.js";
 import qaRoutes from "./routes/qa.js";
 import adminRoutes from "./routes/admin.js";
+import jotformRoutes from "./routes/jotform.js";
 import { uploadDirectoryPath } from "./middleware/upload.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
@@ -79,6 +80,7 @@ app.use("/api/resources", resourceRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/qa", qaRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/jotform", jotformRoutes);
 
 app.use((_, res) => res.status(404).json({ message: "Route not found." }));
 app.use(errorHandler);

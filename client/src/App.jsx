@@ -1,4 +1,4 @@
-// Route-level code splitting. Each page is loaded on demand, and the CSS it
+﻿// Route-level code splitting. Each page is loaded on demand, and the CSS it
 // imports travels with it: visiting /faqs downloads base.css + faqs.css only.
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
@@ -14,6 +14,7 @@ const TestimonialsPage = lazy(() => import("./pages/TestimonialsPage"));
 const FaqPage = lazy(() => import("./pages/FaqPage"));
 const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
+const BookPage = lazy(() => import("./pages/BookPage"));
 const AdminDashboard = lazy(() => import("./admin/AdminDashboard"));
 
 export default function App() {
@@ -74,6 +75,7 @@ export default function App() {
           <Route path="/faqs" element={<FaqPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/book" element={<BookPage />} />
           <Route path="/admin/login" element={<AdminDashboard />} />
           <Route path="/admin/*" element={<AdminDashboard />} />
         </Routes>
