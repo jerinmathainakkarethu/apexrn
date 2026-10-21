@@ -186,14 +186,6 @@ export default function Home() {
                   <article className="svc-item" key={item.title}>
                     <Icon size={50} strokeWidth={1.25} className="svc-icon" />
                     <h4>{item.title}</h4>
-                    <a
-                      href={item.href || "#"}
-                      className="svc-arrow"
-                      aria-label={item.title}
-                    >
-                      <span>Read More</span>
-                      <ArrowRight size={16} />
-                    </a>
                   </article>
                 );
               })}
