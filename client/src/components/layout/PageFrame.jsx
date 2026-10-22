@@ -8,11 +8,12 @@ export default function PageFrame({
   intro,
   children,
   showHero = true,
+  pageClassName = "",
 }) {
   return (
     <>
       <Header />
-      <main>
+      <main className={pageClassName}>
         {showHero && (
           <section className="page-hero">
             <Eyebrow>{eyebrow}</Eyebrow>
