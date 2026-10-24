@@ -120,6 +120,19 @@
   grid-column: 1 / -1;
 }
 
+.contact-phone-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.6fr) minmax(0, 1.4fr);
+  gap: 18px;
+}
+
+.contact-phone-part {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
 .contact-field label {
   font-size: 13px;
   font-weight: 600;
@@ -151,7 +164,8 @@
 }
 
 .contact-page-form input,
-.contact-page-form textarea {
+.contact-page-form textarea,
+.contact-page-form select {
   width: 100%;
   font: 400 15px/1.5 var(--sans, "DM Sans", sans-serif);
   color: var(--c-ink);
@@ -162,6 +176,12 @@
   outline: 0;
   transition: border-color 0.25s var(--c-ease), box-shadow 0.25s var(--c-ease),
     background 0.25s var(--c-ease);
+}
+
+.contact-page-form select {
+  min-height: 50px;
+  padding: 0 36px 0 14px;
+  cursor: pointer;
 }
 
 .contact-page-form textarea {
@@ -176,12 +196,14 @@
 }
 
 .contact-page-form input:hover,
-.contact-page-form textarea:hover {
+.contact-page-form textarea:hover,
+.contact-page-form select:hover {
   border-color: var(--c-gold-line);
 }
 
 .contact-page-form input:focus,
-.contact-page-form textarea:focus {
+.contact-page-form textarea:focus,
+.contact-page-form select:focus {
   background: #fff;
   border-color: var(--c-gold);
   box-shadow: 0 0 0 4px var(--c-gold-soft);
@@ -255,6 +277,12 @@
 
   .contact-field-wide {
     grid-column: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .contact-phone-row {
+    grid-template-columns: 1fr;
   }
 }
 
