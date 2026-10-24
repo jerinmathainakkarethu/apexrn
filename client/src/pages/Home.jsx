@@ -237,7 +237,7 @@ export default function Home() {
         )}
 
         {show("instructor") && (
-          <section className="reference-section reference-instructor section-tone-blush-2 scroll-reveal">
+          <section className="reference-section reference-instructor home-blue-section scroll-reveal">
             <div className="reference-instructor-image">
               <img
                 src={imageUrl(c.instructor.image)}
@@ -382,7 +382,7 @@ export default function Home() {
         )}
 
         {show("faqs") && faqs.length > 0 && (
-          <section className="reference-section reference-faq section-tone-sage scroll-reveal">
+          <section className="reference-section reference-faq home-blue-section scroll-reveal">
             <div className="reference-faq-copy">
               <Eyebrow>{c.faq?.eyebrow}</Eyebrow>
               <h2>{c.faq?.title}</h2>

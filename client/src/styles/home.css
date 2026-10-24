@@ -1567,3 +1567,72 @@ main > .hero.scroll-reveal.is-visible {
     margin-top: 55px;
 
 }
+
+.home-blue-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #eef2f6;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(45, 212, 191, 0.15), transparent 55%),
+    radial-gradient(circle at 96% 100%, rgba(212, 150, 125, 0.12), transparent 50%),
+    #1d2b3d;
+}
+
+.home-blue-section::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(45, 212, 191, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 212, 191, 0.055) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse 85% 70% at 50% 15%, black 0%, transparent 78%);
+  pointer-events: none;
+  content: "";
+}
+
+.home-blue-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-blue-section .eyebrow {
+  color: #2dd4bf;
+}
+
+.home-blue-section .reference-instructor-copy h2,
+.home-blue-section .reference-faq-copy h2,
+.home-blue-section .course-listing-head h2,
+.home-blue-section .reference-faq-list .faq-question {
+  color: #eef2f6;
+}
+
+.home-blue-section .reference-instructor-copy > p,
+.home-blue-section .reference-faq-copy > p,
+.home-blue-section .course-listing-intro p,
+.home-blue-section .reference-faq-list .faq-answer > p {
+  color: rgba(238, 242, 246, 0.76);
+}
+
+.home-blue-section .reference-credential-list span {
+  color: #eef2f6;
+}
+
+.home-blue-section .reference-credential-list svg {
+  color: #2dd4bf;
+}
+
+.home-blue-section .reference-faq-list .faq-item {
+  border-color: rgba(238, 242, 246, 0.2);
+}
+
+.home-blue-section .course-listing-all {
+  color: #eef2f6;
+  border-color: rgba(238, 242, 246, 0.35);
+}
+
+.home-blue-section .course-listing-all:hover {
+  color: #2dd4bf;
+  border-color: #2dd4bf;
+}

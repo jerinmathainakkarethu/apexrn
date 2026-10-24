@@ -73,7 +73,7 @@ export default function CourseListing({ content }) {
   };
 
   return (
-    <section className="section course-listing scroll-reveal">
+    <section className="section course-listing home-blue-section scroll-reveal">
       <div className="course-listing-head">
         <div>
           <Eyebrow>{listing.eyebrow}</Eyebrow>
