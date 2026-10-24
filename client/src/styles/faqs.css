@@ -39,10 +39,20 @@
   
 }
 
+.faq-page-list summary svg {
+  flex: 0 0 auto;
+  transition: transform 0.25s ease;
+}
+
+.faq-page-list summary svg.is-open {
+  transform: rotate(90deg);
+}
+
 .faq-page-list details p {
   
     color: var(--muted);
     max-width: 650px;
+    font-size: 17px;
   
 }
 

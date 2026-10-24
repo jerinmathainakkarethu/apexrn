@@ -881,6 +881,8 @@ export const programDetailsContent = {
     copy:
       "If something here does not fit your timeline or your exam date, say so. We will tell you honestly whether the program is right for you or whether you need a shorter plan.",
     primary: "Book a free consultation",
+    primaryHref: "/contact",
     secondary: "Join the next cohort",
+    secondaryHref: "/contact",
   },
 };

@@ -44,8 +44,11 @@ export default function FaqPage() {
               }}
             >
               {item.question}
-              <ArrowRight size={17} />
-            </summary>
+                <ArrowRight
+                  className={openFaq === item.id ? "is-open" : ""}
+                  size={17}
+                />
+              </summary>
             <p>{item.answer}</p>
           </details>
         ))}

@@ -295,10 +295,12 @@ export default function ProgramDetailsPage() {
             {finalCta.copy} <MessageCircle size={17} />
           </p>
           <div className="button-row">
-            <Button secondary href="/contact">
+            <Button secondary href={finalCta.primaryHref || "/contact"}>
               {finalCta.primary}
             </Button>
-            <Button href="#contact">{finalCta.secondary}</Button>
+            <Button href={finalCta.secondaryHref || "#contact"}>
+              {finalCta.secondary}
+            </Button>
           </div>
         </section>}
       </div>

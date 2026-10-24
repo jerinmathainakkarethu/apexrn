@@ -18,7 +18,7 @@ import PageEditorShell from "../components/PageEditorShell";
 
 const PROGRAM_DETAILS_NAV = [
   { id: "curriculum-header", label: "Page header" },
-  { id: "curriculum-snapshot", label: "Summary strip" },
+  { id: "curriculum-snapshot", label: "Curriculum Summary" },
   { id: "curriculum-structure", label: "Week structure" },
   { id: "curriculum-weeks", label: "Week by week" },
   { id: "curriculum-systems", label: "Systems" },
@@ -112,12 +112,7 @@ export default function ProgramDetailsEditor({ onNotice }) {
           onChange={(value) => update(["hero", "intro"], value)}
           multiline
         />
-        <HomeField
-          label="Note under the title"
-          value={content.hero?.note}
-          onChange={(value) => update(["hero", "note"], value)}
-          multiline
-        />
+       
         <HomeField
           label="Page title (browser tab)"
           value={content.seo?.title}
@@ -136,7 +131,7 @@ export default function ProgramDetailsEditor({ onNotice }) {
         {...switchProps("snapshot")}
         number="02"
         icon={ListChecks}
-        title="Summary strip"
+        title="Curriculum Summary"
         where="The row of key program facts below the curriculum page header."
         preview={(content.snapshot || []).join(" · ")}
       >
@@ -720,9 +715,19 @@ export default function ProgramDetailsEditor({ onNotice }) {
             onChange={(value) => update(["finalCta", "primary"], value)}
           />
           <HomeField
+            label="Primary button link"
+            value={content.finalCta?.primaryHref}
+            onChange={(value) => update(["finalCta", "primaryHref"], value)}
+          />
+          <HomeField
             label="Secondary button"
             value={content.finalCta?.secondary}
             onChange={(value) => update(["finalCta", "secondary"], value)}
+          />
+          <HomeField
+            label="Secondary button link"
+            value={content.finalCta?.secondaryHref}
+            onChange={(value) => update(["finalCta", "secondaryHref"], value)}
           />
         </div>
       </HomeSection>

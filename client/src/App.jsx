@@ -60,7 +60,7 @@ export default function App() {
           aria-hidden={!reserveVisible}
           className={`button reserve-spot${reserveVisible ? " is-visible" : ""}`}
           tabIndex={reserveVisible ? undefined : -1}
-          to="/contact"
+          to="/book"
         >
           Reserve your spot <ArrowRight size={17} aria-hidden="true" />
         </Link>
