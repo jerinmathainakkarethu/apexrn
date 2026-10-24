@@ -99,20 +99,21 @@ export default function CourseListing({ content }) {
             const tone = course.tone || defaults.tone;
             return (
               <article
-                className="course-card"
+                className={`course-option-card tone-${tone}`}
                 key={course.id || `${course.code || "course"}-${index}`}
               >
-                <div className={`course-card-media tone-${tone}`}>
-                  <span className="course-card-code">
+                <div className="course-option-header">
+                  <span className="course-option-code">
                     {course.code ?? defaults.code}
                   </span>
-                  <span className="course-card-sub">
+                  <span className="course-option-plan">
                     {course.subtitle ?? defaults.subtitle}
                   </span>
                 </div>
 
-                <div className="course-card-body">
-                  <div className="course-card-meta">
+                <div className="course-option-body">
+                  <h3>{course.title ?? defaults.title}</h3>
+                  <div className="course-option-meta">
                     <span>
                       <Clock3 size={15} />
                       {meta[0] ?? defaults.meta[0]}
@@ -122,29 +123,27 @@ export default function CourseListing({ content }) {
                       {meta[1] ?? defaults.meta[1]}
                     </span>
                   </div>
-
-                  <h3>{course.title ?? defaults.title}</h3>
-                  <p className="course-card-subtitle">
-                    {course.subtitle ?? defaults.subtitle}
-                  </p>
-                  <p className="course-card-copy">
+                  <p className="course-option-copy">
                     {course.description ?? defaults.description}
                   </p>
                 </div>
 
-                <div className="course-card-foot">
-                  <div className="course-card-price">
-                    <span className="course-price-now">
+                <div className="course-option-footer">
+                  <div className="course-option-price">
+                    <span className="course-option-price-value">
                       {formatPrice(
                         course.price ?? defaults.price,
                         course.currency || defaults.currency,
                       )}
                     </span>
-                    <span className="course-price-note">
+                    <span className="course-option-price-note">
                       {course.priceNote ?? defaults.priceNote}
                     </span>
                   </div>
-                  <a className="button" href={course.href ?? defaults.href}>
+                  <a
+                    className="button course-option-button"
+                    href={course.href ?? defaults.href}
+                  >
                     {course.buttonText ?? defaults.buttonText}
                     <ArrowRight size={17} />
                   </a>
