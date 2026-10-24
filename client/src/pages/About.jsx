@@ -88,6 +88,9 @@ export default function About() {
   };
   const isVisible = (key) => content.sectionVisibility?.[key] !== false;
   const galleryItems = content.gallery?.items ?? content.images ?? [];
+  const benefitImages = Array.isArray(content.images)
+    ? content.images.slice(0, 2).filter((image) => image?.url)
+    : [];
 
   return (
     <>
@@ -98,10 +101,17 @@ export default function About() {
       <Header />
       <main className="about-page" ref={mainRef}>
         {isVisible("benefits") && <section className="about-benefits scroll-reveal">
-          <div className="about-benefit-images">
-            <img src={imageUrl(content.images[0].url)} alt={content.images[0].alt} />
-            <img src={imageUrl(content.images[1].url)} alt={content.images[1].alt} />
-          </div>
+          {benefitImages.length > 0 && (
+            <div className="about-benefit-images">
+              {benefitImages.map((image, index) => (
+                <img
+                  key={`${image.url}-${index}`}
+                  src={imageUrl(image.url)}
+                  alt={image.alt || ""}
+                />
+              ))}
+            </div>
+          )}
           <div className="about-benefit-copy">
             <Eyebrow>{content.benefits.eyebrow}</Eyebrow>
             <h1>{content.benefits.title}</h1>
@@ -125,12 +135,14 @@ export default function About() {
             <p>{content.copy}</p>
             {content.copySecondary && <p>{content.copySecondary}</p>}
           </div>
-          <div className="about-story-image">
-            <img
-              src={imageUrl(content.image)}
-              alt={content.imageAlt || content.sectionTitle}
-            />
-          </div>
+          {content.image && (
+            <div className="about-story-image">
+              <img
+                src={imageUrl(content.image)}
+                alt={content.imageAlt || content.sectionTitle || ""}
+              />
+            </div>
+          )}
         </section>}
 
         {isVisible("philosophy") && content.philosophy && (

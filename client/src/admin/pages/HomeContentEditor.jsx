@@ -38,7 +38,7 @@ const HOME_SECTION_NAV = [
   { id: "sec-community", label: "Community" },
   { id: "sec-qa", label: "Q&A" },
   { id: "sec-faq", label: "FAQ" },
-  { id: "sec-pricing", label: "Enrollment" },
+  { id: "sec-pricing", label: "Course Registration" },
 ];
 
 export default function HomeContentEditor() {

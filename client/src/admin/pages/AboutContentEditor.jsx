@@ -20,13 +20,12 @@ import ImageField from "../components/ImageField";
 import PageEditorShell from "../components/PageEditorShell";
 
 const ABOUT_SECTION_NAV = [
-  { id: "about-header", label: "Page header" },
+  { id: "about-header", label: "SEO" },
+  { id: "about-benefits", label: "Key Benefits" },
   { id: "about-story", label: "Your story" },
   { id: "about-philosophy", label: "Philosophy" },
   { id: "about-credentials", label: "Credentials" },
   { id: "about-principles", label: "Values" },
-  { id: "about-images", label: "Images" },
-  { id: "about-benefits", label: "Benefits" },
   { id: "about-video", label: "Video" },
   { id: "about-gallery", label: "Image gallery" },
   { id: "about-testimonials", label: "Testimonials" },
@@ -84,11 +83,12 @@ export default function AboutContentEditor() {
       uploadError={uploadError}
       onRetry={page.refresh}
     >
+
       <HomeSection
         anchorId="about-header"
         number="01"
         icon={User}
-        title="Page header"
+        title="SEO"
         where="Eyebrow, page title and the search-engine description at the top of the about page."
         preview={content.title}
       >
@@ -110,6 +110,62 @@ export default function AboutContentEditor() {
             onChange={(value) => update(["intro"], value)}
             multiline
           />
+        </div>
+      </HomeSection>
+
+      <HomeSection
+        anchorId="about-benefits"
+        {...switchProps("benefits")}
+        number="07"
+        icon={ListChecks}
+        title="Key benefits"
+        where="The 'Key benefits' block with the tick list and Learn more button."
+        preview={content.benefits?.title}
+      >
+        <div className="home-field-grid">
+          <HomeField
+            label="Eyebrow"
+            value={content.benefits?.eyebrow}
+            onChange={(value) => update(["benefits", "eyebrow"], value)}
+          />
+          <HomeField
+            label="Heading"
+            value={content.benefits?.title}
+            onChange={(value) => update(["benefits", "title"], value)}
+            multiline
+          />
+        </div>
+        <HomeField
+          label="Copy"
+          value={content.benefits?.copy}
+          onChange={(value) => update(["benefits", "copy"], value)}
+          multiline
+        />
+        <HomeField
+          label="Tick list (one per line)"
+          value={(content.benefits?.items || []).join("\n")}
+          onChange={(value) => updateList(["benefits", "items"], value)}
+          multiline
+        />
+        <HomeField
+          label="Button text"
+          value={content.benefits?.button}
+          onChange={(value) => update(["benefits", "button"], value)}
+        />
+        <div className="home-repeatable-grid">
+          {[0, 1].map((index) => (
+            <ImageField
+              key={`benefit-image-${index}`}
+              label={`Key benefits image ${index + 1}`}
+              image={content.images?.[index]}
+              onChange={(image) => {
+                const images = [...(content.images || [])];
+                images[index] = image;
+                update(["images"], images);
+              }}
+              onError={setUploadError}
+            />
+          ))}
         </div>
       </HomeSection>
 
@@ -146,6 +202,15 @@ export default function AboutContentEditor() {
           value={content.copySecondary}
           onChange={(value) => update(["copySecondary"], value)}
           multiline
+        />
+        <ImageField
+          label="Your story image"
+          image={{ url: content.image, alt: content.imageAlt }}
+          onChange={(image) => {
+            update(["image"], image.url);
+            update(["imageAlt"], image.alt);
+          }}
+          onError={setUploadError}
         />
       </HomeSection>
 
@@ -356,83 +421,6 @@ export default function AboutContentEditor() {
             Add value
           </button>
         </div>
-      </HomeSection>
-
-      <HomeSection
-        anchorId="about-images"
-        number="06"
-        icon={ImageIcon}
-        title="Images"
-        where="The two stacked photos in the benefits block, plus the main instructor photo."
-        preview={content.imageAlt}
-      >
-        <ImageField
-          label="Instructor photo"
-          image={{ url: content.image, alt: content.imageAlt }}
-          onChange={(image) => {
-            update(["image"], image.url);
-            update(["imageAlt"], image.alt);
-          }}
-          onError={setUploadError}
-        />
-        <div className="home-repeatable-grid">
-          {(content.images || []).map((item, index) => (
-            <div className="home-repeatable" key={`about-image-${index}`}>
-              <b>Photo {index + 1}</b>
-              <ImageField
-                label={`Photo ${index + 1}`}
-                image={item}
-                onChange={(image) => {
-                  const next = [...(content.images || [])];
-                  next[index] = image;
-                  update(["images"], next);
-                }}
-                onError={setUploadError}
-              />
-            </div>
-          ))}
-        </div>
-      </HomeSection>
-
-      <HomeSection
-        anchorId="about-benefits"
-        {...switchProps("benefits")}
-        number="07"
-        icon={ListChecks}
-        title="Key benefits"
-        where="The 'Key benefits' block with the tick list and Learn more button."
-        preview={content.benefits?.title}
-      >
-        <div className="home-field-grid">
-          <HomeField
-            label="Eyebrow"
-            value={content.benefits?.eyebrow}
-            onChange={(value) => update(["benefits", "eyebrow"], value)}
-          />
-          <HomeField
-            label="Heading"
-            value={content.benefits?.title}
-            onChange={(value) => update(["benefits", "title"], value)}
-            multiline
-          />
-        </div>
-        <HomeField
-          label="Copy"
-          value={content.benefits?.copy}
-          onChange={(value) => update(["benefits", "copy"], value)}
-          multiline
-        />
-        <HomeField
-          label="Tick list (one per line)"
-          value={(content.benefits?.items || []).join("\n")}
-          onChange={(value) => updateList(["benefits", "items"], value)}
-          multiline
-        />
-        <HomeField
-          label="Button text"
-          value={content.benefits?.button}
-          onChange={(value) => update(["benefits", "button"], value)}
-        />
       </HomeSection>
 
       <HomeSection
