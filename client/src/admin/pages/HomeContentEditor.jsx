@@ -10,13 +10,16 @@ import {
   ListChecks,
   MessagesSquare,
   Megaphone,
+  Plus,
   Search,
   Tag,
+  Trash2,
   User,
   Users,
   Workflow,
 } from "lucide-react";
 import { useContentDocument } from "../lib/helpers";
+import { DEFAULT_COURSE_LISTING } from "../../components/home/CourseListing";
 import HomeSection from "../components/HomeSection";
 import HomeField from "../components/HomeField";
 import ImageField from "../components/ImageField";
@@ -35,7 +38,7 @@ const HOME_SECTION_NAV = [
   { id: "sec-community", label: "Community" },
   { id: "sec-qa", label: "Q&A" },
   { id: "sec-faq", label: "FAQ" },
-  { id: "sec-pricing", label: "Pricing" },
+  { id: "sec-pricing", label: "Enrollment" },
 ];
 
 export default function HomeContentEditor() {
@@ -52,6 +55,50 @@ export default function HomeContentEditor() {
     visible: isVisible(key),
     onToggle: toggleVisibility,
   });
+  const courseListing = {
+    ...DEFAULT_COURSE_LISTING,
+    ...content.courseListing,
+    courses: Array.isArray(content.courseListing?.courses)
+      ? content.courseListing.courses
+      : DEFAULT_COURSE_LISTING.courses,
+  };
+  const removeCourse = (index) => {
+    const courses = [...courseListing.courses];
+    courses.splice(index, 1);
+    update(["courseListing", "courses"], courses);
+  };
+  const updateCourseMeta = (index, metaIndex, value) => {
+    const courses = [...courseListing.courses];
+    const course = courses[index];
+    const defaultMeta =
+      DEFAULT_COURSE_LISTING.courses[
+        index % DEFAULT_COURSE_LISTING.courses.length
+      ].meta;
+    const meta = Array.isArray(course.meta) ? [...course.meta] : [...defaultMeta];
+    meta[metaIndex] = value;
+    courses[index] = { ...course, meta };
+    update(["courseListing", "courses"], courses);
+  };
+  const addCourse = () =>
+    update(
+      ["courseListing", "courses"],
+      [
+        ...courseListing.courses,
+        {
+          id: `course-${Date.now()}`,
+          code: String(courseListing.courses.length + 1).padStart(2, "0"),
+          title: "",
+          subtitle: "",
+          description: "",
+          priceNote: "",
+          meta: ["", ""],
+          price: 0,
+          currency: "USD",
+          href: "/contact",
+          buttonText: "Enroll",
+        },
+      ],
+    );
 
   return (
     <PageEditorShell
@@ -708,36 +755,183 @@ export default function HomeContentEditor() {
 
       <HomeSection
         anchorId="sec-pricing"
+        {...switchProps("courses")}
         number="13"
         icon={Tag}
-        title="Pricing"
-        where="Pricing details used across the site. Not currently rendered on the homepage itself — check the pricing page."
-        preview={content.pricing?.title}
+        title="Course registrations"
+        where="The enrollment heading, curriculum link, and payment option cards shown on the homepage."
+        preview={courseListing.title}
       >
         <div className="home-field-grid">
           <HomeField
+            label="Eyebrow"
+            value={courseListing.eyebrow}
+            onChange={(value) => update(["courseListing", "eyebrow"], value)}
+          />
+          <HomeField
             label="Heading"
-            value={content.pricing?.title}
-            onChange={(value) => update(["pricing", "title"], value)}
+            value={courseListing.title}
+            onChange={(value) => update(["courseListing", "title"], value)}
             multiline
           />
           <HomeField
             label="Supporting copy"
-            value={content.pricing?.copy}
-            onChange={(value) => update(["pricing", "copy"], value)}
+            value={courseListing.copy}
+            onChange={(value) => update(["courseListing", "copy"], value)}
             multiline
           />
           <HomeField
-            label="Product name"
-            value={content.pricing?.product}
-            onChange={(value) => update(["pricing", "product"], value)}
+            label="Curriculum link text"
+            value={courseListing.curriculumLinkText}
+            onChange={(value) =>
+              update(["courseListing", "curriculumLinkText"], value)
+            }
           />
           <HomeField
-            label="What's included"
-            value={content.pricing?.included}
-            onChange={(value) => update(["pricing", "included"], value)}
-            multiline
+            label="Curriculum link"
+            value={courseListing.curriculumHref}
+            onChange={(value) =>
+              update(["courseListing", "curriculumHref"], value)
+            }
           />
+        </div>
+        <p className="home-section-note">
+          Edit each payment option, or remove and add cards as needed.
+        </p>
+        <div className="home-repeatable-grid">
+          {courseListing.courses.map((course, index) => (
+            <div className="home-repeatable" key={course.id || `course-${index}`}>
+              <b>Payment option {index + 1}</b>
+              <div className="home-field-grid">
+                <HomeField
+                  label="Card number"
+                  value={course.code}
+                  onChange={(value) =>
+                    updateItem(["courseListing", "courses"], index, "code", value)
+                  }
+                />
+                <HomeField
+                  label="Badge"
+                  value={course.subtitle}
+                  onChange={(value) =>
+                    updateItem(
+                      ["courseListing", "courses"],
+                      index,
+                      "subtitle",
+                      value,
+                    )
+                  }
+                />
+                <HomeField
+                  label="Course title"
+                  value={course.title}
+                  onChange={(value) =>
+                    updateItem(
+                      ["courseListing", "courses"],
+                      index,
+                      "title",
+                      value,
+                    )
+                  }
+                />
+                <HomeField
+                  label="Description"
+                  value={course.description}
+                  onChange={(value) =>
+                    updateItem(
+                      ["courseListing", "courses"],
+                      index,
+                      "description",
+                      value,
+                    )
+                  }
+                  multiline
+                />
+                <HomeField
+                  label="Program length"
+                  value={course.meta?.[0]}
+                  onChange={(value) => updateCourseMeta(index, 0, value)}
+                />
+                <HomeField
+                  label="Delivery format"
+                  value={course.meta?.[1]}
+                  onChange={(value) => updateCourseMeta(index, 1, value)}
+                />
+                <HomeField
+                  label="Price"
+                  value={course.price}
+                  onChange={(value) =>
+                    updateItem(
+                      ["courseListing", "courses"],
+                      index,
+                      "price",
+                      value,
+                    )
+                  }
+                />
+                <HomeField
+                  label="Currency (ISO code)"
+                  value={course.currency}
+                  onChange={(value) =>
+                    updateItem(
+                      ["courseListing", "courses"],
+                      index,
+                      "currency",
+                      value.toUpperCase(),
+                    )
+                  }
+                />
+                <HomeField
+                  label="Price note"
+                  value={course.priceNote}
+                  onChange={(value) =>
+                    updateItem(
+                      ["courseListing", "courses"],
+                      index,
+                      "priceNote",
+                      value,
+                    )
+                  }
+                />
+                <HomeField
+                  label="Enroll button text"
+                  value={course.buttonText}
+                  onChange={(value) =>
+                    updateItem(
+                      ["courseListing", "courses"],
+                      index,
+                      "buttonText",
+                      value,
+                    )
+                  }
+                />
+                <HomeField
+                  label="Enroll link"
+                  value={course.href}
+                  onChange={(value) =>
+                    updateItem(
+                      ["courseListing", "courses"],
+                      index,
+                      "href",
+                      value,
+                    )
+                  }
+                />
+              </div>
+              <button
+                type="button"
+                className="icon-danger"
+                aria-label={`Remove payment option ${index + 1}`}
+                onClick={() => removeCourse(index)}
+              >
+                <Trash2 size={15} />
+              </button>
+            </div>
+          ))}
+          <button type="button" className="admin-add-row" onClick={addCourse}>
+            <Plus size={15} />
+            Add payment option
+          </button>
         </div>
       </HomeSection>
 

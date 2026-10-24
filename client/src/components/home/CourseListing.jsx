@@ -1,112 +1,159 @@
 import { ArrowRight, Clock3, Users } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
 
-const COURSES = [
-  {
-    id: "prep-full",
-    code: "01",
-    title: "11 Week Prep",
-    subtitle: "Full payment",
-    description: "Full payment for the 11 Week Prep Course.",
-    priceNote: "One-time payment",
-    meta: ["11 weeks", "Live online"],
-    price: 1200,
-    currency: "USD",
-    tone: "clay",
-    href: "/contact",
-  },
-  {
-    id: "prep-installment",
-    code: "02",
-    title: "11 Week Prep",
-    subtitle: "Installment plan",
-    description: "Installment payment for the 11 week prep course.",
-    priceNote: "Per installment",
-    meta: ["11 weeks", "Live online"],
-    price: 400,
-    currency: "USD",
-    tone: "sage",
-    href: "/contact",
-  },
-];
+export const DEFAULT_COURSE_LISTING = {
+  eyebrow: "Enrollment",
+  title: "Course registrations and payments.",
+  copy:
+    "Both options cover the same 11-week live NCLEX-RN prep program, taught week by week from fundamentals through to clinical judgment.",
+  curriculumLinkText: "See the full curriculum",
+  curriculumHref: "/curriculum",
+  courses: [
+    {
+      id: "prep-full",
+      code: "01",
+      title: "11 Week Prep",
+      subtitle: "Full payment",
+      description: "Full payment for the 11 Week Prep Course.",
+      priceNote: "One-time payment",
+      meta: ["11 weeks", "Live online"],
+      price: 1200,
+      currency: "USD",
+      tone: "clay",
+      href: "/contact",
+      buttonText: "Enroll",
+    },
+    {
+      id: "prep-installment",
+      code: "02",
+      title: "11 Week Prep",
+      subtitle: "Installment plan",
+      description: "Installment payment for the 11 week prep course.",
+      priceNote: "Per installment",
+      meta: ["11 weeks", "Live online"],
+      price: 400,
+      currency: "USD",
+      tone: "sage",
+      href: "/contact",
+      buttonText: "Enroll",
+    },
+  ],
+};
 
 const formatters = new Map();
 
 function formatPrice(value, currency) {
+  const amount = Number(value);
+  if (!Number.isFinite(amount)) return String(value ?? "");
   if (!formatters.has(currency)) {
-    formatters.set(
-      currency,
-      new Intl.NumberFormat("en-US", {
-        style: "currency",
+    try {
+      formatters.set(
         currency,
-        minimumFractionDigits: 2,
-      }),
-    );
+        new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency,
+          minimumFractionDigits: 2,
+        }),
+      );
+    } catch (error) {
+      if (!(error instanceof RangeError)) throw error;
+      return `${currency} ${amount.toFixed(2)}`;
+    }
   }
-  return formatters.get(currency).format(value);
+  return formatters.get(currency).format(amount);
 }
 
-export default function CourseListing({ courses = COURSES }) {
+export default function CourseListing({ content }) {
+  const listing = {
+    ...DEFAULT_COURSE_LISTING,
+    ...content,
+    courses: Array.isArray(content?.courses)
+      ? content.courses
+      : DEFAULT_COURSE_LISTING.courses,
+  };
+
   return (
     <section className="section course-listing scroll-reveal">
       <div className="course-listing-head">
         <div>
-          <Eyebrow>Enrollment</Eyebrow>
-          <h2>Course registrations and payments.</h2>
+          <Eyebrow>{listing.eyebrow}</Eyebrow>
+          <h2>{listing.title}</h2>
         </div>
         <div className="course-listing-intro">
-          <p>
-            Both options cover the same 11-week live NCLEX-RN prep program,
-            taught week by week from fundamentals through to clinical
-            judgment.
-          </p>
-          <a className="course-listing-all" href="/curriculum">
-            <span>See the full curriculum</span>
+          <p>{listing.copy}</p>
+          <a className="course-listing-all" href={listing.curriculumHref}>
+            <span>{listing.curriculumLinkText}</span>
             <ArrowRight size={17} />
           </a>
         </div>
       </div>
 
-      <div className="course-grid">
-        {courses.map((course) => (
-          <article className="course-card" key={course.id}>
-            <div className={`course-card-media tone-${course.tone}`}>
-              <span className="course-card-code">{course.code}</span>
-              <span className="course-card-sub">{course.subtitle}</span>
-            </div>
+      {listing.courses.length > 0 && (
+        <div className="course-grid">
+          {listing.courses.map((course, index) => {
+            const defaults =
+              DEFAULT_COURSE_LISTING.courses[
+                index % DEFAULT_COURSE_LISTING.courses.length
+              ];
+            const meta = Array.isArray(course.meta) ? course.meta : defaults.meta;
+            const tone = course.tone || defaults.tone;
+            return (
+              <article
+                className="course-card"
+                key={course.id || `${course.code || "course"}-${index}`}
+              >
+                <div className={`course-card-media tone-${tone}`}>
+                  <span className="course-card-code">
+                    {course.code ?? defaults.code}
+                  </span>
+                  <span className="course-card-sub">
+                    {course.subtitle ?? defaults.subtitle}
+                  </span>
+                </div>
 
-            <div className="course-card-body">
-              <div className="course-card-meta">
-                <span>
-                  <Clock3 size={15} />
-                  {course.meta[0]}
-                </span>
-                <span>
-                  <Users size={15} />
-                  {course.meta[1]}
-                </span>
-              </div>
+                <div className="course-card-body">
+                  <div className="course-card-meta">
+                    <span>
+                      <Clock3 size={15} />
+                      {meta[0] ?? defaults.meta[0]}
+                    </span>
+                    <span>
+                      <Users size={15} />
+                      {meta[1] ?? defaults.meta[1]}
+                    </span>
+                  </div>
 
-              <h3>{course.title}</h3>
-              <p className="course-card-subtitle">{course.subtitle}</p>
-              <p className="course-card-copy">{course.description}</p>
-            </div>
+                  <h3>{course.title ?? defaults.title}</h3>
+                  <p className="course-card-subtitle">
+                    {course.subtitle ?? defaults.subtitle}
+                  </p>
+                  <p className="course-card-copy">
+                    {course.description ?? defaults.description}
+                  </p>
+                </div>
 
-            <div className="course-card-foot">
-              <div className="course-card-price">
-                <span className="course-price-now">
-                  {formatPrice(course.price, course.currency)}
-                </span>
-                <span className="course-price-note">{course.priceNote}</span>
-              </div>
-              <a className="button" href={course.href}>
-                Enroll
-                <ArrowRight size={17} />
-              </a>
-            </div>
-          </article>
-        ))}
-      </div>
+                <div className="course-card-foot">
+                  <div className="course-card-price">
+                    <span className="course-price-now">
+                      {formatPrice(
+                        course.price ?? defaults.price,
+                        course.currency || defaults.currency,
+                      )}
+                    </span>
+                    <span className="course-price-note">
+                      {course.priceNote ?? defaults.priceNote}
+                    </span>
+                  </div>
+                  <a className="button" href={course.href ?? defaults.href}>
+                    {course.buttonText ?? defaults.buttonText}
+                    <ArrowRight size={17} />
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

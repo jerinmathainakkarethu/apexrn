@@ -314,7 +314,7 @@ export default function Home() {
           </section>
         )}
 
-        {show("courses") && <CourseListing />}
+        {show("courses") && <CourseListing content={c.courseListing} />}
 
         {show("testimonials") && (
           <div className="section-tone-blush scroll-reveal">
