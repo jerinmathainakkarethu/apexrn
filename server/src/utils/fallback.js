@@ -29,8 +29,6 @@ const fallback = {
   testimonials: [],
   testimonialsPage: {
     sectionVisibility: {
-      hero: true,
-      stories: true,
       beforeAfter: true,
       messages: true,
       finalCta: true,

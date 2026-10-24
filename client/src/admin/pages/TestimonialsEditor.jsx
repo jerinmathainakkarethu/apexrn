@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   createTestimonial,
   deleteTestimonial,
@@ -11,14 +12,16 @@ import { useCollectionPage } from "../hooks/useCollectionPage";
 import { usePageContent } from "../hooks/usePageContent";
 import Collection from "../components/Collection";
 import HomeSection from "../components/HomeSection";
+import HomeField from "../components/HomeField";
+import ImageField from "../components/ImageField";
 import PageEditorShell from "../components/PageEditorShell";
 import { useContentDocument } from "../lib/helpers";
 import {
   ArrowRight,
-  BookOpen,
   MessageCircle,
-  MessageSquareQuote,
+  Plus,
   Target,
+  Trash2,
 } from "lucide-react";
 
 const VISIBILITY = {
@@ -52,10 +55,21 @@ export default function TestimonialsEditor({ onNotice }) {
     save: updateTestimonialsPageSettings,
     onNotice,
   });
-  const { content, update } = useContentDocument(
+  const { content, update, updateItem, updateImage } = useContentDocument(
     settingsPage.value,
     settingsPage.setValue,
   );
+  const [uploadError, setUploadError] = useState("");
+  const removeItem = (path, index) => {
+    const current = path.reduce((value, key) => value?.[key], content) || [];
+    const next = [...current];
+    next.splice(index, 1);
+    update(path, next);
+  };
+  const addItem = (path, item) => {
+    const current = path.reduce((value, key) => value?.[key], content) || [];
+    update(path, [...current, item]);
+  };
   const isVisible = (key) => content.sectionVisibility?.[key] !== false;
   const toggleVisibility = (key) =>
     update(["sectionVisibility", key], !isVisible(key));
@@ -75,10 +89,10 @@ export default function TestimonialsEditor({ onNotice }) {
     <>
       <PageEditorShell
         eyebrow="Testimonials page builder"
-        heading="Show or hide testimonials page sections"
-        description="Choose which sections appear on the live testimonials page, then save your changes."
-        saveLabel="Save page sections"
-        successMessage="Testimonials page visibility saved successfully."
+        heading="Edit the final three testimonials sections"
+        description="Manage the student stories, message screenshots, and closing call to action shown on the live page."
+        saveLabel="Save testimonials page"
+        successMessage="Testimonials page changes saved successfully."
         emptyTitle="Testimonials page"
         emptyMessage="Testimonials page settings could not be loaded. Check that the API server is running, then retry."
         hasContent={Object.keys(content).length > 0}
@@ -86,47 +100,214 @@ export default function TestimonialsEditor({ onNotice }) {
         onSave={settingsPage.commit}
         onRetry={settingsPage.refresh}
         toastOnSave
+        uploadError={uploadError}
       >
         <HomeSection
-          {...switchProps("hero")}
-          number="01"
-          icon={BookOpen}
-          title="Page header"
-          where="The title and introduction at the top of the testimonials page."
-          preview="Testimonials & results"
-        />
-        <HomeSection
-          {...switchProps("stories")}
-          number="02"
-          icon={MessageSquareQuote}
-          title="Written stories"
-          where="The student success-story cards."
-          preview="From struggle to result"
-        />
-        <HomeSection
           {...switchProps("beforeAfter")}
-          number="03"
+          number="01"
           icon={ArrowRight}
           title="Before and after"
-          where="The student progress stories and video testimonials."
-          preview="The change in one line"
-        />
+          where="Section heading, before/after labels, and student stories with optional videos."
+          preview={content.beforeAfterSection?.title}
+        >
+          <div className="home-field-grid">
+            {[
+              ["eyebrow", "Section eyebrow"],
+              ["title", "Section heading"],
+              ["copy", "Section description"],
+              ["beforeLabel", "Before label"],
+              ["afterLabel", "After label"],
+            ].map(([field, label]) => (
+              <HomeField
+                key={`before-after-${field}`}
+                label={label}
+                value={content.beforeAfterSection?.[field]}
+                onChange={(value) =>
+                  update(["beforeAfterSection", field], value)
+                }
+                multiline={field === "copy"}
+              />
+            ))}
+          </div>
+          <div className="home-repeatable-grid">
+            {(Array.isArray(content.beforeAfter) ? content.beforeAfter : []).map(
+              (item, index) => (
+                <div
+                  className="home-repeatable"
+                  key={item.id || `before-after-${index}`}
+                >
+                  <b>Student story {index + 1}</b>
+                  {[
+                    ["who", "Name / location"],
+                    ["before", "Before"],
+                    ["after", "After"],
+                    ["video", "Video URL"],
+                    ["videoPoster", "Video poster URL"],
+                  ].map(([field, label]) => (
+                    <HomeField
+                      key={`before-after-${index}-${field}`}
+                      label={label}
+                      value={item[field]}
+                      onChange={(value) =>
+                        updateItem(["beforeAfter"], index, field, value)
+                      }
+                      multiline={field === "before" || field === "after"}
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    className="icon-danger"
+                    aria-label={`Remove student story ${index + 1}`}
+                    onClick={() => removeItem(["beforeAfter"], index)}
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
+              ),
+            )}
+            <button
+              type="button"
+              className="admin-add-row"
+              onClick={() =>
+                addItem(["beforeAfter"], {
+                  who: "",
+                  before: "",
+                  after: "",
+                  video: "",
+                  videoPoster: "",
+                })
+              }
+            >
+              <Plus size={15} />
+              Add before/after story
+            </button>
+          </div>
+        </HomeSection>
         <HomeSection
           {...switchProps("messages")}
-          number="04"
+          number="02"
           icon={MessageCircle}
           title="Student messages"
-          where="The screenshots of student messages and privacy note."
-          preview="Messages from students"
-        />
+          where="Section heading, privacy note, and uploaded student message screenshots."
+          preview={content.messagesSection?.title}
+        >
+          <div className="home-field-grid">
+            {[
+              ["eyebrow", "Section eyebrow"],
+              ["title", "Section heading"],
+              ["copy", "Section description"],
+              ["privacyNote", "Privacy note"],
+            ].map(([field, label]) => (
+              <HomeField
+                key={`messages-${field}`}
+                label={label}
+                value={content.messagesSection?.[field]}
+                onChange={(value) =>
+                  update(["messagesSection", field], value)
+                }
+                multiline={field === "copy" || field === "privacyNote"}
+              />
+            ))}
+          </div>
+          <div className="home-repeatable-grid">
+            {(Array.isArray(content.screenshots) ? content.screenshots : []).map(
+              (shot, index) => (
+                <div
+                  className="home-repeatable"
+                  key={shot.id || `screenshot-${index}`}
+                >
+                  <b>Message {index + 1}</b>
+                  <HomeField
+                    label="Message type (e.g. WhatsApp, email)"
+                    value={shot.kind}
+                    onChange={(value) =>
+                      updateItem(["screenshots"], index, "kind", value)
+                    }
+                  />
+                  <HomeField
+                    label="Type label"
+                    value={shot.kindLabel}
+                    onChange={(value) =>
+                      updateItem(["screenshots"], index, "kindLabel", value)
+                    }
+                  />
+                  <HomeField
+                    label="Caption"
+                    value={shot.caption}
+                    onChange={(value) =>
+                      updateItem(["screenshots"], index, "caption", value)
+                    }
+                    multiline
+                  />
+                  <ImageField
+                    label="Message screenshot"
+                    image={{ url: shot.image, alt: shot.alt }}
+                    onChange={(image) =>
+                      updateImage(
+                        ["screenshots", index, "image"],
+                        ["screenshots", index, "alt"],
+                        image,
+                      )
+                    }
+                    onError={setUploadError}
+                  />
+                  <button
+                    type="button"
+                    className="icon-danger"
+                    aria-label={`Remove message ${index + 1}`}
+                    onClick={() => removeItem(["screenshots"], index)}
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
+              ),
+            )}
+            <button
+              type="button"
+              className="admin-add-row"
+              onClick={() =>
+                addItem(["screenshots"], {
+                  kind: "",
+                  kindLabel: "",
+                  caption: "",
+                  image: "",
+                  alt: "",
+                })
+              }
+            >
+              <Plus size={15} />
+              Add message screenshot
+            </button>
+          </div>
+        </HomeSection>
         <HomeSection
           {...switchProps("finalCta")}
-          number="05"
+          number="03"
           icon={Target}
           title="Closing call to action"
-          where="The contact buttons at the bottom of the page."
-          preview="Ready to reserve your spot?"
-        />
+          where="Closing call-to-action copy and both button labels and links."
+          preview={content.finalCta?.title}
+        >
+          <div className="home-field-grid">
+            {[
+              ["eyebrow", "Eyebrow"],
+              ["title", "Heading"],
+              ["copy", "Supporting copy"],
+              ["primary", "Primary button text"],
+              ["primaryHref", "Primary button link"],
+              ["secondary", "Secondary button text"],
+              ["secondaryHref", "Secondary button link"],
+            ].map(([field, label]) => (
+              <HomeField
+                key={`final-cta-${field}`}
+                label={label}
+                value={content.finalCta?.[field]}
+                onChange={(value) => update(["finalCta", field], value)}
+                multiline={field === "copy"}
+              />
+            ))}
+          </div>
+        </HomeSection>
       </PageEditorShell>
       <Collection
         title="Testimonials"
