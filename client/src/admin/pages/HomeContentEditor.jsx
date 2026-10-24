@@ -139,8 +139,25 @@ export default function HomeContentEditor() {
             onChange={(value) => update(["hero", "secondaryCta"], value)}
           />
           <HomeField
+            label="Banner note 1"
+            value={content.hero?.noteOne || "11 weeks"}
+            onChange={(value) => update(["hero", "noteOne"], value)}
+          />
+          <HomeField
+            label="Banner note 2"
+            value={content.hero?.noteTwo || "Live classes"}
+            onChange={(value) => update(["hero", "noteTwo"], value)}
+          />
+          <HomeField
+            label="Banner note 3"
+            value={content.hero?.noteThree || "Daily support"}
+            onChange={(value) => update(["hero", "noteThree"], value)}
+          />
+          <HomeField
             label="Image caption"
-            value={content.hero?.caption}
+            value={
+              content.hero?.caption || "A clear plan for a consequential exam."
+            }
             onChange={(value) => update(["hero", "caption"], value)}
           />
         </div>
@@ -177,7 +194,7 @@ export default function HomeContentEditor() {
         number="04"
         icon={Users}
         title="Who this is for"
-        where="The eyebrow + heading + four icon cards (e.g. Fundamentals & safety, Repeat test-takers...)."
+        where="The eyebrow, heading, two supporting paragraphs, and audience card titles."
         preview={content.audience?.title}
       >
         <div className="home-field-grid">
@@ -193,13 +210,21 @@ export default function HomeContentEditor() {
             multiline
           />
           <HomeField
-            label="Supporting copy"
+            label="Header paragraph 1"
             value={content.audience?.copy}
             onChange={(value) => update(["audience", "copy"], value)}
             multiline
           />
+          <HomeField
+            label="Header paragraph 2"
+            value={content.audience?.copySecondary}
+            onChange={(value) => update(["audience", "copySecondary"], value)}
+            multiline
+          />
         </div>
-        <p className="home-section-note">Cards shown below, in order:</p>
+        <p className="home-section-note">
+          Card titles shown below, in order:
+        </p>
         <div className="home-repeatable-grid">
           {(content.audience?.items || []).map((item, index) => (
             <div className="home-repeatable" key={`audience-${index}`}>
@@ -210,14 +235,6 @@ export default function HomeContentEditor() {
                 onChange={(value) =>
                   updateItem(["audience", "items"], index, "title", value)
                 }
-              />
-              <HomeField
-                label="Text"
-                value={item.text}
-                onChange={(value) =>
-                  updateItem(["audience", "items"], index, "text", value)
-                }
-                multiline
               />
             </div>
           ))}
@@ -250,6 +267,16 @@ export default function HomeContentEditor() {
             value={content.curriculum?.copy}
             onChange={(value) => update(["curriculum", "copy"], value)}
             multiline
+          />
+          <HomeField
+            label="Topic detail line"
+            value={
+              content.curriculum?.detailLine ||
+              "Guided teaching + focused practice"
+            }
+            onChange={(value) =>
+              update(["curriculum", "detailLine"], value)
+            }
           />
         </div>
         <p className="home-section-note">
@@ -319,6 +346,20 @@ export default function HomeContentEditor() {
               updateList(["instructor", "credentials"], value)
             }
             multiline
+          />
+          <HomeField
+            label="Button text"
+            value={content.instructor?.buttonText || "Meet the instructor"}
+            onChange={(value) =>
+              update(["instructor", "buttonText"], value)
+            }
+          />
+          <HomeField
+            label="Button link"
+            value={content.instructor?.buttonHref || "/about"}
+            onChange={(value) =>
+              update(["instructor", "buttonHref"], value)
+            }
           />
         </div>
         <ImageField

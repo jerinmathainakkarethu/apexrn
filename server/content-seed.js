@@ -16,6 +16,9 @@ export const homeContent = {
     image:
       "https://ryan-cole.ancorathemes.com/wp-content/uploads/2022/08/image-28-copyright.jpg",
     imageAlt: "APEX RN Prep banner portrait",
+    noteOne: "11 weeks",
+    noteTwo: "Live classes",
+    noteThree: "Daily support",
     caption: "A clear plan for a consequential exam.",
   },
   snapshot: [
@@ -29,7 +32,10 @@ export const homeContent = {
   audience: {
     eyebrow: "Made for your journey",
     title: "Designed around the realities of your NCLEX journey.",
-    copy: "The NCLEX is a big exam. Your preparation should feel personal, practical, and possible.",
+    copy:
+      "The NCLEX is a big exam. Your preparation should feel personal, practical, and possible.",
+    copySecondary:
+      "Whether you are preparing for the first time or returning to the exam, APEX RN Prep gives you a clear plan and the support to keep moving forward.",
     items: [
       {
         title: "Internationally educated nurses",
@@ -82,6 +88,7 @@ export const homeContent = {
     eyebrow: "What you will learn",
     title: "A curriculum with room to think.",
     copy: "An intentional progression from core concepts to clinical judgment.",
+    detailLine: "Guided teaching + focused practice",
     topics: [
       {
         title: "Fundamentals & safety",
@@ -135,6 +142,8 @@ export const homeContent = {
       "Level 1 trauma center",
       "Pharmacovigilance + case management",
     ],
+    buttonText: "Meet the instructor",
+    buttonHref: "/about",
   },
   process: {
     eyebrow: "How support works",

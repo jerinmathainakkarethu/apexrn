@@ -146,11 +146,13 @@ export default function Home() {
             <div className="hero-visual">
               <img src={imageUrl(c.hero.image)} alt={c.hero.imageAlt} />
               <div className="hero-note">
-                <span>11 weeks</span>
-                <span>Live classes</span>
-                <span>Daily support</span>
+                <span>{c.hero.noteOne || "11 weeks"}</span>
+                <span>{c.hero.noteTwo || "Live classes"}</span>
+                <span>{c.hero.noteThree || "Daily support"}</span>
               </div>
-              <div className="hero-caption">{c.hero.caption}</div>
+              <div className="hero-caption">
+                {c.hero.caption || "A clear plan for a consequential exam."}
+              </div>
             </div>
           </section>
         )}
@@ -171,13 +173,8 @@ export default function Home() {
                 <h2>{c.audience.title}</h2>
               </div>
               <div className="audience-header-right">
-                Adipiscing elit, sed do euismod tempor incidunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco.
-                <br />
-                <br />
-                Adipiscing elit, sed do euismod tempor incidunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam.
+                {c.audience.copy && <p>{c.audience.copy}</p>}
+                {c.audience.copySecondary && <p>{c.audience.copySecondary}</p>}
               </div>
             </div>
 
@@ -229,7 +226,8 @@ export default function Home() {
                 <h3>{c.curriculum.topics[activeTopic].title}</h3>
                 <p>{c.curriculum.topics[activeTopic].description}</p>
                 <div className="detail-line">
-                  <BookOpen size={17} /> Guided teaching + focused practice
+                  <BookOpen size={17} />{" "}
+                  {c.curriculum.detailLine || "Guided teaching + focused practice"}
                 </div>
               </div>
             </div>
@@ -263,7 +261,9 @@ export default function Home() {
                   </span>
                 ))}
               </div>
-              <Button href="/about">Meet the instructor</Button>
+              <Button href={c.instructor.buttonHref || "/about"}>
+                {c.instructor.buttonText || "Meet the instructor"}
+              </Button>
             </div>
           </section>
         )}
