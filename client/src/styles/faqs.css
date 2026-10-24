@@ -4,33 +4,28 @@
    ============================================================ */
 
 .faq-page-list {
-  
-    padding: 0 16vw 130px;
-  
+  padding: 70px 16vw 130px;
+  color: #eef2f6;
 }
 
 .faq-page-list details {
-  
-    border-top: 1px solid var(--line);
-    padding: 20px 0;
-  
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 20px 0;
 }
 
 .faq-page-list details:last-child {
-  
-    border-bottom: 1px solid var(--line);
-  
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .faq-page-list summary {
-  
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font: 500 26px var(--serif);
-    list-style: none;
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  cursor: pointer;
+  color: #eef2f6;
+  font: 500 26px var(--serif);
+  list-style: none;
 }
 
 .faq-page-list summary::-webkit-details-marker {
@@ -41,6 +36,7 @@
 
 .faq-page-list summary svg {
   flex: 0 0 auto;
+  color: #e2a78f;
   transition: transform 0.25s ease;
 }
 
@@ -49,27 +45,37 @@
 }
 
 .faq-page-list details p {
-  
-    color: var(--muted);
-    max-width: 650px;
-    font-size: 17px;
-  
+  max-width: 650px;
+  margin: 18px 44px 0 0;
+  color: #c1ccd8;
+  font-size: 17px;
 }
 
 @media (max-width: 800px) {
   .faq-page-list {
-    
-        padding: 0 7vw 85px;
-      
+    padding: 55px 7vw 85px;
   }
   
   .faq-page-list summary {
-    
-        font-size: 22px;
-      
+    font-size: 22px;
   }
 }
 
-.page-hero {
-    min-height: 450px !important;
+.faq-page-shell > .page-hero {
+  min-height: 50px !important;
+  padding-bottom: 0px;
+  background: transparent;
+}
+
+.faq-page-shell > .page-hero .eyebrow {
+  color: #2dd4bf;
+}
+
+.faq-page-shell > .page-hero h1,
+.faq-page-shell > .page-hero p {
+  color: #eef2f6;
+}
+
+.faq-page-shell > .page-hero p {
+  opacity: 0.76;
 }

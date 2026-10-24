@@ -3119,6 +3119,34 @@ footer {
     linear-gradient(135deg, #35413f 0%, #3f4a49 58%, #34403e 100%);
 }
 
+.blue-page-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(45, 212, 191, 0.15), transparent 55%),
+    radial-gradient(circle at 96% 100%, rgba(212, 150, 125, 0.12), transparent 50%),
+    #1d2b3d;
+}
+
+.blue-page-shell::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(45, 212, 191, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 212, 191, 0.055) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse 85% 70% at 50% 15%, black 0%, transparent 78%);
+  pointer-events: none;
+  content: "";
+}
+
+.blue-page-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
 .site-footer::before {
   top: 0;
   left: max(7vw, calc((100vw - 1240px) / 2));

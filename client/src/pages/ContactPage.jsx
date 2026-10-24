@@ -32,6 +32,7 @@ export default function ContactPage() {
 
   return (
     <PageFrame
+      pageClassName="contact-page-shell blue-page-shell"
       eyebrow="Start a conversation"
       title="Your NCLEX plan can start here."
       intro="Tell us where you are in your preparation and the APEX RN Prep team will be in touch."

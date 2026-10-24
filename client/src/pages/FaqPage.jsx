@@ -30,6 +30,7 @@ export default function FaqPage() {
     );
   return (
     <PageFrame
+      pageClassName="faq-page-shell blue-page-shell"
       eyebrow="Questions, answered"
       title="A clearer way forward."
       intro="Find the practical details you need before you begin."
