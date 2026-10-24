@@ -23,7 +23,12 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Eyebrow from "../components/ui/Eyebrow";
-import { loginAdmin, verifyAdminOtp } from "../api/auth";
+import {
+  loginAdmin,
+  requestAdminPasswordReset,
+  resetAdminPassword,
+  verifyAdminOtp,
+} from "../api/auth";
 import { apiError, onSessionExpired } from "./lib/helpers";
 import OverviewEditor from "./pages/OverviewEditor";
 import HomeContentEditor from "./pages/HomeContentEditor";
@@ -95,6 +100,11 @@ export default function AdminDashboard() {
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [otpDestination, setOtpDestination] = useState("");
+  const [resetMode, setResetMode] = useState(false);
+  const [resetOtpSent, setResetOtpSent] = useState(false);
+  const [resetCode, setResetCode] = useState("");
+  const [recoveryPassword, setRecoveryPassword] = useState("");
+  const [confirmRecoveryPassword, setConfirmRecoveryPassword] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [active, setActive] = useState("Overview");
@@ -154,6 +164,58 @@ export default function AdminDashboard() {
     }
   }
 
+  async function recoverPassword(event) {
+    event.preventDefault();
+    setLoginError("");
+    setLoginMessage("");
+    if (!email.trim()) return setLoginError("Email is required.");
+    if (!/^\S+@\S+\.\S+$/.test(email))
+      return setLoginError("Enter a valid email address.");
+
+    if (resetOtpSent) {
+      if (!/^\d{6}$/.test(resetCode))
+        return setLoginError("Enter the 6-digit verification code.");
+      if (recoveryPassword.length < 8)
+        return setLoginError("The new password must be at least 8 characters.");
+      if (recoveryPassword !== confirmRecoveryPassword)
+        return setLoginError("The new passwords do not match.");
+    }
+
+    setAuthBusy(true);
+    try {
+      if (!resetOtpSent) {
+        const response = await requestAdminPasswordReset({
+          email: email.trim(),
+        });
+        setResetOtpSent(true);
+        setLoginMessage(response.data.message);
+        return;
+      }
+
+      const response = await resetAdminPassword({
+        email: email.trim(),
+        code: resetCode,
+        newPassword: recoveryPassword,
+        confirmNewPassword: confirmRecoveryPassword,
+      });
+      setResetMode(false);
+      setResetOtpSent(false);
+      setResetCode("");
+      setRecoveryPassword("");
+      setConfirmRecoveryPassword("");
+      setPassword("");
+      setOtp("");
+      setOtpSent(false);
+      setLoginMessage(response.data.message);
+    } catch (error) {
+      setLoginError(
+        apiError(error, "Password recovery could not be completed."),
+      );
+    } finally {
+      setAuthBusy(false);
+    }
+  }
+
   if (!token)
     return (
       <div className="admin-auth-page">
@@ -189,7 +251,10 @@ export default function AdminDashboard() {
             <span>Admin workspace</span>
           </div>
 
-          <form className="admin-login" onSubmit={signIn}>
+          <form
+            className="admin-login"
+            onSubmit={resetMode ? recoverPassword : signIn}
+          >
             <label className="admin-field">
               <span>Email</span>
               <div className="input-wrap">
@@ -198,14 +263,76 @@ export default function AdminDashboard() {
                   type="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  readOnly={otpSent}
+                  readOnly={otpSent || (resetMode && resetOtpSent)}
                   required
                   placeholder="name@domain.com"
                 />
               </div>
             </label>
 
-            {otpSent ? (
+            {resetMode && resetOtpSent ? (
+              <>
+                <label className="admin-field">
+                  <span>Verification code</span>
+                  <div className="input-wrap">
+                    <Lock size={18} />
+                    <input
+                      autoFocus
+                      autoComplete="one-time-code"
+                      inputMode="numeric"
+                      pattern="[0-9]{6}"
+                      maxLength={6}
+                      value={resetCode}
+                      onChange={(event) =>
+                        setResetCode(
+                          event.target.value.replace(/\D/g, "").slice(0, 6),
+                        )
+                      }
+                      required
+                      placeholder="Enter 6-digit code"
+                    />
+                  </div>
+                  <small className="admin-otp-hint">
+                    If the address belongs to an admin account, a code will
+                    arrive by email. It expires in 10 minutes.
+                  </small>
+                </label>
+                <label className="admin-field">
+                  <span>New password</span>
+                  <div className="input-wrap">
+                    <Lock size={18} />
+                    <input
+                      type="password"
+                      autoComplete="new-password"
+                      minLength={8}
+                      value={recoveryPassword}
+                      onChange={(event) =>
+                        setRecoveryPassword(event.target.value)
+                      }
+                      required
+                      placeholder="At least 8 characters"
+                    />
+                  </div>
+                </label>
+                <label className="admin-field">
+                  <span>Confirm new password</span>
+                  <div className="input-wrap">
+                    <Lock size={18} />
+                    <input
+                      type="password"
+                      autoComplete="new-password"
+                      minLength={8}
+                      value={confirmRecoveryPassword}
+                      onChange={(event) =>
+                        setConfirmRecoveryPassword(event.target.value)
+                      }
+                      required
+                      placeholder="Re-enter new password"
+                    />
+                  </div>
+                </label>
+              </>
+            ) : otpSent && !resetMode ? (
               <label className="admin-field">
                 <span>Verification code</span>
                 <div className="input-wrap">
@@ -241,7 +368,7 @@ export default function AdminDashboard() {
                   Back to sign in
                 </button>
               </label>
-            ) : (
+            ) : !resetMode ? (
               <label className="admin-field">
                 <span>Password</span>
                 <div className="input-wrap password-wrap">
@@ -263,19 +390,46 @@ export default function AdminDashboard() {
                   </button>
                 </div>
               </label>
-            )}
+            ) : null}
 
-            {!otpSent && (
+            {!otpSent && !resetMode && (
               <div className="admin-login-meta">
                 <label className="remember-me">
                   <input type="checkbox" defaultChecked />
                   <span className="checkmark" />
                   Remember me
                 </label>
-                <Link className="forgot-link" to="/admin/login">
+                <button
+                  className="forgot-link"
+                  type="button"
+                  onClick={() => {
+                    setResetMode(true);
+                    setResetOtpSent(false);
+                    setLoginError("");
+                    setLoginMessage("");
+                  }}
+                >
                   Forgot password?
-                </Link>
+                </button>
               </div>
+            )}
+
+            {resetMode && (
+              <button
+                type="button"
+                className="admin-otp-back"
+                onClick={() => {
+                  setResetMode(false);
+                  setResetOtpSent(false);
+                  setResetCode("");
+                  setRecoveryPassword("");
+                  setConfirmRecoveryPassword("");
+                  setLoginError("");
+                  setLoginMessage("");
+                }}
+              >
+                Back to sign in
+              </button>
             )}
 
             {loginMessage && <p className="admin-success">{loginMessage}</p>}
@@ -287,12 +441,20 @@ export default function AdminDashboard() {
               disabled={authBusy}
             >
               {authBusy
-                ? otpSent
-                  ? "Verifying..."
-                  : "Sending code..."
-                : otpSent
-                  ? "Verify and sign in"
-                  : "Send verification code"}
+                ? resetMode
+                  ? resetOtpSent
+                    ? "Resetting password..."
+                    : "Sending reset code..."
+                  : otpSent
+                    ? "Verifying..."
+                    : "Sending code..."
+                : resetMode
+                  ? resetOtpSent
+                    ? "Reset password"
+                    : "Send reset code"
+                  : otpSent
+                    ? "Verify and sign in"
+                    : "Send verification code"}
               <ArrowRight size={17} />
             </button>
           </form>

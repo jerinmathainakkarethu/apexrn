@@ -39,9 +39,28 @@ app.use(
   }),
 );
 app.use(express.json({ limit: "2mb" }));
-app.use("/api/auth/login", rateLimit({ windowMs: 15 * 60 * 1000, limit: 5 }));
+app.use(
+  "/api/auth/login",
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+      message: "Too many sign-in attempts. Please wait before trying again.",
+    },
+  }),
+);
 app.use(
   "/api/auth/verify-otp",
+  rateLimit({ windowMs: 15 * 60 * 1000, limit: 10 }),
+);
+app.use(
+  "/api/auth/password-reset/request-otp",
+  rateLimit({ windowMs: 15 * 60 * 1000, limit: 3 }),
+);
+app.use(
+  "/api/auth/password-reset/verify-otp",
   rateLimit({ windowMs: 15 * 60 * 1000, limit: 10 }),
 );
 app.use("/api/auth/profile", rateLimit({ windowMs: 15 * 60 * 1000, limit: 10 }));

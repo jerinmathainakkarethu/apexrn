@@ -3,6 +3,10 @@ import api from "../services/api";
 export const loginAdmin = (payload) => api.post("/auth/login", payload);
 export const verifyAdminOtp = (payload) =>
   api.post("/auth/verify-otp", payload);
+export const requestAdminPasswordReset = (payload) =>
+  api.post("/auth/password-reset/request-otp", payload);
+export const resetAdminPassword = (payload) =>
+  api.post("/auth/password-reset/verify-otp", payload);
 export const updateAdminProfile = (payload) =>
   api.put("/auth/profile", payload);
 export const requestPasswordChangeOtp = () =>

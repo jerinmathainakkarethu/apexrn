@@ -3,6 +3,8 @@ import { body } from "express-validator";
 import {
   requestLoginOtp,
   requestPasswordChangeOtp,
+  requestPasswordResetOtp,
+  resetPasswordWithOtp,
   updateProfile,
   verifyLoginOtp,
   verifyPasswordChangeOtp,
@@ -11,6 +13,23 @@ import { authenticateAdmin } from "../middleware/auth.js";
 import { validate } from "../utils/validation.js";
 
 const router = Router();
+router.post(
+  "/password-reset/request-otp",
+  [body("email").isEmail().trim().normalizeEmail()],
+  validate,
+  requestPasswordResetOtp,
+);
+router.post(
+  "/password-reset/verify-otp",
+  [
+    body("email").isEmail().trim().normalizeEmail(),
+    body("code").isLength({ min: 6, max: 6 }).isNumeric(),
+    body("newPassword").isString().isLength({ min: 8 }),
+    body("confirmNewPassword").isString().notEmpty(),
+  ],
+  validate,
+  resetPasswordWithOtp,
+);
 router.post(
   "/login",
   [

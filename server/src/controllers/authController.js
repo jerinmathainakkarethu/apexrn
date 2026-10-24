@@ -31,7 +31,12 @@ function maskEmail(email) {
 async function deliverOtp(destination, purpose) {
   const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
   const { smtp, transporter } = await createSmtpTransport();
-  const action = purpose === "login" ? "admin sign-in" : "password change";
+  const action =
+    purpose === "login"
+      ? "admin sign-in"
+      : purpose === "password-reset"
+        ? "admin password reset"
+        : "password change";
   await transporter.sendMail({
     from: smtp.from || smtp.user,
     to: destination,
@@ -40,6 +45,106 @@ async function deliverOtp(destination, purpose) {
     html: `<p>Your APEX RN Prep ${action} verification code is:</p><p style="font-size:28px;font-weight:bold;letter-spacing:8px">${code}</p><p>This code expires in 10 minutes. If you did not request it, you can ignore this email.</p>`,
   });
   return code;
+}
+
+export async function requestPasswordResetOtp(req, res, next) {
+  try {
+    if (!databaseConfigured) {
+      return res.status(503).json({
+        message: "Password recovery is temporarily unavailable.",
+      });
+    }
+
+    const email = req.body.email.trim().toLowerCase();
+    const admin = await findAdminByEmail(email);
+    if (admin) {
+      const now = Date.now();
+      const existingChallenge = await findOtpChallenge(
+        admin.id,
+        "password-reset",
+      );
+      if (
+        !existingChallenge ||
+        now - Number(existingChallenge.created_at_ms) >= OTP_RESEND_DELAY_MS
+      ) {
+        const code = await deliverOtp(admin.email, "password-reset");
+        await saveOtpChallenge({
+          adminId: admin.id,
+          email: admin.email,
+          purpose: "password-reset",
+          codeHash: digestOtp(code).toString("hex"),
+          expiresAt: now + OTP_LIFETIME_MS,
+          createdAt: now,
+        });
+      }
+    }
+
+    return res.json({
+      message:
+        "If that email belongs to an admin account, a password reset code has been sent.",
+    });
+  } catch (error) {
+    if (error.status === 503)
+      return res.status(503).json({ message: error.message });
+    return next(error);
+  }
+}
+
+export async function resetPasswordWithOtp(req, res, next) {
+  try {
+    if (!databaseConfigured) {
+      return res.status(503).json({
+        message: "Password recovery is temporarily unavailable.",
+      });
+    }
+    if (req.body.newPassword !== req.body.confirmNewPassword) {
+      return res.status(422).json({ message: "The new passwords do not match." });
+    }
+
+    const email = req.body.email.trim().toLowerCase();
+    const admin = await findAdminByEmail(email);
+    const challenge = admin && (await findOtpChallenge(admin.id, "password-reset"));
+    if (
+      !admin ||
+      !challenge ||
+      challenge.email.toLowerCase() !== email ||
+      Number(challenge.expires_at_ms) <= Date.now()
+    ) {
+      if (admin) await deleteOtpChallenge(admin.id, "password-reset");
+      return res.status(401).json({
+        message: "That verification code is invalid or expired. Request a new code.",
+      });
+    }
+
+    const updatedChallenge = await incrementOtpAttempts(
+      admin.id,
+      "password-reset",
+    );
+    const codeMatches = timingSafeEqual(
+      Buffer.from(challenge.code_hash, "hex"),
+      digestOtp(req.body.code),
+    );
+    if (!codeMatches) {
+      if (Number(updatedChallenge.attempts) >= OTP_MAX_ATTEMPTS) {
+        await deleteOtpChallenge(admin.id, "password-reset");
+        return res.status(401).json({
+          message: "Too many incorrect codes. Request a new code.",
+        });
+      }
+      return res.status(401).json({
+        message: "The verification code is incorrect.",
+      });
+    }
+
+    const passwordHash = await bcrypt.hash(req.body.newPassword, 12);
+    await updateAdminPassword(admin.id, passwordHash);
+    await deleteOtpChallenge(admin.id, "password-reset");
+    return res.json({
+      message: "Your password has been reset. You can now sign in.",
+    });
+  } catch (error) {
+    return next(error);
+  }
 }
 
 export async function requestLoginOtp(req, res, next) {

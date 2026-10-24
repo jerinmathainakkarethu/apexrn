@@ -248,9 +248,14 @@
 }
 
 .forgot-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: var(--terracotta);
+  font: inherit;
   font-size: 15px;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .admin-error {
