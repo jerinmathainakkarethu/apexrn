@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { getHome } from "../api/home";
 import { getFaqs } from "../api/faqs";
-import { getProgram } from "../api/program";
 import { getTestimonials } from "../api/testimonials";
 import { imageUrl } from "../services/api";
 import homeLogo from "../assets/nclex-logo.png";
@@ -35,7 +34,6 @@ import { Target, FileSignature, Briefcase, LineChart, ArrowRight } from "lucide-
 
 export default function Home() {
   const [content, setContent] = useState(null);
-  const [program, setProgram] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [faqs, setFaqs] = useState([]);
   const [openFaq, setOpenFaq] = useState(null);
@@ -54,10 +52,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    Promise.all([getHome(), getProgram(), getTestimonials(), getFaqs()])
-      .then(([homeResponse, programResponse, testimonialResponse, faqResponse]) => {
+    Promise.all([getHome(), getTestimonials(), getFaqs()])
+      .then(([homeResponse, testimonialResponse, faqResponse]) => {
         setContent(homeResponse.data);
-        setProgram(programResponse.data);
         setTestimonials(testimonialResponse.data);
         setFaqs(faqResponse.data);
       })
