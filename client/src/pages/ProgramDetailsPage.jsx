@@ -101,7 +101,7 @@ export default function ProgramDetailsPage() {
           ))}
         </section>}
 
-        {isVisible("structure") && <section className="curriculum-block section-tone-sage">
+        {isVisible("structure") && <section className="curriculum-block curriculum-structure-blue">
           <SectionTitle
             eyebrow={structure.eyebrow}
             copy={structure.copy}

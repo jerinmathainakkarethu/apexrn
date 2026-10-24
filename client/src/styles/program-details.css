@@ -147,6 +147,7 @@
 
 .curriculum-block .section-title {
   margin-bottom: 70px;
+  margin-top: 70px;
 }
 
 .curriculum-block + .curriculum-block {
@@ -172,6 +173,47 @@
   gap: 22px;
 }
 
+.curriculum-structure-blue {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(45, 212, 191, 0.15), transparent 55%),
+    radial-gradient(circle at 96% 100%, rgba(212, 150, 125, 0.12), transparent 50%),
+    #1d2b3d;
+  color: #eef2f6;
+}
+
+.curriculum-structure-blue::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(45, 212, 191, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 212, 191, 0.055) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse 85% 70% at 50% 15%, black 0%, transparent 78%);
+  pointer-events: none;
+  content: "";
+}
+
+.curriculum-structure-blue .section-title,
+.curriculum-structure-blue .curriculum-structure {
+  position: relative;
+  z-index: 1;
+}
+
+.curriculum-structure-blue .section-title .eyebrow {
+  color: #2dd4bf;
+}
+
+.curriculum-structure-blue .section-title h2,
+.curriculum-structure-blue .section-title > p {
+  color: #eef2f6;
+}
+
+.curriculum-structure-blue .section-title > p {
+  opacity: 0.72;
+}
+
 .curriculum-structure-item {
   position: relative;
   background:
@@ -185,6 +227,42 @@
   box-shadow: var(--pd-shadow);
   transition: transform 0.4s var(--pd-ease), box-shadow 0.4s var(--pd-ease),
     border-color 0.4s var(--pd-ease);
+}
+
+.curriculum-structure-blue .curriculum-structure-item {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(45, 212, 191, 0.045) 0 1px,
+      transparent 1px 32px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(45, 212, 191, 0.045) 0 1px,
+      transparent 1px 32px
+    ),
+    rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 28px rgba(5, 12, 21, 0.12);
+}
+
+.curriculum-structure-blue .curriculum-structure-item:hover {
+  border-color: rgba(45, 212, 191, 0.48);
+  box-shadow: 0 20px 40px rgba(5, 12, 21, 0.22);
+}
+
+.curriculum-structure-blue .curriculum-structure-item h3,
+.curriculum-structure-blue .curriculum-structure-item li {
+  color: #eef2f6;
+}
+
+.curriculum-structure-blue .curriculum-structure-item > p {
+  color: #c1ccd8;
+}
+
+.curriculum-structure-blue .curriculum-structure-item li svg {
+  background: rgba(212, 150, 125, 0.14);
+  color: #e2a78f;
 }
 
 .curriculum-structure-item::before {
