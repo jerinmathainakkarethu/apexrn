@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { apiError, sessionExpired } from "../lib/helpers";
-import { getProgram } from "../../api/program";
 import { getTestimonials } from "../../api/testimonials";
 import { getFaqs } from "../../api/faqs";
 import { getResources } from "../../api/resources";
@@ -13,7 +12,6 @@ import { getAdminContacts, getAdminQa } from "../../api/admin";
  */
 export function useOverviewCounts() {
   const [counts, setCounts] = useState({
-    program: 0,
     testimonials: 0,
     faqs: 0,
     resources: 0,
@@ -28,9 +26,8 @@ export function useOverviewCounts() {
     setLoading(true);
     setError("");
     try {
-      const [program, testimonials, faqs, resources, contacts, qa] =
+      const [testimonials, faqs, resources, contacts, qa] =
         await Promise.all([
-          getProgram(),
           getTestimonials(),
           getFaqs(),
           getResources(),
@@ -38,7 +35,6 @@ export function useOverviewCounts() {
           getAdminQa(),
         ]);
       setCounts({
-        program: program.data.length,
         testimonials: testimonials.data.length,
         faqs: faqs.data.length,
         resources: resources.data.length,

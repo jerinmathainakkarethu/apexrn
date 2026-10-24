@@ -21,7 +21,6 @@ export default function Footer() {
             <span>Explore</span>
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>
-            <Link to="/program">Program</Link>
             <Link to="/curriculum">Curriculum</Link>
             <Link to="/testimonials">Testimonials</Link>
             <Link to="/faqs">FAQs</Link>

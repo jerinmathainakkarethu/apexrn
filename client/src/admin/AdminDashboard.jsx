@@ -4,7 +4,6 @@ import "./pages.css";
 import {
   ArrowRight,
   BookMarked,
-  CalendarDays,
   Check,
   Eye,
   EyeOff,
@@ -34,7 +33,6 @@ import OverviewEditor from "./pages/OverviewEditor";
 import HomeContentEditor from "./pages/HomeContentEditor";
 import AboutContentEditor from "./pages/AboutContentEditor";
 import MenuEditor from "./pages/MenuEditor";
-import ProgramWeeksEditor from "./pages/ProgramWeeksEditor";
 import ProgramDetailsEditor from "./pages/ProgramDetailsEditor";
 import TestimonialsEditor from "./pages/TestimonialsEditor";
 import FaqEditor from "./pages/FaqEditor";
@@ -60,7 +58,6 @@ const sectionGroups = [
   {
     label: "Program",
     items: [
-      { key: "Program weeks", icon: CalendarDays },
       { key: "Curriculum page", icon: ListChecks },
       { key: "Testimonials", icon: MessageSquareQuote },
       { key: "FAQs", icon: HelpCircle },
@@ -553,8 +550,6 @@ function AdminView({ active, onNotice, admin, onAdminUpdate }) {
       return <HomeContentEditor onNotice={onNotice} />;
     case "About content":
       return <AboutContentEditor onNotice={onNotice} />;
-    case "Program weeks":
-      return <ProgramWeeksEditor onNotice={onNotice} />;
     case "Curriculum page":
       return <ProgramDetailsEditor onNotice={onNotice} />;
     case "Testimonials":

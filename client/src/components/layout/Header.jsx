@@ -8,7 +8,7 @@ const defaultMenu = [
   { label: "Home", url: "/" },
   { label: "Pages", url: "/about" },
   { label: "Blog", url: "/resources" },
-  { label: "Shop", url: "/program" },
+  { label: "Curriculum", url: "/curriculum" },
   { label: "Contact", url: "/contact" },
 ];
 
@@ -25,7 +25,13 @@ export default function Header({ transparent = false, logo = siteLogo }) {
     getMenu()
       .then((response) => {
         if (Array.isArray(response.data) && response.data.length)
-          setMenu(response.data);
+            setMenu(
+              response.data.map((item) =>
+                item.url === "/program"
+                  ? { ...item, label: "Curriculum", url: "/curriculum" }
+                  : item,
+              ),
+            );
       })
       .catch(() => undefined);
   }, []);

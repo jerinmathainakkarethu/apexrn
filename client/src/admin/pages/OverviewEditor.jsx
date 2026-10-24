@@ -2,7 +2,6 @@ import {
   ArrowUpRight,
   Bell,
   BookMarked,
-  CalendarDays,
   HelpCircle,
   Mail,
   MessageSquareQuote,
@@ -11,7 +10,6 @@ import {
 import { useOverviewCounts } from "../hooks/useOverviewCounts";
 
 const STAT_CARDS = [
-  ["Program weeks", "program", CalendarDays],
   ["Testimonials", "testimonials", MessageSquareQuote],
   ["FAQs", "faqs", HelpCircle],
   ["Resources", "resources", BookMarked],

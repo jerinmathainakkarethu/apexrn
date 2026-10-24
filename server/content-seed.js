@@ -318,7 +318,7 @@ export const menuContent = [
   { label: "Home", url: "/" },
   { label: "Pages", url: "/about" },
   { label: "Blog", url: "/resources" },
-  { label: "Shop", url: "/program" },
+  { label: "Curriculum", url: "/curriculum" },
   { label: "Contact", url: "/contact" },
 ];
 

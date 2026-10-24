@@ -1,14 +1,13 @@
 ﻿// Route-level code splitting. Each page is loaded on demand, and the CSS it
 // imports travels with it: visiting /faqs downloads base.css + faqs.css only.
 import { lazy, Suspense, useEffect, useState } from "react";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import ScrollAnimations from "./components/ScrollAnimations";
 import Loading from "./components/ui/Loading";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
-const ProgramPage = lazy(() => import("./pages/ProgramPage"));
 const ProgramDetailsPage = lazy(() => import("./pages/ProgramDetailsPage"));
 const TestimonialsPage = lazy(() => import("./pages/TestimonialsPage"));
 const FaqPage = lazy(() => import("./pages/FaqPage"));
@@ -69,7 +68,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/program" element={<ProgramPage />} />
+          <Route path="/program" element={<Navigate to="/curriculum" replace />} />
           <Route path="/curriculum" element={<ProgramDetailsPage />} />
           <Route path="/testimonials" element={<TestimonialsPage />} />
           <Route path="/faqs" element={<FaqPage />} />
