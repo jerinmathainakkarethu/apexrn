@@ -55,6 +55,41 @@
   padding-top: var(--tm-tone-pad);
 }
 
+.tm .tm-student-messages {
+  padding-top: var(--tm-tone-pad);
+}
+
+.tm .tm-student-messages .section-title h2,
+.tm .tm-student-messages .section-title h2 em {
+  color: #eef2f6;
+}
+
+.tm .tm-student-messages .section-title > p {
+  color: rgba(238, 242, 246, 0.76);
+}
+
+.tm .tm-student-messages .section-title .eyebrow {
+  color: #2dd4bf;
+}
+
+.tm .tm-student-messages .tm-shot figcaption {
+  color: rgba(238, 242, 246, 0.76);
+}
+
+.tm .tm-student-messages .tm-shot-kind {
+  color: #2dd4bf;
+  background: rgba(45, 212, 191, 0.1);
+  border-color: rgba(45, 212, 191, 0.32);
+}
+
+.tm .tm-student-messages .tm-privacy {
+  color: rgba(238, 242, 246, 0.76);
+}
+
+.tm .tm-student-messages .tm-privacy svg {
+  color: #2dd4bf;
+}
+
 /* ---------- Written stories ---------- */
 
 .tm-story-grid {

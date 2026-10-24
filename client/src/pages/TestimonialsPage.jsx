@@ -184,7 +184,7 @@ export default function TestimonialsPage() {
 
         {isVisible("messages") && (
           <section
-            className="tm-block section-tone-blush-2"
+            className="tm-block tm-student-messages blue-page-shell"
             aria-label={content.messagesSection?.title || "Student messages"}
           >
             <SectionTitle
