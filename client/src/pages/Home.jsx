@@ -137,8 +137,10 @@ export default function Home() {
               </h1>
               <p className="hero-text">{c.hero.description}</p>
               <div className="button-row">
-                <Button>{"Contact us on Whatsapp"}</Button>
-                <Button secondary>{c.hero.secondaryCta}</Button>
+                <Button target="_blank" href={c.hero.whatsappHref || "#contact"}>
+                  {c.hero.whatsappCta || "Contact us on Whatsapp"}
+                </Button>
+                <Button secondary href="/book">{c.hero.secondaryCta}</Button>
               </div>
             </div>
             <div className="hero-visual">

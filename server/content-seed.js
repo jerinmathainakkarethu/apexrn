@@ -10,6 +10,8 @@ export const homeContent = {
     description:
       "An 11-week live online NCLEX-RN program designed for international nurses, repeat test-takers, career changers, and nurses returning to study.",
     primaryCta: "Join the next cohort",
+    whatsappCta: "Contact us on Whatsapp",
+    whatsappHref: "#contact",
     secondaryCta: "Book a free consultation",
     image:
       "https://ryan-cole.ancorathemes.com/wp-content/uploads/2022/08/image-28-copyright.jpg",

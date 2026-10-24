@@ -24,8 +24,8 @@ import PageEditorShell from "../components/PageEditorShell";
 
 const HOME_SECTION_NAV = [
   { id: "sec-seo", label: "SEO" },
-  { id: "sec-hero", label: "Hero" },
-  { id: "sec-snapshot", label: "Snapshot" },
+  { id: "sec-hero", label: "Banner" },
+  { id: "sec-snapshot", label: "Banner Strip" },
   { id: "sec-audience", label: "Who it's for" },
   { id: "sec-curriculum", label: "Curriculum" },
   { id: "sec-instructor", label: "Instructor" },
@@ -101,7 +101,7 @@ export default function HomeContentEditor() {
         {...switchProps("hero")}
         number="02"
         icon={ImageIcon}
-        title="Hero banner"
+        title="Banner"
         where="The full-width banner at the very top of the page, with the big headline and background image."
         preview={content.hero?.title}
       >
@@ -122,6 +122,16 @@ export default function HomeContentEditor() {
             value={content.hero?.description}
             onChange={(value) => update(["hero", "description"], value)}
             multiline
+          />
+          <HomeField
+            label="WhatsApp button text"
+            value={content.hero?.whatsappCta || "Contact us on Whatsapp"}
+            onChange={(value) => update(["hero", "whatsappCta"], value)}
+          />
+          <HomeField
+            label="WhatsApp button link"
+            value={content.hero?.whatsappHref || "#contact"}
+            onChange={(value) => update(["hero", "whatsappHref"], value)}
           />
           <HomeField
             label="Secondary button text"
@@ -149,7 +159,7 @@ export default function HomeContentEditor() {
         {...switchProps("snapshot")}
         number="03"
         icon={ListChecks}
-        title="Snapshot strip"
+        title="Banner strip"
         where="The thin row of quick facts directly under the hero banner."
         preview={(content.snapshot || []).join(" · ")}
       >
