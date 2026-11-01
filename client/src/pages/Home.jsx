@@ -64,10 +64,22 @@ export default function Home() {
   // Scroll-reveal: watches every ".scroll-reveal" section and adds
   // "is-visible" once it enters the viewport. Runs after content (and
   // therefore all conditional sections) has rendered.
+  // - Reduced-motion users (and browsers without IntersectionObserver)
+  //   see everything immediately.
+  // - Threshold is low so very tall sections on phones still reveal.
   useEffect(() => {
     if (!content || !mainRef.current) return undefined;
     const targets = mainRef.current.querySelectorAll(".scroll-reveal");
     if (!targets.length) return undefined;
+
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      targets.forEach((el) => el.classList.add("is-visible"));
+      return undefined;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -77,7 +89,7 @@ export default function Home() {
           }
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
     );
     targets.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
@@ -245,6 +257,8 @@ export default function Home() {
               <img
                 src={imageUrl(c.instructor.image)}
                 alt={c.instructor.imageAlt}
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="reference-instructor-copy">
@@ -301,6 +315,8 @@ export default function Home() {
                       className="program-card-image"
                       src={imageUrl(item.image)}
                       alt={item.imageAlt || item.title}
+                      loading="lazy"
+                      decoding="async"
                     />
                   )}
                   <span className="card-number"></span>
@@ -346,6 +362,8 @@ export default function Home() {
               <img
                 src={imageUrl(c.community.image)}
                 alt={c.community.imageAlt || c.community.title}
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </section>
@@ -379,6 +397,8 @@ export default function Home() {
               <img
                 src={imageUrl(c.qa.image)}
                 alt={c.qa.imageAlt || c.qa.title}
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </section>
