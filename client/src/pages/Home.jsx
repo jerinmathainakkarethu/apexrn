@@ -118,7 +118,7 @@ export default function Home() {
         <meta name="description" content={c.seo.description} />
       </Helmet>
       <Header transparent={show("hero")} logo={homeLogo} />
-      <main ref={mainRef}>
+      <main className="home-page" ref={mainRef}>
         {show("hero") && (
           <section className="hero scroll-reveal">
             <div className="hero-copy">
@@ -171,7 +171,10 @@ export default function Home() {
               </div>
               <div className="audience-header-right">
                 {c.audience.copy && <p>{c.audience.copy}</p>}
-                {c.audience.copySecondary && <p>{c.audience.copySecondary}</p>}
+                {c.audience.copySecondary &&
+                  c.audience.copySecondary.trim() !== c.audience.copy?.trim() && (
+                    <p>{c.audience.copySecondary}</p>
+                  )}
               </div>
             </div>
 

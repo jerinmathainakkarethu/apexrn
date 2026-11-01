@@ -3418,3 +3418,99 @@ footer {
     transition: none;
   }
 }
+
+@media (max-width: 1024px) {
+  .site-header {
+    height: 78px;
+    padding: 0 6vw;
+  }
+
+  .site-header .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    margin: 0;
+    padding: 14px 7vw 20px;
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+    box-shadow: 0 16px 24px rgba(23, 24, 29, 0.12);
+    font-size: 16px;
+  }
+
+  .site-header .nav.open {
+    display: flex;
+    animation: header-nav-in 180ms ease-out both;
+  }
+
+  .site-header .nav a {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .site-header .menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--ink);
+    background: var(--cream);
+    cursor: pointer;
+    transition: color 180ms ease, background 180ms ease,
+      border-color 180ms ease, transform 180ms ease;
+  }
+
+  .site-header .menu-button:hover {
+    transform: translateY(-1px);
+    background: #f1eee8;
+  }
+
+  .site-header .menu-button:focus-visible {
+    outline: 3px solid var(--terracotta);
+    outline-offset: 3px;
+  }
+
+  .site-header.site-header-transparent .menu-button {
+    border-color: rgba(255, 255, 255, 0.55);
+    color: #fff;
+    background: rgba(18, 18, 18, 0.24);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  .site-header.site-header-transparent .menu-button:hover {
+    background: rgba(18, 18, 18, 0.5);
+  }
+
+  .site-header.site-header-transparent .nav.open {
+    background: rgba(18, 18, 18, 0.94);
+    box-shadow: 0 16px 24px rgba(0, 0, 0, 0.24);
+  }
+}
+
+@keyframes header-nav-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header .menu-button,
+  .site-header .nav.open {
+    animation: none;
+    transition: none;
+  }
+}
