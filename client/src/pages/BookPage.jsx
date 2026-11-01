@@ -86,7 +86,7 @@ export default function BookPage() {
                 title="APEX RN Prep Registration"
                 src={jotformConfig.url}
                 className="book-form-iframe"
-                loading="lazy"
+                loading="eager"
                 scrolling="no"
                 allow="payment"
                 allowFullScreen

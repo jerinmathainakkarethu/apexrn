@@ -1,6 +1,6 @@
 ﻿// Route-level code splitting. Each page is loaded on demand, and the CSS it
 // imports travels with it: visiting /faqs downloads base.css + faqs.css only.
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import ScrollAnimations from "./components/ScrollAnimations";
@@ -19,6 +19,10 @@ const AdminDashboard = lazy(() => import("./admin/AdminDashboard"));
 export default function App() {
   const location = useLocation();
   const [reserveVisible, setReserveVisible] = useState(false);
+
+  useLayoutEffect(() => {
+    if (!location.hash) window.scrollTo(0, 0);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     setReserveVisible(false);
