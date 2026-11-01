@@ -120,19 +120,6 @@
   grid-column: 1 / -1;
 }
 
-.contact-phone-row {
-  display: grid;
-  grid-template-columns: minmax(180px, 0.6fr) minmax(0, 1.4fr);
-  gap: 18px;
-}
-
-.contact-phone-part {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 0;
-}
-
 .contact-field label {
   font-size: 13px;
   font-weight: 600;
@@ -277,12 +264,6 @@
 
   .contact-field-wide {
     grid-column: auto;
-  }
-}
-
-@media (max-width: 520px) {
-  .contact-phone-row {
-    grid-template-columns: 1fr;
   }
 }
 

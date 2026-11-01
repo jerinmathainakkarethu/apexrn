@@ -59,14 +59,25 @@ export default function App() {
     <>
       <ScrollAnimations />
       {!location.pathname.startsWith("/admin") && (
-        <Link
+        <div
           aria-hidden={!reserveVisible}
-          className={`button reserve-spot${reserveVisible ? " is-visible" : ""}`}
-          tabIndex={reserveVisible ? undefined : -1}
-          to="/book"
+          className={`reserve-actions${reserveVisible ? " is-visible" : ""}`}
         >
-          Reserve your spot <ArrowRight size={17} aria-hidden="true" />
-        </Link>
+          <Link
+            className="button reserve-action reserve-contact"
+            tabIndex={reserveVisible ? undefined : -1}
+            to="/contact"
+          >
+            Contact Us
+          </Link>
+          <Link
+            className="button reserve-action reserve-enroll"
+            tabIndex={reserveVisible ? undefined : -1}
+            to="/book"
+          >
+            Enroll Now <ArrowRight size={17} aria-hidden="true" />
+          </Link>
+        </div>
       )}
       <Suspense fallback={<Loading />}>
         <Routes>

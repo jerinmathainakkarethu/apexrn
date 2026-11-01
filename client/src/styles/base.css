@@ -3073,17 +3073,22 @@ footer {
   
 }
 
-.reserve-spot {
+.reserve-actions {
   position: fixed;
   z-index: 25;
   left: 50%;
   bottom: max(24px, calc(env(safe-area-inset-bottom) + 12px));
+  display: flex;
   width: max-content;
   max-width: calc(100vw - 32px);
-  padding: 15px 24px;
-  gap: 12px;
-  white-space: nowrap;
-  box-shadow: 0 8px 24px rgba(63, 74, 73, 0.22);
+  gap: 0;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(22, 34, 48, 0.86);
+  box-shadow: 0 12px 36px rgba(13, 22, 32, 0.32);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -3094,7 +3099,7 @@ footer {
     visibility 0s linear 0.55s;
 }
 
-.reserve-spot.is-visible {
+.reserve-actions.is-visible {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -3102,8 +3107,78 @@ footer {
   transition-delay: 0s;
 }
 
-.reserve-spot.is-visible:hover {
-  transform: translate(-50%, -3px) scale(1.02);
+.reserve-action {
+  position: relative;
+  flex: 1 1 auto;
+  gap: 10px;
+  min-height: 50px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.reserve-contact {
+  border-color: transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.reserve-contact:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.reserve-enroll {
+  border-color: #15998d;
+  background: #15998d;
+  box-shadow: 0 5px 16px rgba(21, 153, 141, 0.3);
+}
+
+.reserve-enroll:hover {
+  border-color: #117d74;
+  background: #117d74;
+  box-shadow: 0 8px 22px rgba(21, 153, 141, 0.4);
+}
+
+.reserve-action:focus-visible {
+  outline: 3px solid #2dd4bf;
+  outline-offset: 3px;
+}
+
+@media (max-width: 420px) {
+  .reserve-actions {
+    width: calc(100vw - 32px);
+    gap: 2px;
+    padding: 4px;
+  }
+
+  .reserve-action {
+    gap: 7px;
+    min-height: 48px;
+    padding: 11px 10px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reserve-actions {
+    transition: none;
+  }
+
+  .reserve-action {
+    transition: none;
+  }
 }
 
 .site-footer {
@@ -3340,12 +3415,6 @@ footer {
   .site-footer-bottom a,
   .site-footer-link-arrow,
   .site-footer-button {
-    transition: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reserve-spot {
     transition: none;
   }
 }

@@ -1115,7 +1115,6 @@ main > .hero.scroll-reveal.is-visible {
 .reference-faq-copy {
   
     position: sticky;
-    top: 110px;
     /* Locked so expanding an accordion cannot resize the left column.
        Tunable single value; it must clear eyebrow + heading + copy + button. */
     height: 400px;
