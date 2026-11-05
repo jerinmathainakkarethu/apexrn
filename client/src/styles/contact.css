@@ -18,7 +18,7 @@
   --c-shadow: 0 1px 2px rgba(63, 74, 73, 0.05), 0 20px 48px rgba(63, 74, 73, 0.1);
   --c-ease: cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
-  padding: 70px 7vw 130px;
+  padding: 34px 7vw 130px;
 }
 
 .contact-page > * {
@@ -89,7 +89,7 @@
   position: relative;
   width: min(100%, 960px);
   max-width: 960px;
-  margin: 0 auto;
+  margin: -8px auto 0;
   padding: 44px 40px 40px;
   display: grid;
   grid-template-columns: 1fr 1fr;

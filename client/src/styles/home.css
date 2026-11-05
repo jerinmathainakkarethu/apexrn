@@ -189,12 +189,19 @@ main > .hero.scroll-reveal.is-visible {
   font-size: 13px;
 }
 
-.snapshot {
-  background: var(--paper);
-  padding: 20px 16vw;
-  color: var(--muted);
-  font-size: var(--fs-caption);
-  line-height: var(--lh-caption);
+.home-page .snapshot {
+    column-gap: 0;
+    row-gap: 20px;
+}
+
+.home-page .snapshot span {
+    flex: 0 0 auto;
+}
+
+.home-page .snapshot span + span {
+    border-left: 1px solid var(--line);
+    padding-left: 32px;
+    margin-left: 32px;
 }
 
 .snapshot span + span {
