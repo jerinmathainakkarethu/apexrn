@@ -223,7 +223,7 @@ export const homeContent = {
         price: 1200,
         currency: "USD",
         tone: "clay",
-        href: "/contact",
+        href: "/curriculum",
         buttonText: "Enroll",
       },
       {
@@ -237,7 +237,7 @@ export const homeContent = {
         price: 400,
         currency: "USD",
         tone: "sage",
-        href: "/contact",
+        href: "/curriculum",
         buttonText: "Enroll",
       },
     ],

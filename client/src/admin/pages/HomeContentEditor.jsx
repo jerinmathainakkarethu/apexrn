@@ -94,7 +94,7 @@ export default function HomeContentEditor() {
           meta: ["", ""],
           price: 0,
           currency: "USD",
-          href: "/contact",
+          href: "/curriculum",
           buttonText: "Enroll",
         },
       ],
@@ -796,7 +796,7 @@ export default function HomeContentEditor() {
           />
         </div>
         <p className="home-section-note">
-          Edit each payment option, or remove and add cards as needed.
+          Edit payment details, or remove and add cards as needed. Enroll buttons open the curriculum page.
         </p>
         <div className="home-repeatable-grid">
           {courseListing.courses.map((course, index) => (
@@ -901,18 +901,6 @@ export default function HomeContentEditor() {
                       ["courseListing", "courses"],
                       index,
                       "buttonText",
-                      value,
-                    )
-                  }
-                />
-                <HomeField
-                  label="Enroll link"
-                  value={course.href}
-                  onChange={(value) =>
-                    updateItem(
-                      ["courseListing", "courses"],
-                      index,
-                      "href",
                       value,
                     )
                   }

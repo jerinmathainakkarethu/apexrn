@@ -27,6 +27,11 @@
   overflow-x: clip;
 }
 
+.home-page .program-gallery.scroll-reveal,
+.home-page .course-listing.scroll-reveal {
+  transform: none;
+}
+
 main > .hero.scroll-reveal {
   transform: translateY(0) scale(1.015);
   transition:
@@ -296,7 +301,7 @@ main > .hero.scroll-reveal.is-visible {
 
 .program-gallery {
   background: var(--paper);
-  padding: 0 0 120px;
+  padding: 0;
 }
 
 /* ============================================================
@@ -1553,6 +1558,7 @@ main > .hero.scroll-reveal.is-visible {
 
   .home-page .snapshot span + span {
     border: 0;
+    margin-left: 0;
     padding-left: 0;
   }
 
@@ -1699,7 +1705,7 @@ main > .hero.scroll-reveal.is-visible {
 
   /* Program gallery: 2 columns, auto height */
   .home-page .program-gallery {
-    padding-bottom: 90px;
+    padding-bottom: 0;
   }
 
   .home-page .program-gallery-head {
@@ -1770,7 +1776,7 @@ main > .hero.scroll-reveal.is-visible {
   }
 
   .home-page .program-gallery {
-    padding-bottom: 72px;
+    padding-bottom: 0;
   }
 
   .home-page .reference-instructor,

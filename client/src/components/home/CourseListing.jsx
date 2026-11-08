@@ -20,7 +20,7 @@ export const DEFAULT_COURSE_LISTING = {
       price: 1200,
       currency: "USD",
       tone: "clay",
-      href: "/contact",
+      href: "/curriculum",
       buttonText: "Enroll",
     },
     {
@@ -34,7 +34,7 @@ export const DEFAULT_COURSE_LISTING = {
       price: 400,
       currency: "USD",
       tone: "sage",
-      href: "/contact",
+      href: "/curriculum",
       buttonText: "Enroll",
     },
   ],
@@ -142,7 +142,7 @@ export default function CourseListing({ content }) {
                   </div>
                   <a
                     className="button course-option-button"
-                    href={course.href ?? defaults.href}
+                    href="/curriculum"
                   >
                     {course.buttonText ?? defaults.buttonText}
                     <ArrowRight size={17} />

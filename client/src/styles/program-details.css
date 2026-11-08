@@ -100,7 +100,7 @@
 /* ---------- Snapshot pills ---------- */
 
 .curriculum-snapshot {
-  padding: 0 16vw;
+  padding: 32px 16vw 0;
   margin-bottom: 120px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -152,6 +152,14 @@
 
 .curriculum-block + .curriculum-block {
   padding-top: 110px;
+}
+
+.curriculum-block.curriculum-weeks {
+  padding-top: 48px;
+}
+
+.curriculum-weeks .section-title {
+  margin-top: 0;
 }
 
 /* ---------- Section tones ---------- */
@@ -1180,7 +1188,7 @@
   }
 
   .curriculum-snapshot {
-    padding: 0 7vw;
+    padding: 32px 7vw 0;
     margin-bottom: 80px;
     grid-template-columns: 1fr;
   }
@@ -1255,7 +1263,7 @@
   }
 
   .pd .final-cta {
-    margin: 0 7vw 30px;
+    margin: 24px 7vw 30px;
     padding: 52px 24px;
   }
 
