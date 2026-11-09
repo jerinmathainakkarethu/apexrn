@@ -66,7 +66,7 @@ export default function App() {
           <Link
             className="button reserve-action reserve-contact"
             tabIndex={reserveVisible ? undefined : -1}
-            to="/contact"
+            to="https://wa.me/8133301460/?text=Hi"
           >
             Contact Us
           </Link>

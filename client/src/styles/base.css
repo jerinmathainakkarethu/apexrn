@@ -2316,7 +2316,7 @@ body {
     right: auto;
     padding: 0 3.6vw;
     background: var(--cream);
-    border-top: 3px solid var(--line);
+    border-top: 0;
     border-bottom: 0;
     z-index: 20;
     color: var(--ink);
@@ -3135,13 +3135,14 @@ footer {
   width: max-content;
   max-width: calc(100vw - 32px);
   gap: 0;
-  padding: 5px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  padding: 6px;
+  border: 1px solid rgba(45, 212, 191, 0.3);
   border-radius: 999px;
-  background: rgba(22, 34, 48, 0.86);
-  box-shadow: 0 12px 36px rgba(13, 22, 32, 0.32);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
+  background: rgba(16, 29, 42, 0.94);
+  box-shadow: 0 12px 36px rgba(13, 22, 32, 0.38),
+    0 0 24px rgba(45, 212, 191, 0.1);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -3162,45 +3163,89 @@ footer {
 
 .reserve-action {
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
   flex: 1 1 auto;
   gap: 10px;
-  min-height: 50px;
-  padding: 13px 22px;
+  min-height: 54px;
+  padding: 14px 24px;
   border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
   white-space: nowrap;
   transition:
     background 0.25s ease,
     border-color 0.25s ease,
     color 0.25s ease,
     box-shadow 0.25s ease,
-    transform 0.25s ease;
+    transform 0.25s ease,
+    filter 0.25s ease;
+}
+
+.reserve-action:active {
+  transform: translateY(1px) scale(0.98);
 }
 
 .reserve-contact {
   border-color: transparent;
   background: transparent;
-  color: rgba(255, 255, 255, 0.88);
+  color: #f5f8fa;
 }
 
 .reserve-contact:hover {
-  border-color: rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: transparent;
+  background: transparent;
   color: #fff;
+  box-shadow: none;
 }
 
 .reserve-enroll {
-  border-color: #15998d;
-  background: #15998d;
-  box-shadow: 0 5px 16px rgba(21, 153, 141, 0.3);
+  border-color: #17ad9f;
+  background: linear-gradient(115deg, #18b6a6 0%, #0c948b 100%);
+  box-shadow: 0 6px 19px rgba(12, 148, 139, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  animation: reserve-enroll-glow 3.6s ease-in-out infinite;
+}
+
+.reserve-enroll::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.2) 48%,
+    transparent 75%
+  );
+  content: "";
+  opacity: 0;
+  transform: translateX(-110%);
+  transition: opacity 0.2s ease, transform 0.55s ease;
 }
 
 .reserve-enroll:hover {
-  border-color: #117d74;
-  background: #117d74;
-  box-shadow: 0 8px 22px rgba(21, 153, 141, 0.4);
+  transform: translateY(-3px);
+  border-color: #20c9b8;
+  background: linear-gradient(115deg, #20c9b8 0%, #0da398 100%);
+  box-shadow: 0 10px 26px rgba(12, 148, 139, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  filter: saturate(1.12);
+  animation: none;
+}
+
+.reserve-enroll:hover::before {
+  opacity: 1;
+  transform: translateX(110%);
+}
+
+.reserve-enroll svg {
+  transition: transform 0.25s ease;
+}
+
+.reserve-enroll:hover svg {
+  transform: translateX(4px);
 }
 
 .reserve-action:focus-visible {
@@ -3217,10 +3262,22 @@ footer {
 
   .reserve-action {
     gap: 7px;
-    min-height: 48px;
+    min-height: 50px;
     padding: 11px 10px;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.04em;
+  }
+}
+
+@keyframes reserve-enroll-glow {
+  0%,
+  100% {
+    box-shadow: 0 6px 19px rgba(12, 148, 139, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  }
+  50% {
+    box-shadow: 0 8px 25px rgba(12, 148, 139, 0.52),
+      inset 0 1px 0 rgba(255, 255, 255, 0.32);
   }
 }
 
@@ -3230,6 +3287,14 @@ footer {
   }
 
   .reserve-action {
+    transition: none;
+  }
+
+  .reserve-enroll {
+    animation: none;
+  }
+
+  .reserve-enroll::before {
     transition: none;
   }
 }
