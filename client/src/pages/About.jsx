@@ -7,6 +7,8 @@ import { ChevronLeft, ChevronRight, Play, Quote, X } from "lucide-react";
 import { getAbout } from "../api/about";
 import { getTestimonials } from "../api/testimonials";
 import { imageUrl } from "../services/api";
+import finalApexVideo from "../assets/final_apex.mp4";
+import finalApexPoster from "../assets/final_apex-poster.jpg";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import ErrorState from "../components/ui/ErrorState";
@@ -136,9 +138,10 @@ export default function About() {
   const benefitImages = Array.isArray(content.images)
     ? content.images.slice(0, 2).filter((image) => image?.url)
     : [];
+  const usesDefaultVideo = !content.video?.url;
   const videoSource = content.video?.url
     ? getVideoSource(content.video.url)
-    : null;
+    : { type: "file", src: finalApexVideo };
 
   const visibleGallery = galleryItems.slice(0, galleryLimit);
   const hiddenCount = galleryItems.length - visibleGallery.length;
@@ -269,11 +272,9 @@ export default function About() {
 
         {isVisible("video") && content.video && (
           <section
-            className={
-              videoPlaying
-                ? "about-video is-playing scroll-reveal"
-                : "about-video scroll-reveal"
-            }
+            className={`about-video scroll-reveal is-visible${
+              videoPlaying ? " is-playing" : ""
+            }`}
           >
             {videoPlaying && videoSource ? (
               <>
@@ -281,7 +282,11 @@ export default function About() {
                   <iframe
                     className="about-video-player"
                     src={videoSource.src}
-                    title={content.video.alt || content.title || "Video"}
+                    title={
+                      content.video.alt ||
+                      content.title ||
+                      "APEX RN Prep video"
+                    }
                     allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                     allowFullScreen
                   />
@@ -289,9 +294,15 @@ export default function About() {
                   <video
                     className="about-video-player"
                     src={videoSource.src}
+                    poster={
+                      usesDefaultVideo
+                        ? finalApexPoster
+                        : imageUrl(content.video.image)
+                    }
                     controls
                     autoPlay
                     playsInline
+                    preload="metadata"
                     onEnded={() => setVideoPlaying(false)}
                   />
                 )}
@@ -307,8 +318,16 @@ export default function About() {
             ) : (
               <>
                 <img
-                  src={imageUrl(content.video.image)}
-                  alt={content.video.alt || ""}
+                  src={
+                    usesDefaultVideo
+                      ? finalApexPoster
+                      : imageUrl(content.video.image)
+                  }
+                  alt={
+                    usesDefaultVideo
+                      ? "Nurse caring for a patient"
+                      : content.video.alt || ""
+                  }
                 />
                 <div className="about-video-scrim" aria-hidden="true" />
                 {content.video.caption && (

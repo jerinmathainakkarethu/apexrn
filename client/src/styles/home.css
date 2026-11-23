@@ -158,8 +158,8 @@ main > .hero.scroll-reveal.is-visible {
 }
 
 .hero .button {
-  background: rgb(190, 150, 103);
-  border-color: var(--gold);
+  background: var(--button-bg);
+  border-color: var(--button-bg);
 }
 
 .hero .button.secondary {
@@ -894,8 +894,8 @@ main > .hero.scroll-reveal.is-visible {
 }
 
 .reference-qa-copy .button {
-  background: #bd725b;
-  border-color: #bd725b;
+  background: var(--button-bg);
+  border-color: var(--button-bg);
 }
 
 .reference-faq {
@@ -915,8 +915,15 @@ main > .hero.scroll-reveal.is-visible {
 
 .reference-faq-copy .button {
   margin-top: 26px;
-  background: #bd725b;
-  border-color: #bd725b;
+  background: var(--button-bg);
+  border-color: var(--button-bg);
+}
+
+.hero .button:hover:not(.secondary),
+.reference-qa-copy .button:hover,
+.reference-faq-copy .button:hover {
+  border-color: var(--button-hover);
+  background: var(--button-hover);
 }
 
 /* Accordion is a button + always-rendered panel, not native <details>.

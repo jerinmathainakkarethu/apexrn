@@ -11,6 +11,8 @@
     --ink: #3f4a49;
     --muted: #6b7574;
     --terracotta: #d4967d;
+    --button-bg: #0f766e;
+    --button-hover: #115e59;
     --soft: #dcd9d0;
     --line: #dcd9d0;
     --serif: "Playfair Display", Georgia, serif;
@@ -238,8 +240,8 @@ button {
     align-items: center;
     justify-content: center;
     gap: 25px;
-    border: 1px solid var(--terracotta);
-    background: var(--terracotta);
+    border: 1px solid var(--button-bg);
+    background: var(--button-bg);
     color: #fff;
     padding: 18px 23px;
     font-size: 18px;
@@ -252,7 +254,8 @@ button {
 
 .button:hover {
   
-    background: #9d5441;
+    border-color: var(--button-hover);
+    background: var(--button-hover);
     transform: translateY(-2px);
   
 }
@@ -260,13 +263,14 @@ button {
 .button.secondary {
   
     background: transparent;
-    color: var(--terracotta);
+    color: var(--button-bg);
   
 }
 
 .button.secondary:hover {
   
-    background: var(--terracotta);
+    border-color: var(--button-bg);
+    background: var(--button-bg);
     color: #fff;
   
 }
@@ -3201,8 +3205,8 @@ footer {
 }
 
 .reserve-enroll {
-  border-color: #17ad9f;
-  background: linear-gradient(115deg, #18b6a6 0%, #0c948b 100%);
+  border-color: var(--button-bg);
+  background: var(--button-bg);
   box-shadow: 0 6px 19px rgba(12, 148, 139, 0.38),
     inset 0 1px 0 rgba(255, 255, 255, 0.28);
   animation: reserve-enroll-glow 3.6s ease-in-out infinite;
@@ -3227,8 +3231,8 @@ footer {
 
 .reserve-enroll:hover {
   transform: translateY(-3px);
-  border-color: #20c9b8;
-  background: linear-gradient(115deg, #20c9b8 0%, #0da398 100%);
+  border-color: var(--button-hover);
+  background: var(--button-hover);
   box-shadow: 0 10px 26px rgba(12, 148, 139, 0.48),
     inset 0 1px 0 rgba(255, 255, 255, 0.34);
   filter: saturate(1.12);
@@ -3469,14 +3473,14 @@ footer {
   gap: 14px;
   padding: 0 20px;
   color: #fff;
-  background: var(--terracotta);
+  background: var(--button-bg);
   font-size: 12px;
   font-weight: 700;
   transition: background 180ms ease, transform 180ms ease;
 }
 
 .site-footer-button:hover {
-  background: #c17f66;
+  background: var(--button-hover);
   transform: translateY(-2px);
 }
 

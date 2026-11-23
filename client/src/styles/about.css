@@ -230,7 +230,7 @@
   height: 100%;
   border: 0;
   background: #000;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .about-video-close {
