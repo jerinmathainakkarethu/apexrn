@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/home.css";
 import "../styles/testimonials.css";
 import { Helmet } from "react-helmet-async";
@@ -18,6 +19,7 @@ import homeContent from "../data/home.json";
 import faqs from "../data/faqs.json";
 import testimonials from "../data/testimonials.json";
 import homeLogo from "../assets/nclex-logo.png";
+import instructorTeamImage from "../assets/instructor-team.png";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import Button from "../components/ui/Button";
@@ -155,8 +157,21 @@ export default function Home() {
                 const Icon = ICONS[index % ICONS.length];
                 return (
                   <article className="svc-item" key={item.title}>
-                    <Icon size={50} strokeWidth={1.25} className="svc-icon" />
-                    <h4>{item.title}</h4>
+                    <div className="svc-item-icon">
+                      <Icon
+                        size={25}
+                        strokeWidth={1.5}
+                        className="svc-icon"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div className="svc-item-copy">
+                      <span className="svc-item-number">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <h4>{item.title}</h4>
+                      {item.text && <p>{item.text}</p>}
+                    </div>
                   </article>
                 );
               })}
@@ -215,8 +230,8 @@ export default function Home() {
           <section className="reference-section reference-instructor home-blue-section scroll-reveal">
             <div className="reference-instructor-image">
               <img
-                src={c.instructor.image}
-                alt={c.instructor.imageAlt}
+                src={instructorTeamImage}
+                alt="Nursing instructor guiding a group of students through clinical study"
                 loading="lazy"
                 decoding="async"
               />
@@ -370,9 +385,9 @@ export default function Home() {
               <Eyebrow>{c.faq?.eyebrow}</Eyebrow>
               <h2>{c.faq?.title}</h2>
               <p>{c.faq?.copy}</p>
-              <a className="button" href="/faqs">
+              <Link className="button reference-faq-desktop-link" to="/faqs">
                 {c.faq?.button} <ArrowRight size={17} />
-              </a>
+              </Link>
             </div>
             <div className="reference-faq-list">
               {faqs.slice(0, 5).map((item) => {
@@ -404,6 +419,9 @@ export default function Home() {
                 );
               })}
             </div>
+            <Link className="button reference-faq-mobile-link" to="/faqs">
+              {c.faq?.button} <ArrowRight size={17} />
+            </Link>
           </section>
         )}
       </main>

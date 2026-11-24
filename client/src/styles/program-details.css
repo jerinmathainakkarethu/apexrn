@@ -1298,3 +1298,280 @@
     color: rgb(107, 117, 116);
     margin: 12px 0 24px;
 }
+
+@media (max-width: 1024px) {
+  .pd {
+    --pd-tone-pad: clamp(64px, 8vw, 84px);
+  }
+
+  .curriculum-page .page-hero {
+    min-height: 0;
+    padding: clamp(64px, 9vw, 92px) clamp(28px, 8vw, 88px)
+      clamp(42px, 6vw, 60px);
+  }
+
+  .curriculum-page .page-hero h1 {
+    max-width: 15ch;
+    margin-bottom: 20px;
+    font-size: clamp(42px, 6.4vw, 64px);
+    line-height: 1.02;
+  }
+
+  .curriculum-page .page-hero p {
+    max-width: 660px;
+    margin: 0;
+    font-size: clamp(15px, 1.8vw, 17px);
+    line-height: 1.65;
+  }
+
+  .curriculum-snapshot {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 26px clamp(28px, 7vw, 72px) 0;
+    margin-bottom: 72px;
+  }
+
+  .curriculum-snapshot span {
+    min-width: 0;
+    padding: 17px 18px;
+    font-size: 14px;
+  }
+
+  .curriculum-block {
+    padding-right: clamp(28px, 7vw, 72px);
+    padding-bottom: 76px;
+    padding-left: clamp(28px, 7vw, 72px);
+  }
+
+  .curriculum-block + .curriculum-block {
+    padding-top: clamp(56px, 7vw, 76px);
+  }
+
+  .curriculum-block.curriculum-weeks {
+    padding-top: clamp(36px, 5vw, 52px);
+  }
+
+  .curriculum-block .section-title {
+    margin-top: 0;
+    margin-bottom: clamp(32px, 5vw, 48px);
+  }
+
+  .curriculum-block .section-title h2 {
+    font-size: clamp(36px, 5.2vw, 52px);
+    line-height: 1.03;
+  }
+
+  .curriculum-block .section-title > p {
+    max-width: 680px;
+    margin: 12px 0 20px;
+    font-size: clamp(15px, 1.8vw, 17px);
+    line-height: 1.65;
+  }
+
+  .curriculum-structure,
+  .curriculum-resource-grid {
+    gap: clamp(14px, 2.2vw, 22px);
+  }
+
+  .curriculum-structure-item,
+  .curriculum-resource {
+    min-width: 0;
+    padding: clamp(22px, 3vw, 30px);
+  }
+
+  .curriculum-week summary {
+    min-height: 64px;
+  }
+
+  .curriculum-week-title {
+    min-width: 0;
+    font-size: clamp(16px, 2.2vw, 20px) !important;
+    line-height: 1.35;
+  }
+
+  .curriculum-system {
+    gap: clamp(16px, 2.4vw, 26px);
+    padding: clamp(24px, 3.2vw, 32px);
+  }
+
+  .curriculum-practice-stats {
+    gap: clamp(12px, 2vw, 18px);
+  }
+
+  .pd .final-cta {
+    margin: 32px clamp(28px, 7vw, 72px);
+    padding: clamp(44px, 6vw, 64px) clamp(24px, 4vw, 42px);
+  }
+}
+
+@media (min-width: 601px) and (max-width: 800px) {
+  .curriculum-structure,
+  .curriculum-resource-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .pd {
+    --pd-tone-pad: 58px;
+  }
+
+  .curriculum-page .page-hero {
+    padding: 58px clamp(20px, 6vw, 28px) 36px;
+  }
+
+  .curriculum-page .page-hero h1 {
+    max-width: 13ch;
+    font-size: clamp(34px, 9vw, 42px);
+    line-height: 1.04;
+    margin-bottom: 16px;
+  }
+
+  .curriculum-page .page-hero p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .curriculum-snapshot {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    padding: 22px clamp(20px, 6vw, 28px) 0;
+    margin-bottom: 56px;
+  }
+
+  .curriculum-snapshot span {
+    min-height: 58px;
+    padding: 15px 16px;
+    font-size: 14px;
+  }
+
+  .curriculum-block {
+    padding-right: clamp(20px, 6vw, 28px);
+    padding-bottom: 60px;
+    padding-left: clamp(20px, 6vw, 28px);
+  }
+
+  .curriculum-block + .curriculum-block {
+    padding-top: 52px;
+  }
+
+  .curriculum-block.curriculum-weeks {
+    padding-top: 36px;
+  }
+
+  .curriculum-block .section-title {
+    margin-bottom: 30px;
+  }
+
+  .curriculum-block .section-title h2 {
+    font-size: clamp(32px, 8vw, 38px);
+    line-height: 1.06;
+  }
+
+  .curriculum-block .section-title > p {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .curriculum-structure,
+  .curriculum-resource-grid,
+  .curriculum-practice-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .curriculum-structure-item,
+  .curriculum-resource {
+    padding: 22px 20px;
+    border-radius: 15px;
+  }
+
+  .curriculum-structure-item h3,
+  .curriculum-system h3,
+  .curriculum-resource h3 {
+    font-size: 21px;
+    line-height: 1.2;
+  }
+
+  .curriculum-structure-item > p,
+  .curriculum-structure-item li,
+  .curriculum-system-main > p,
+  .curriculum-system li,
+  .curriculum-resource > p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .curriculum-week-list {
+    gap: 11px;
+  }
+
+  .curriculum-week summary {
+    gap: 10px;
+    min-height: 60px;
+    padding: 12px 12px 12px 10px;
+  }
+
+  .curriculum-week-number {
+    min-width: 18px;
+    width: 18px;
+    height: 18px;
+    padding: 8px;
+  }
+
+  .curriculum-week-title {
+    font-size: 15px !important;
+  }
+
+  .curriculum-week-toggle {
+    width: 26px;
+    height: 26px;
+  }
+
+  .curriculum-week-body {
+    padding: 0 16px 22px;
+  }
+
+  .curriculum-week-summary,
+  .curriculum-week-meta p,
+  .curriculum-topic-list li {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .curriculum-week-meta > div {
+    padding: 16px;
+  }
+
+  .curriculum-system {
+    gap: 16px;
+    padding: 22px 18px;
+    border-radius: 15px;
+  }
+
+  .curriculum-system-meta {
+    gap: 8px;
+  }
+
+  .curriculum-practice-stats {
+    gap: 12px;
+    margin-bottom: 42px;
+  }
+
+  .curriculum-practice-stats > div {
+    padding: 22px 20px;
+  }
+
+  .curriculum-practice-step {
+    gap: 12px;
+  }
+
+  .curriculum-practice-step > div {
+    padding: 18px 17px;
+  }
+
+  .pd .final-cta {
+    margin: 20px clamp(20px, 6vw, 28px) 28px;
+    padding: 42px 20px;
+    border-radius: 20px;
+  }
+}

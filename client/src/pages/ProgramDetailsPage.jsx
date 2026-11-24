@@ -57,6 +57,7 @@ export default function ProgramDetailsPage() {
       title={hero.title}
       intro={hero.intro}
       showHero={isVisible("hero")}
+      pageClassName="curriculum-page"
     >
       <Helmet>
         <title>{seo.title}</title>

@@ -2175,7 +2175,6 @@ footer {
   .svc-item:not(:first-child) {
     
         border-top: 1px solid var(--line);
-        margin-top: 20px;
         padding-top: 30px;
       
   }
@@ -3542,6 +3541,10 @@ footer {
 }
 
 @media (max-width: 1024px) {
+  .reserve-actions.is-visible ~ footer.site-footer {
+    padding-bottom: max(110px, calc(env(safe-area-inset-bottom) + 96px));
+  }
+
   .site-header {
     height: 78px;
     padding: 0 6vw;
@@ -3632,6 +3635,231 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .site-header .menu-button,
   .site-header .nav.open {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .eyebrow {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .site-header {
+    z-index: 40;
+    padding-right: clamp(18px, 5vw, 48px);
+    padding-left: clamp(18px, 5vw, 48px);
+  }
+
+  .site-header .menu-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    border-color: color-mix(in srgb, var(--ink) 14%, transparent);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 5px 16px rgba(23, 24, 29, 0.08);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    transition:
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 200ms ease,
+      background 200ms ease,
+      border-color 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .site-header .menu-button:hover {
+    transform: translateY(-2px);
+    border-color: rgba(15, 118, 110, 0.4);
+    background: #f0f8f6;
+    box-shadow: 0 8px 20px rgba(23, 24, 29, 0.12);
+  }
+
+  .site-header.menu-open .menu-button {
+    color: #fff;
+    background: #0f766e;
+    border-color: #0f766e;
+    transform: rotate(90deg);
+  }
+
+  .site-header .menu-button svg {
+    animation: header-icon-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .site-header .nav {
+    position: absolute;
+    top: calc(100% - 1px);
+    left: clamp(12px, 3vw, 28px);
+    right: clamp(12px, 3vw, 28px);
+    z-index: 2;
+    display: none;
+    max-height: min(72svh, 560px);
+    overflow: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    margin: 0;
+    padding: 14px;
+    border: 1px solid rgba(29, 26, 22, 0.1);
+    border-top: 0;
+    border-radius: 0 0 20px 20px;
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(15, 118, 110, 0.08), transparent 48%),
+      linear-gradient(155deg, #fff 0%, #fbf7f2 100%);
+    box-shadow: 0 24px 48px rgba(23, 24, 29, 0.16);
+    font-size: 16px;
+    transform-origin: top center;
+    overscroll-behavior: contain;
+  }
+
+  .site-header .nav:not(.open):not(.closing) {
+    display: none;
+  }
+
+  .site-header .nav.open,
+  .site-header .nav.closing {
+    display: flex;
+  }
+
+  .site-header .nav.open {
+    animation: header-nav-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .site-header .nav.closing {
+    pointer-events: none;
+    animation: header-nav-out 220ms cubic-bezier(0.4, 0, 1, 1) both;
+  }
+
+  .site-header .nav a {
+    position: relative;
+    display: flex;
+    min-height: 52px;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    color: #343733;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.35;
+    transition:
+      color 180ms ease,
+      background 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .site-header .nav.open a {
+    animation: header-link-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .site-header .nav.open a:nth-child(2) { animation-delay: 35ms; }
+  .site-header .nav.open a:nth-child(3) { animation-delay: 70ms; }
+  .site-header .nav.open a:nth-child(4) { animation-delay: 105ms; }
+  .site-header .nav.open a:nth-child(5) { animation-delay: 140ms; }
+  .site-header .nav.open a:nth-child(6) { animation-delay: 175ms; }
+
+  .site-header .nav a::after {
+    display: none;
+  }
+
+  .site-header .nav a:hover {
+    transform: translateX(3px);
+    border-color: rgba(15, 118, 110, 0.14);
+    color: #0f766e;
+    background: rgba(15, 118, 110, 0.07);
+  }
+
+  .site-header .nav a.active {
+    border-color: rgba(15, 118, 110, 0.14);
+    color: #0f766e;
+    background: rgba(15, 118, 110, 0.09);
+  }
+
+  .site-header .nav a:focus-visible {
+    outline: 2px solid #0f766e;
+    outline-offset: 2px;
+  }
+
+  .site-header.site-header-transparent .nav.open,
+  .site-header.site-header-transparent .nav.closing {
+    border-color: rgba(255, 255, 255, 0.14);
+    border-top: 0;
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(45, 212, 191, 0.14), transparent 48%),
+      rgba(18, 24, 30, 0.97);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+  }
+
+  .site-header.site-header-transparent .nav a {
+    color: rgba(255, 255, 255, 0.84);
+  }
+
+  .site-header.site-header-transparent .nav a:hover,
+  .site-header.site-header-transparent .nav a.active {
+    border-color: rgba(45, 212, 191, 0.2);
+    color: #5eead4;
+    background: rgba(45, 212, 191, 0.1);
+  }
+}
+
+@keyframes header-nav-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scaleY(0.96);
+    clip-path: inset(0 0 100% 0 round 0 0 20px 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    clip-path: inset(0 0 0 0 round 0 0 20px 20px);
+  }
+}
+
+@keyframes header-nav-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    clip-path: inset(0 0 0 0 round 0 0 20px 20px);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scaleY(0.97);
+    clip-path: inset(0 0 100% 0 round 0 0 20px 20px);
+  }
+}
+
+@keyframes header-link-in {
+  from {
+    opacity: 0;
+    transform: translateY(-7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes header-icon-in {
+  from {
+    opacity: 0;
+    transform: rotate(-35deg) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header .menu-button,
+  .site-header .menu-button svg,
+  .site-header .nav.open,
+  .site-header .nav.closing,
+  .site-header .nav.open a {
     animation: none;
     transition: none;
   }

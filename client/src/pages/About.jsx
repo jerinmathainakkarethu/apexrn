@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet-async";
 import { ChevronLeft, ChevronRight, Play, Quote, X } from "lucide-react";
 import aboutContent from "../data/about.json";
 import testimonials from "../data/testimonials.json";
+import aboutInstructorImage from "../assets/about-instructor.png";
 import finalApexVideo from "../assets/final_apex.mp4";
 import finalApexPoster from "../assets/final_apex-poster.jpg";
 import Header from "../components/layout/Header";
@@ -57,6 +58,7 @@ export default function About() {
   const [galleryLimit, setGalleryLimit] = useState(GALLERY_PAGE_SIZE);
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const mainRef = useRef(null);
+  const lightboxTouchStart = useRef(null);
 
   // Computed before the early returns so the lightbox effect below can use it.
   const galleryItems = (content?.gallery?.items ?? content?.images ?? []).filter(
@@ -125,6 +127,31 @@ export default function About() {
       (i) => (i + direction + galleryItems.length) % galleryItems.length,
     );
 
+  const handleLightboxTouchStart = (event) => {
+    if (event.touches.length !== 1) {
+      lightboxTouchStart.current = null;
+      return;
+    }
+
+    const { clientX, clientY } = event.touches[0];
+    lightboxTouchStart.current = { clientX, clientY };
+  };
+
+  const handleLightboxTouchEnd = (event) => {
+    const start = lightboxTouchStart.current;
+    const touch = event.changedTouches[0];
+    lightboxTouchStart.current = null;
+    if (!start || !touch) return;
+
+    const deltaX = touch.clientX - start.clientX;
+    const deltaY = touch.clientY - start.clientY;
+    if (Math.abs(deltaX) < 48 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) {
+      return;
+    }
+
+    stepLightbox(deltaX < 0 ? 1 : -1);
+  };
+
   return (
     <>
       <Helmet>
@@ -135,6 +162,10 @@ export default function About() {
       <main className="about-page" ref={mainRef}>
         {isVisible("benefits") && (
           <section className="about-benefits scroll-reveal">
+            <div className="about-benefit-heading">
+              <Eyebrow>{content.benefits.eyebrow}</Eyebrow>
+              <h1>{content.benefits.title}</h1>
+            </div>
             {benefitImages.length > 0 && (
               <div className="about-benefit-images">
                 {benefitImages.map((image, index) => (
@@ -147,8 +178,6 @@ export default function About() {
               </div>
             )}
             <div className="about-benefit-copy">
-              <Eyebrow>{content.benefits.eyebrow}</Eyebrow>
-              <h1>{content.benefits.title}</h1>
               <p>{content.benefits.copy}</p>
               <ul>
                 {content.benefits.items.map((item) => (
@@ -164,20 +193,20 @@ export default function About() {
 
         {isVisible("story") && (
           <section className="about-story section-tone-sage scroll-reveal">
-            <div className="about-story-copy">
+            <div className="about-story-heading">
               <Eyebrow>{content.sectionEyebrow}</Eyebrow>
               <h2>{content.sectionTitle}</h2>
+            </div>
+            <div className="about-story-image">
+              <img
+                src={aboutInstructorImage}
+                alt="Smiling healthcare professional in a white coat outdoors"
+              />
+            </div>
+            <div className="about-story-copy">
               <p>{content.copy}</p>
               {content.copySecondary && <p>{content.copySecondary}</p>}
             </div>
-            {content.image && (
-              <div className="about-story-image">
-                <img
-                  src={content.image}
-                  alt={content.imageAlt || content.sectionTitle || ""}
-                />
-              </div>
-            )}
           </section>
         )}
 
@@ -478,6 +507,11 @@ export default function About() {
             <figure
               className="about-lightbox-figure"
               onClick={(event) => event.stopPropagation()}
+              onTouchStart={handleLightboxTouchStart}
+              onTouchEnd={handleLightboxTouchEnd}
+              onTouchCancel={() => {
+                lightboxTouchStart.current = null;
+              }}
             >
               <img src={lightboxItem.url} alt={lightboxItem.alt || ""} />
               <figcaption>
