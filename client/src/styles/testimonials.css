@@ -1119,11 +1119,25 @@
   .testimonial-video-meta h2 {
     font-size: 24px;
   }
+
+  .tm-story {
+    padding: 28px 24px;
+    gap: 20px;
+  }
+
+  .tm-story-label {
+    font-size: 14px;
+  }
+
+  .tm-step dd {
+    font-size: 14px;
+    line-height: 1.6;
+  }
 }
 
 /* ---------- ≤640: phones ---------- */
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .tm-block {
     padding: 0 6vw 72px;
   }
@@ -1135,16 +1149,31 @@
   .tm-story-grid,
   .tm-shot-grid {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 16px;
   }
 
   .tm-story {
-    padding: 26px 22px;
-    gap: 20px;
+    padding: 24px 20px;
+    gap: 18px;
+    border-radius: 16px;
+  }
+
+  .tm-story-head {
+    gap: 12px;
+    padding-right: 26px;
+  }
+
+  .tm-steps {
+    gap: 14px;
+  }
+
+  .tm-step dd {
+    font-size: 13px;
   }
 
   .tm-step-result dd {
     font-size: 16px;
+    line-height: 1.45;
   }
 
   /* One screenshot per row: keep it phone-sized and centred */
@@ -1176,6 +1205,16 @@
 
   .testimonial-card {
     flex-basis: 80vw;
+  }
+
+  .tm .final-cta .button-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .tm .final-cta .button-row .button {
+    width: 100%;
+    justify-content: center;
   }
 }
 
