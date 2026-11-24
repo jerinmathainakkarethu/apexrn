@@ -1,39 +1,33 @@
 import { useState } from "react";
 import "../styles/contact.css";
-import { ArrowRight, Check, Mail, MessageCircle, User, X } from "lucide-react";
-import { submitContact } from "../api/submissions";
+import { ArrowRight, Mail, MessageCircle, User } from "lucide-react";
 import PageFrame from "../components/layout/PageFrame";
 
 const STEPS = ["Send your message", "We review it", "We get back to you"];
 
 export default function ContactPage() {
   const [status, setStatus] = useState("idle");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [whatsappNumber, setWhatsappNumber] = useState("");
+  const [emailLink, setEmailLink] = useState("");
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    // Grab the form now: event.currentTarget is null once we `await`,
-    // so calling reset() on it after the request would throw.
-    const form = event.currentTarget;
-    setStatus("loading");
-    setErrorMessage("");
-    try {
-      const { whatsappNumber: submittedNumber, ...payload } = Object.fromEntries(
-        new FormData(form).entries(),
-      );
-      payload.whatsapp = submittedNumber.trim();
-      await submitContact(payload);
-      form.reset();
-      setWhatsappNumber("");
-      setStatus("success");
-    } catch (error) {
-      setErrorMessage(
-        error.response?.data?.message ||
-          "Something went wrong. Please try again.",
-      );
-      setStatus("error");
-    }
+    const values = Object.fromEntries(
+      new FormData(event.currentTarget).entries(),
+    );
+    const body = [
+      `Name: ${values.name}`,
+      `Email: ${values.email}`,
+      `WhatsApp: ${values.whatsappNumber || "Not provided"}`,
+      "",
+      "Message:",
+      values.message,
+    ].join("\n");
+    const href = `mailto:hello@apexrnprep.com?subject=${encodeURIComponent(
+      "APEX RN Prep inquiry",
+    )}&body=${encodeURIComponent(body)}`;
+    setEmailLink(href);
+    setStatus("email");
+    window.location.href = href;
   }
 
   return (
@@ -95,8 +89,6 @@ export default function ContactPage() {
                 type="tel"
                 autoComplete="tel"
                 placeholder="Your phone number"
-                value={whatsappNumber}
-                onChange={(event) => setWhatsappNumber(event.target.value)}
               />
             </div>
           </div>
@@ -115,30 +107,16 @@ export default function ContactPage() {
           </div>
 
           <div className="contact-actions">
-            <button
-              type="submit"
-              className="button"
-              disabled={status === "loading"}
-            >
-              {status === "loading" ? "Sending..." : "Send message"}
+            <button type="submit" className="button">
+              Open email to send
               <ArrowRight size={17} />
             </button>
 
             <div aria-live="polite" className="contact-status">
-              {status === "success" && (
-                <p className="form-success">
-                  <span className="status-icon">
-                    <Check size={14} />
-                  </span>
-                  Message received. We'll be in touch soon.
-                </p>
-              )}
-              {status === "error" && (
-                <p className="form-error">
-                  <span className="status-icon">
-                    <X size={14} />
-                  </span>
-                  {errorMessage}
+              {status === "email" && (
+                <p>
+                  Your email app should open with your message. If it does not,{" "}
+                  <a href={emailLink}>open the email here</a>.
                 </p>
               )}
             </div>

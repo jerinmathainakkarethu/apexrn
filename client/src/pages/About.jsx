@@ -4,16 +4,13 @@ import "../styles/testimonials.css";
 import "../styles/content-pages.css"; // must stay last
 import { Helmet } from "react-helmet-async";
 import { ChevronLeft, ChevronRight, Play, Quote, X } from "lucide-react";
-import { getAbout } from "../api/about";
-import { getTestimonials } from "../api/testimonials";
-import { imageUrl } from "../services/api";
+import aboutContent from "../data/about.json";
+import testimonials from "../data/testimonials.json";
 import finalApexVideo from "../assets/final_apex.mp4";
 import finalApexPoster from "../assets/final_apex-poster.jpg";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
-import ErrorState from "../components/ui/ErrorState";
 import Eyebrow from "../components/ui/Eyebrow";
-import Loading from "../components/ui/Loading";
 import TestimonialVideoModal from "../components/home/TestimonialVideoModal";
 
 // How many gallery images are shown at first, and added per "View more".
@@ -49,13 +46,12 @@ function getVideoSource(url = "") {
   }
   return {
     type: "file",
-    src: /^https?:\/\//.test(url) ? url : imageUrl(url),
+    src: url,
   };
 }
 
 export default function About() {
-  const [content, setContent] = useState(null);
-  const [testimonials, setTestimonials] = useState([]);
+  const content = aboutContent;
   const [activeVideo, setActiveVideo] = useState(null);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [galleryLimit, setGalleryLimit] = useState(GALLERY_PAGE_SIZE);
@@ -66,15 +62,6 @@ export default function About() {
   const galleryItems = (content?.gallery?.items ?? content?.images ?? []).filter(
     (item) => item?.url,
   );
-
-  useEffect(() => {
-    Promise.all([getAbout(), getTestimonials()])
-      .then(([aboutResponse, testimonialResponse]) => {
-        setContent(aboutResponse.data);
-        setTestimonials(testimonialResponse.data);
-      })
-      .catch(() => setContent(false));
-  }, []);
 
   // Scroll-reveal: same pattern as the home page — watches every
   // ".scroll-reveal" section and adds "is-visible" once it enters view.
@@ -117,23 +104,6 @@ export default function About() {
     };
   }, [lightboxIndex, galleryItems.length]);
 
-  if (content === null)
-    return (
-      <>
-        <Header />
-        <Loading />
-        <Footer />
-      </>
-    );
-  if (content === false)
-    return (
-      <>
-        <Header />
-        <ErrorState />
-        <Footer />
-      </>
-    );
-
   const isVisible = (key) => content.sectionVisibility?.[key] !== false;
   const benefitImages = Array.isArray(content.images)
     ? content.images.slice(0, 2).filter((image) => image?.url)
@@ -170,7 +140,7 @@ export default function About() {
                 {benefitImages.map((image, index) => (
                   <img
                     key={`${image.url}-${index}`}
-                    src={imageUrl(image.url)}
+                    src={image.url}
                     alt={image.alt || ""}
                   />
                 ))}
@@ -203,7 +173,7 @@ export default function About() {
             {content.image && (
               <div className="about-story-image">
                 <img
-                  src={imageUrl(content.image)}
+                  src={content.image}
                   alt={content.imageAlt || content.sectionTitle || ""}
                 />
               </div>
@@ -297,7 +267,7 @@ export default function About() {
                     poster={
                       usesDefaultVideo
                         ? finalApexPoster
-                        : imageUrl(content.video.image)
+                        : content.video.image
                     }
                     controls
                     autoPlay
@@ -321,7 +291,7 @@ export default function About() {
                   src={
                     usesDefaultVideo
                       ? finalApexPoster
-                      : imageUrl(content.video.image)
+                      : content.video.image
                   }
                   alt={
                     usesDefaultVideo
@@ -378,7 +348,7 @@ export default function About() {
                     }`}
                   >
                     <img
-                      src={imageUrl(item.url)}
+                      src={item.url}
                       alt={item.alt || ""}
                       loading="lazy"
                     />
@@ -509,7 +479,7 @@ export default function About() {
               className="about-lightbox-figure"
               onClick={(event) => event.stopPropagation()}
             >
-              <img src={imageUrl(lightboxItem.url)} alt={lightboxItem.alt || ""} />
+              <img src={lightboxItem.url} alt={lightboxItem.alt || ""} />
               <figcaption>
                 <span className="about-lightbox-count">
                   {String(lightboxIndex + 1).padStart(2, "0")} /{" "}

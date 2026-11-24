@@ -1,12 +1,11 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X, Play } from "lucide-react";
-import { imageUrl } from "../../services/api";
 
 export default function TestimonialVideoModal({ testimonial, close }) {
   const backdropRef = useRef(null);
   const name = testimonial?.display_name || "APEX RN Prep student";
-  const url = imageUrl(testimonial?.video_url || "");
+  const url = testimonial?.video_url || "";
 
   useEffect(() => {
     const onKeyDown = (event) => {

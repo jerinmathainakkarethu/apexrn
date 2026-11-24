@@ -1,33 +1,11 @@
 import { useState } from "react";
 import "../styles/faqs.css";
 import { ArrowRight } from "lucide-react";
-import { getFaqs } from "../api/faqs";
-import useRemote from "../hooks/useRemote";
+import faqs from "../data/faqs.json";
 import PageFrame from "../components/layout/PageFrame";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
-import ErrorState from "../components/ui/ErrorState";
-import Loading from "../components/ui/Loading";
 
 export default function FaqPage() {
-  const data = useRemote(getFaqs);
-  const [openFaq, setOpenFaq] = useState(null);
-  if (data === null)
-    return (
-      <>
-        <Header />
-        <Loading />
-        <Footer />
-      </>
-    );
-  if (data === false)
-    return (
-      <>
-        <Header />
-        <ErrorState />
-        <Footer />
-      </>
-    );
+  const [openFaq, setOpenFaq] = useState(faqs[0]?.id ?? null);
   return (
     <PageFrame
       pageClassName="faq-page-shell blue-page-shell"
@@ -36,7 +14,7 @@ export default function FaqPage() {
       intro="Find the practical details you need before you begin."
     >
       <section className="faq-page-list">
-        {data.map((item) => (
+        {faqs.map((item) => (
           <details key={item.id} open={openFaq === item.id}>
             <summary
               onClick={(event) => {

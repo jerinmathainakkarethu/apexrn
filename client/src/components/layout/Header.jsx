@@ -1,16 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { getMenu } from "../../api/menu";
+import menu from "../../data/menu.json";
 import siteLogo from "../../assets/site-logo-black.png";
-
-const defaultMenu = [
-  { label: "Home", url: "/" },
-  { label: "Pages", url: "/about" },
-  { label: "Blog", url: "/resources" },
-  { label: "Curriculum", url: "/curriculum" },
-  { label: "Contact", url: "/contact" },
-];
 
 /**
  * The home page is the one place that keeps the original logo, so `logo` is
@@ -19,7 +11,6 @@ const defaultMenu = [
  */
 export default function Header({ transparent = false, logo = siteLogo }) {
   const [open, setOpen] = useState(false);
-  const [menu, setMenu] = useState(defaultMenu);
   const menuButtonRef = useRef(null);
   const location = useLocation();
 
@@ -39,20 +30,6 @@ export default function Header({ transparent = false, logo = siteLogo }) {
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
-  useEffect(() => {
-    getMenu()
-      .then((response) => {
-        if (Array.isArray(response.data) && response.data.length)
-            setMenu(
-              response.data.map((item) =>
-                item.url === "/program"
-                  ? { ...item, label: "Curriculum", url: "/curriculum" }
-                  : item,
-              ),
-            );
-      })
-      .catch(() => undefined);
-  }, []);
   const isActive = (path) =>
     path === "/"
       ? location.pathname === "/"

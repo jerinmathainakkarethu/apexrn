@@ -1,18 +1,17 @@
 import "../styles/testimonials.css"; // must stay last
 import {
   ArrowRight,
+  BadgeCheck,
   EyeOff,
   Mail,
   MessageCircle,
+  Quote,
 } from "lucide-react";
 import PageFrame from "../components/layout/PageFrame";
 import Button from "../components/ui/Button";
 import SectionTitle from "../components/ui/SectionTitle";
-import Loading from "../components/ui/Loading";
-import ErrorState from "../components/ui/ErrorState";
-import useRemote from "../hooks/useRemote";
-import { getTestimonialsPageSettings } from "../api/testimonials";
-import { imageUrl } from "../services/api";
+import pageSettings from "../data/testimonials-page-settings.json";
+import testimonials from "../data/testimonials.json";
 
 function isEmbeddableVideoUrl(url = "") {
   return /youtube\.com|youtu\.be|vimeo\.com/.test(url);
@@ -52,7 +51,7 @@ function ScreenshotCard({ shot }) {
         <div className={`tm-shot-frame tm-shot-frame-${kind}`}>
           <img
             className="tm-shot-image"
-            src={imageUrl(shot.image)}
+            src={shot.image}
             alt={shot.alt || shot.kindLabel || kind}
             loading="lazy"
           />
@@ -72,8 +71,7 @@ function ScreenshotCard({ shot }) {
 }
 
 export default function TestimonialsPage() {
-  const pageSettings = useRemote(getTestimonialsPageSettings);
-  const content = pageSettings && pageSettings !== false ? pageSettings : {};
+  const content = pageSettings;
   const isVisible = (key) => content.sectionVisibility?.[key] !== false;
   const beforeAfter = Array.isArray(content.beforeAfter)
     ? content.beforeAfter
@@ -81,23 +79,78 @@ export default function TestimonialsPage() {
   const screenshots = Array.isArray(content.screenshots)
     ? content.screenshots
     : [];
-
-  if (pageSettings === null)
-    return (
-      <PageFrame showHero={false}>
-        <Loading />
-      </PageFrame>
-    );
-  if (pageSettings === false)
-    return (
-      <PageFrame showHero={false}>
-        <ErrorState />
-      </PageFrame>
-    );
+  const stories = testimonials.filter(
+    (item) => item.status === "published" && (item.story || item.result),
+  );
 
   return (
     <PageFrame showHero={false}>
       <div className="tm">
+        {isVisible("stories") && stories.length > 0 && (
+          <section
+            className="tm-block section-tone-blush"
+            aria-label={content.storiesSection?.title || "Student stories"}
+          >
+            <SectionTitle
+              eyebrow={content.storiesSection?.eyebrow || "Student stories"}
+              copy={
+                content.storiesSection?.copy ||
+                "Hear how students built confidence and prepared for the NCLEX-RN with APEX RN Prep."
+              }
+            >
+              {content.storiesSection?.title || "Stories of progress and success"}
+            </SectionTitle>
+
+            <div className="tm-story-grid">
+              {stories.map((item) => {
+                const initials = item.display_name
+                  .split(/\s+/)
+                  .map((part) => part[0])
+                  .slice(0, 2)
+                  .join("");
+
+                return (
+                  <article className="tm-story" key={item.id}>
+                    <Quote
+                      className="tm-story-quote"
+                      size={28}
+                      aria-hidden="true"
+                    />
+                    <header className="tm-story-head">
+                      <span className="tm-story-initials" aria-hidden="true">
+                        {initials}
+                      </span>
+                      <div>
+                        <div className="tm-story-label">
+                          <BadgeCheck size={15} aria-hidden="true" />
+                          {item.display_name}
+                        </div>
+                        {item.country && (
+                          <span className="tm-story-attempt">{item.country}</span>
+                        )}
+                      </div>
+                    </header>
+                    <dl className="tm-steps">
+                      {item.story && (
+                        <div className="tm-step">
+                          <dt>Student experience</dt>
+                          <dd>{item.story}</dd>
+                        </div>
+                      )}
+                      {item.result && (
+                        <div className="tm-step tm-step-result">
+                          <dt>Result</dt>
+                          <dd>{item.result}</dd>
+                        </div>
+                      )}
+                    </dl>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
         {isVisible("beforeAfter") && (
           <section
             className="tm-block section-tone-sage"
@@ -156,7 +209,7 @@ export default function TestimonialsPage() {
                                   src={item.video}
                                   poster={
                                     item.videoPoster
-                                      ? imageUrl(item.videoPoster)
+                                      ? item.videoPoster
                                       : undefined
                                   }
                                   controls

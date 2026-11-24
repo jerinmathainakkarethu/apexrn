@@ -1,50 +1,42 @@
 # APEX RN Prep
 
-A full-stack foundation for the APEX RN Prep 11-week live online NCLEX-RN program.
+The public website is a static React application. Page content is stored in
+`client/src/data/`, and uploaded images used by the pages are served from
+`client/public/uploads/`. The public client does not require the API server or
+an admin dashboard.
 
 ## Requirements
 
 - Node.js 20+
 - npm 10+
-- MySQL 8+ for persistent production data
 
-## Install
+## Run the website
 
 ```bash
-npm install --prefix server
 npm install --prefix client
-```
-
-Copy `.env.example` to `server/.env`, set `DB_NAME=apexrn`, and fill in the MySQL and JWT values. The API can boot without MySQL using its in-memory seed data, which is useful for design review.
-
-## Run
-
-Each app has its own package and dependencies. Run the API and the client in two terminals:
-
-```bash
-npm run dev --prefix server
 npm run dev --prefix client
 ```
 
-The public client runs at `http://localhost:5173`. The API runs at `http://localhost:5000`.
+The development server prints the local URL when it starts.
 
-## Build and production
+## Build and preview
 
 ```bash
 npm run build --prefix client
-npm start --prefix server
+npm run preview --prefix client
 ```
 
-## Database
+The production-ready static site is generated in `client/dist/` and can be
+deployed to any static hosting provider. Configure the host to serve
+`index.html` for client-side routes.
 
-Use the existing MySQL database named `apexrn`, then run `npm run schema --prefix server`. This applies any pending versioned SQL files from `server/migrations/` in filename order and records them in a `migrations` table, so re-running only applies new files. The server reads all credentials from the environment. Run `npm run seed --prefix server` after configuring MySQL to create the initial admin using `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD`.
+## Content and forms
 
-## Admin
+Update the JSON files in `client/src/data/` and rebuild to change page content.
+The contact and Q&A forms open a prefilled message in the visitor's email
+application; they do not submit data to an admin inbox. Booking, video embeds,
+WhatsApp, and some external images still depend on their respective third-party
+services being available.
 
-The admin workspace is available at `/admin/login`. The client login is wired to the admin surface; production authentication is provided by the API endpoint `POST /api/auth/login`.
-
-## API structure
-
-Public resources are available through `/api/home`, `/api/about`, `/api/program`, `/api/testimonials`, `/api/faqs`, `/api/resources`, `/api/contact`, and `/api/qa/register`. Protected management routes live below `/api/admin` and use a JWT bearer token.
-
-The client communicates through the API service boundary, so the `client` and `server` directories can be moved into separate projects later with only the API base URL changed.
+The `server/` directory remains in the repository but is not needed to build,
+run, or deploy the public React website.

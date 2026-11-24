@@ -1,24 +1,29 @@
+import { useState } from "react";
 import { ArrowRight, X } from "lucide-react";
-import { registerForQa } from "../../api/submissions";
 import Eyebrow from "../ui/Eyebrow";
 
 export default function QAModal({ status, setStatus, close }) {
+  const [emailLink, setEmailLink] = useState("");
+
   return (
     <div className="modal-backdrop" onClick={close}>
       <form
         className="modal"
         onClick={(event) => event.stopPropagation()}
-        onSubmit={async (event) => {
+        onSubmit={(event) => {
           event.preventDefault();
-          setStatus("loading");
-          try {
-            await registerForQa(
-              Object.fromEntries(new FormData(event.currentTarget).entries()),
-            );
-            setStatus("success");
-          } catch {
-            setStatus("error");
-          }
+          const values = Object.fromEntries(
+            new FormData(event.currentTarget).entries(),
+          );
+          const body = Object.entries(values)
+            .map(([key, value]) => `${key}: ${value || "Not provided"}`)
+            .join("\n");
+          const href = `mailto:hello@apexrnprep.com?subject=${encodeURIComponent(
+            "Free Wednesday Q&A registration",
+          )}&body=${encodeURIComponent(body)}`;
+          setEmailLink(href);
+          setStatus("email");
+          window.location.href = href;
         }}
       >
         <button type="button" className="modal-close" onClick={close}>
@@ -43,25 +48,15 @@ export default function QAModal({ status, setStatus, close }) {
           NCLEX date
           <input name="nclex_date" type="date" />
         </label>
-        {status === "success" ? (
-          <p className="form-success">
-            You’re registered. We’ll be in touch with the session details.
-          </p>
-        ) : (
-          <button
-            className="button"
-            type="submit"
-            disabled={status === "loading"}
-          >
-            {status === "loading" ? "Registering..." : "Register"}{" "}
-            <ArrowRight size={17} />
-          </button>
-        )}
-        {status === "error" && (
-          <p className="form-error">
-            We couldn’t complete that registration. Please try again.
+        {status === "email" && (
+          <p>
+            Your email app should open with your registration. If it does not,{" "}
+            <a href={emailLink}>open the email here</a>.
           </p>
         )}
+        <button className="button" type="submit">
+          Open email to register <ArrowRight size={17} />
+        </button>
       </form>
     </div>
   );

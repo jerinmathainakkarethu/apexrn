@@ -1,32 +1,10 @@
-import { getResources } from "../api/resources";
 import "../styles/content-pages.css"; // must stay last
-import useRemote from "../hooks/useRemote";
+import resources from "../data/resources.json";
 import PageFrame from "../components/layout/PageFrame";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
 import Button from "../components/ui/Button";
-import ErrorState from "../components/ui/ErrorState";
 import Eyebrow from "../components/ui/Eyebrow";
-import Loading from "../components/ui/Loading";
 
 export default function ResourcesPage() {
-  const data = useRemote(getResources);
-  if (data === null)
-    return (
-      <>
-        <Header />
-        <Loading />
-        <Footer />
-      </>
-    );
-  if (data === false)
-    return (
-      <>
-        <Header />
-        <ErrorState />
-        <Footer />
-      </>
-    );
   return (
     <PageFrame
       eyebrow="Free resources"
@@ -34,7 +12,9 @@ export default function ResourcesPage() {
       intro="Practical resources published by APEX RN Prep."
     >
       <section className="content-page-grid">
-        {data.map((item) => (
+        {resources.length === 0 ? (
+          <p>New study resources are in the works. Please check back soon.</p>
+        ) : resources.map((item) => (
           <article className="content-page-item" key={item.id}>
             <Eyebrow>{item.status}</Eyebrow>
             <h2>{item.title}</h2>

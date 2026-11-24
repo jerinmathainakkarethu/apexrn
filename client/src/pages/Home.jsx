@@ -14,17 +14,14 @@ import {
   Play,
   MessageCircle,
 } from "lucide-react";
-import { getHome } from "../api/home";
-import { getFaqs } from "../api/faqs";
-import { getTestimonials } from "../api/testimonials";
-import { imageUrl } from "../services/api";
+import homeContent from "../data/home.json";
+import faqs from "../data/faqs.json";
+import testimonials from "../data/testimonials.json";
 import homeLogo from "../assets/nclex-logo.png";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import Button from "../components/ui/Button";
-import ErrorState from "../components/ui/ErrorState";
 import Eyebrow from "../components/ui/Eyebrow";
-import Loading from "../components/ui/Loading";
 import SectionTitle from "../components/ui/SectionTitle";
 import ProcessFeature from "../components/home/ProcessFeature";
 import CourseListing from "../components/home/CourseListing";
@@ -33,14 +30,11 @@ import QAModal from "../components/home/QAModal";
 import { Target, FileSignature, Briefcase, LineChart, ArrowRight } from "lucide-react";
 
 export default function Home() {
-  const [content, setContent] = useState(null);
-  const [testimonials, setTestimonials] = useState([]);
-  const [faqs, setFaqs] = useState([]);
-  const [openFaq, setOpenFaq] = useState(null);
+  const content = homeContent;
+  const [openFaq, setOpenFaq] = useState(faqs[0]?.id ?? null);
   const [activeTopic, setActiveTopic] = useState(0);
   const [qaOpen, setQaOpen] = useState(false);
   const [qaStatus, setQaStatus] = useState("idle");
-  const [error, setError] = useState(false);
   const mainRef = useRef(null);
   const TOPIC_ICONS = {
     "Fundamentals & safety": ShieldCheck,
@@ -50,16 +44,6 @@ export default function Home() {
     "Mental health": Brain,
     "NGN & clinical judgment": BookOpen,
   };
-
-  useEffect(() => {
-    Promise.all([getHome(), getTestimonials(), getFaqs()])
-      .then(([homeResponse, testimonialResponse, faqResponse]) => {
-        setContent(homeResponse.data);
-        setTestimonials(testimonialResponse.data);
-        setFaqs(faqResponse.data);
-      })
-      .catch(() => setError(true));
-  }, []);
 
   // Scroll-reveal: watches every ".scroll-reveal" section and adds
   // "is-visible" once it enters the viewport. Runs after content (and
@@ -95,30 +79,6 @@ export default function Home() {
     return () => observer.disconnect();
   }, [content]);
 
-  if (error)
-    return (
-      <>
-        <Header logo={homeLogo} />
-        <ErrorState />
-        <Footer />
-      </>
-    );
-  if (!content)
-    return (
-      <>
-        <Header logo={homeLogo} />
-        <Loading />
-        <Footer />
-      </>
-    );
-  if (!content.seo || !content.hero)
-    return (
-      <>
-        <Header logo={homeLogo} />
-        <ErrorState />
-        <Footer />
-      </>
-    );
   const c = content;
   const ICONS = [Target, FileSignature, Briefcase, LineChart];
   const show = (key) => c.sectionVisibility?.[key] !== false;
@@ -153,7 +113,7 @@ export default function Home() {
               </div>
             </div>
             <div className="hero-visual">
-              <img src={imageUrl(c.hero.image)} alt={c.hero.imageAlt} />
+              <img src={c.hero.image} alt={c.hero.imageAlt} />
               <div className="hero-note">
                 <span>{c.hero.noteOne || "11 weeks"}</span>
                 <span>{c.hero.noteTwo || "Live classes"}</span>
@@ -255,7 +215,7 @@ export default function Home() {
           <section className="reference-section reference-instructor home-blue-section scroll-reveal">
             <div className="reference-instructor-image">
               <img
-                src={imageUrl(c.instructor.image)}
+                src={c.instructor.image}
                 alt={c.instructor.imageAlt}
                 loading="lazy"
                 decoding="async"
@@ -305,7 +265,7 @@ export default function Home() {
                   style={
                     item.image
                       ? {
-                          "--program-card-image": `url("${imageUrl(item.image)}")`,
+                          "--program-card-image": `url("${item.image}")`,
                         }
                       : undefined
                   }
@@ -313,7 +273,7 @@ export default function Home() {
                   {item.image && (
                     <img
                       className="program-card-image"
-                      src={imageUrl(item.image)}
+                      src={item.image}
                       alt={item.imageAlt || item.title}
                       loading="lazy"
                       decoding="async"
@@ -360,7 +320,7 @@ export default function Home() {
             </div>
             <div className="reference-community-image">
               <img
-                src={imageUrl(c.community.image)}
+                src={c.community.image}
                 alt={c.community.imageAlt || c.community.title}
                 loading="lazy"
                 decoding="async"
@@ -395,7 +355,7 @@ export default function Home() {
             </div>
             <div className="reference-qa-image">
               <img
-                src={imageUrl(c.qa.image)}
+                src={c.qa.image}
                 alt={c.qa.imageAlt || c.qa.title}
                 loading="lazy"
                 decoding="async"

@@ -1,5 +1,4 @@
-﻿// Route-level code splitting. Each page is loaded on demand, and the CSS it
-// imports travels with it: visiting /faqs downloads base.css + faqs.css only.
+// Route-level code splitting keeps each page's code and styles on demand.
 import { lazy, Suspense, useEffect, useLayoutEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -14,7 +13,6 @@ const FaqPage = lazy(() => import("./pages/FaqPage"));
 const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const BookPage = lazy(() => import("./pages/BookPage"));
-const AdminDashboard = lazy(() => import("./admin/AdminDashboard"));
 
 export default function App() {
   const location = useLocation();
@@ -26,7 +24,6 @@ export default function App() {
 
   useEffect(() => {
     setReserveVisible(false);
-    if (location.pathname.startsWith("/admin")) return undefined;
 
     let sectionObserver;
     let mutationObserver;
@@ -58,27 +55,25 @@ export default function App() {
   return (
     <>
       <ScrollAnimations />
-      {!location.pathname.startsWith("/admin") && (
-        <div
-          aria-hidden={!reserveVisible}
-          className={`reserve-actions${reserveVisible ? " is-visible" : ""}`}
+      <div
+        aria-hidden={!reserveVisible}
+        className={`reserve-actions${reserveVisible ? " is-visible" : ""}`}
+      >
+        <a
+          className="button reserve-action reserve-contact"
+          href="https://wa.me/8133301460/?text=Hi"
+          tabIndex={reserveVisible ? undefined : -1}
         >
-          <Link
-            className="button reserve-action reserve-contact"
-            tabIndex={reserveVisible ? undefined : -1}
-            to="https://wa.me/8133301460/?text=Hi"
-          >
-            Contact Us
-          </Link>
-          <Link
-            className="button reserve-action reserve-enroll"
-            tabIndex={reserveVisible ? undefined : -1}
-            to="/book"
-          >
-            Enroll Now <ArrowRight size={17} aria-hidden="true" />
-          </Link>
-        </div>
-      )}
+          Contact Us
+        </a>
+        <Link
+          className="button reserve-action reserve-enroll"
+          tabIndex={reserveVisible ? undefined : -1}
+          to="/book"
+        >
+          Enroll Now <ArrowRight size={17} aria-hidden="true" />
+        </Link>
+      </div>
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -90,8 +85,6 @@ export default function App() {
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/book" element={<BookPage />} />
-          <Route path="/admin/login" element={<AdminDashboard />} />
-          <Route path="/admin/*" element={<AdminDashboard />} />
         </Routes>
       </Suspense>
     </>

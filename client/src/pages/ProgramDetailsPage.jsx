@@ -1,6 +1,6 @@
-import { getProgramDetails } from "../api/programDetails";
 import "../styles/program-details.css"; // must stay last
 import { Helmet } from "react-helmet-async";
+import data from "../data/program-details.json";
 import {
   Baby,
   BookOpen,
@@ -16,14 +16,8 @@ import {
   Target,
   Users2,
 } from "lucide-react";
-import useRemote from "../hooks/useRemote";
-import { imageUrl } from "../services/api";
 import PageFrame from "../components/layout/PageFrame";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
 import Button from "../components/ui/Button";
-import ErrorState from "../components/ui/ErrorState";
-import Loading from "../components/ui/Loading";
 import SectionTitle from "../components/ui/SectionTitle";
 
 const SYSTEM_ICONS = {
@@ -43,23 +37,6 @@ const RESOURCE_ICONS = {
 };
 
 export default function ProgramDetailsPage() {
-  const data = useRemote(getProgramDetails);
-  if (data === null)
-    return (
-      <>
-        <Header />
-        <Loading />
-        <Footer />
-      </>
-    );
-  if (data === false)
-    return (
-      <>
-        <Header />
-        <ErrorState />
-        <Footer />
-      </>
-    );
   const {
     seo,
     hero,
@@ -229,7 +206,7 @@ export default function ProgramDetailsPage() {
                     <div className="curriculum-resource-frame">
                       <img
                         className="curriculum-resource-image"
-                        src={imageUrl(resource.image)}
+                        src={resource.image}
                         alt={resource.title}
                         loading="lazy"
                       />

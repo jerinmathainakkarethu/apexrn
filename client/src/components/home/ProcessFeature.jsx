@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { imageUrl } from "../../services/api";
 import SectionTitle from "../ui/SectionTitle";
 import Button from "../ui/Button";
 
@@ -21,7 +20,7 @@ export default function ProcessFeature({ content }) {
           <img
             className={index === activeImage ? "active" : ""}
             key={image.url}
-            src={imageUrl(image.url)}
+            src={image.url}
             alt={image.alt}
           />
         ))}
