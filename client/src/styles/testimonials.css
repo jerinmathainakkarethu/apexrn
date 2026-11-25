@@ -1331,3 +1331,129 @@
     padding-inline: var(--testimonial-edge);
   }
 }
+
+.tm-scroll-controls {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .tm-scroll-row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tm-scroll-controls {
+    order: 2;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 18px 0 0;
+  }
+
+  .tm-scroll-row-track {
+    order: 1;
+  }
+
+  .tm-scroll-controls:not(.is-scrollable) {
+    display: none;
+  }
+
+  .tm-scroll-button {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    color: var(--tm-ink);
+    background: var(--tm-paper);
+    border: 1px solid var(--tm-line);
+    border-radius: 50%;
+    cursor: pointer;
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .tm-scroll-button:hover:not(:disabled),
+  .tm-scroll-button:focus-visible {
+    color: #fff;
+    background: var(--tm-gold);
+    border-color: var(--tm-gold);
+  }
+
+  .tm-scroll-button:focus-visible {
+    outline: 2px solid var(--tm-gold);
+    outline-offset: 3px;
+  }
+
+  .tm-scroll-button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .tm-block {
+    --tm-scroll-edge: 8vw;
+  }
+
+  .tm-story-grid,
+  .tm-ba-list,
+  .tm-shot-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 18px;
+    margin-right: calc(-1 * var(--tm-scroll-edge));
+    padding: 0 var(--tm-scroll-edge) 12px 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tm-story-grid::-webkit-scrollbar,
+  .tm-ba-list::-webkit-scrollbar,
+  .tm-shot-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tm-story,
+  .tm-ba,
+  .tm-shot {
+    flex: 0 0 min(600px, 72vw);
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  .tm-shot {
+    max-width: none;
+    margin: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .tm-block {
+    --tm-scroll-edge: 7vw;
+  }
+}
+
+@media (max-width: 700px) {
+  .tm-block {
+    --tm-scroll-edge: 6vw;
+  }
+
+  .tm-story-grid,
+  .tm-ba-list,
+  .tm-shot-grid {
+    gap: 16px;
+  }
+
+  .tm-story,
+  .tm-ba,
+  .tm-shot {
+    flex-basis: min(440px, 84vw);
+  }
+}

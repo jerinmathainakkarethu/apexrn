@@ -1,5 +1,7 @@
 import "../styles/testimonials.css"; // must stay last
+import { useEffect, useRef, useState } from "react";
 import {
+  ArrowLeft,
   ArrowRight,
   BadgeCheck,
   EyeOff,
@@ -12,6 +14,80 @@ import Button from "../components/ui/Button";
 import SectionTitle from "../components/ui/SectionTitle";
 import pageSettings from "../data/testimonials-page-settings.json";
 import testimonials from "../data/testimonials.json";
+
+function ScrollableRow({ className, label, children }) {
+  const rowRef = useRef(null);
+  const [scrollState, setScrollState] = useState({
+    canScroll: false,
+    canScrollBack: false,
+    canScrollForward: false,
+  });
+
+  useEffect(() => {
+    const row = rowRef.current;
+    if (!row) return undefined;
+
+    const updateScrollState = () => {
+      const maxScroll = row.scrollWidth - row.clientWidth;
+      setScrollState({
+        canScroll: maxScroll > 1,
+        canScrollBack: row.scrollLeft > 1,
+        canScrollForward: row.scrollLeft < maxScroll - 1,
+      });
+    };
+
+    updateScrollState();
+    row.addEventListener("scroll", updateScrollState, { passive: true });
+    const resizeObserver = new ResizeObserver(updateScrollState);
+    resizeObserver.observe(row);
+
+    return () => {
+      row.removeEventListener("scroll", updateScrollState);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  const scroll = (direction) => {
+    const row = rowRef.current;
+    if (!row) return;
+    row.scrollBy({
+      left: direction * row.clientWidth * 0.8,
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <div className="tm-scroll-row">
+      <div
+        className={`tm-scroll-controls${scrollState.canScroll ? " is-scrollable" : ""}`}
+        role="group"
+        aria-label={`${label} controls`}
+      >
+        <button
+          type="button"
+          className="tm-scroll-button"
+          aria-label={`Scroll ${label} left`}
+          disabled={!scrollState.canScrollBack}
+          onClick={() => scroll(-1)}
+        >
+          <ArrowLeft size={18} aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          className="tm-scroll-button"
+          aria-label={`Scroll ${label} right`}
+          disabled={!scrollState.canScrollForward}
+          onClick={() => scroll(1)}
+        >
+          <ArrowRight size={18} aria-hidden="true" />
+        </button>
+      </div>
+      <div className={`tm-scroll-row-track ${className}`} ref={rowRef}>
+        {children}
+      </div>
+    </div>
+  );
+}
 
 function isEmbeddableVideoUrl(url = "") {
   return /youtube\.com|youtu\.be|vimeo\.com/.test(url);
@@ -101,7 +177,7 @@ export default function TestimonialsPage() {
               {content.storiesSection?.title || "Stories of progress and success"}
             </SectionTitle>
 
-            <div className="tm-story-grid">
+            <ScrollableRow className="tm-story-grid" label="student stories">
               {stories.map((item) => {
                 const initials = item.display_name
                   .split(/\s+/)
@@ -147,7 +223,7 @@ export default function TestimonialsPage() {
                   </article>
                 );
               })}
-            </div>
+            </ScrollableRow>
           </section>
         )}
 
@@ -163,7 +239,7 @@ export default function TestimonialsPage() {
               {content.beforeAfterSection?.title}
             </SectionTitle>
 
-            <div className="tm-ba-list">
+            <ScrollableRow className="tm-ba-list" label="before and after stories">
               {beforeAfter.map((item, index) => {
                 if (!item.who && !item.before && !item.after && !item.video)
                   return null;
@@ -231,7 +307,7 @@ export default function TestimonialsPage() {
                   </article>
                 );
               })}
-            </div>
+            </ScrollableRow>
           </section>
         )}
 
@@ -247,14 +323,14 @@ export default function TestimonialsPage() {
               {content.messagesSection?.title}
             </SectionTitle>
 
-            <div className="tm-shot-grid">
+            <ScrollableRow className="tm-shot-grid" label="student messages">
               {screenshots.map((shot, index) => (
                 <ScreenshotCard
                   shot={shot}
                   key={shot.id || `screenshot-${index}`}
                 />
               ))}
-            </div>
+            </ScrollableRow>
 
             {content.messagesSection?.privacyNote && (
               <p className="tm-privacy">
