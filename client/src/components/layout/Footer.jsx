@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import {
-  ArrowRight,
   ArrowUpRight,
   Instagram,
   Mail,
   MessageCircle,
 } from "lucide-react";
+import "../../styles/footer.css";
 
 export default function Footer() {
   return (
@@ -27,7 +27,7 @@ export default function Footer() {
         </div>
 
         <nav className="site-footer-nav" aria-label="Footer navigation">
-          <div className="site-footer-column">
+          <div className="site-footer-column site-footer-column-explore">
             <span className="site-footer-label">Explore</span>
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>
@@ -36,7 +36,7 @@ export default function Footer() {
             <Link to="/faqs">FAQs</Link>
             <Link to="/resources">Resources</Link>
           </div>
-          <div className="site-footer-column">
+          <div className="site-footer-column site-footer-column-connect">
             <span className="site-footer-label">Connect</span>
             <Link to="/contact">
               <MessageCircle size={15} aria-hidden="true" />
@@ -65,7 +65,9 @@ export default function Footer() {
       <div className="site-footer-bottom">
         <span>© {new Date().getFullYear()} APEX RN Prep</span>
         <span className="site-footer-legal">Prepare with structure. Practice with purpose.</span>
-        <Link to="/contact">Get in touch <ArrowUpRight size={13} aria-hidden="true" /></Link>
+        <Link to="/contact">
+          Get in touch <ArrowUpRight size={13} aria-hidden="true" />
+        </Link>
       </div>
     </footer>
   );
