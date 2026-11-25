@@ -1536,7 +1536,7 @@ main > .hero.scroll-reveal.is-visible {
     justify-content: center;
     gap: 6px;
     padding: 11px 10px;
-    font-size: clamp(12px, 1.8vw, 14px);
+    font-size: 20px;
     line-height: 1.3;
     text-align: center;
     white-space: normal;
@@ -1930,7 +1930,7 @@ main > .hero.scroll-reveal.is-visible {
   .home-page .hero .button-row > .button {
     min-height: 52px;
     padding: 10px 7px;
-    font-size: 12px;
+    font-size: 15px;
   }
 
   .home-page .snapshot {
@@ -2233,7 +2233,7 @@ main > .hero.scroll-reveal.is-visible {
 
   .home-page .audience-header-right p {
     max-width: 38ch;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.65;
   }
 

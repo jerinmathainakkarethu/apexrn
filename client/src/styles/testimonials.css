@@ -1425,7 +1425,7 @@
   .tm-shot {
     flex: 0 0 min(600px, 72vw);
     min-width: 0;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
   }
 
   .tm-shot {

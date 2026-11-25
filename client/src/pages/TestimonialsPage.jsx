@@ -50,8 +50,25 @@ function ScrollableRow({ className, label, children }) {
   const scroll = (direction) => {
     const row = rowRef.current;
     if (!row) return;
+    const cards = Array.from(row.children);
+    const rowRect = row.getBoundingClientRect();
+    const rowCenter = rowRect.left + rowRect.width / 2;
+    const currentIndex = cards.reduce(
+      (closestIndex, card, index) => {
+        const rect = card.getBoundingClientRect();
+        const distance = Math.abs(rect.left + rect.width / 2 - rowCenter);
+        return distance < closestIndex.distance
+          ? { index, distance }
+          : closestIndex;
+      },
+      { index: 0, distance: Number.POSITIVE_INFINITY },
+    ).index;
+    const targetCard = cards[currentIndex + direction];
+    if (!targetCard) return;
+
+    const cardRect = targetCard.getBoundingClientRect();
     row.scrollBy({
-      left: direction * row.clientWidth * 0.8,
+      left: cardRect.left + cardRect.width / 2 - rowCenter,
       behavior: "smooth",
     });
   };
