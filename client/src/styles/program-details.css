@@ -1341,6 +1341,7 @@
     padding-right: clamp(28px, 7vw, 72px);
     padding-bottom: 76px;
     padding-left: clamp(28px, 7vw, 72px);
+    padding-top: 50px;
   }
 
   .curriculum-block + .curriculum-block {
@@ -1449,6 +1450,7 @@
     padding-right: clamp(20px, 6vw, 28px);
     padding-bottom: 60px;
     padding-left: clamp(20px, 6vw, 28px);
+    padding-top: 30px;
   }
 
   .curriculum-block + .curriculum-block {
