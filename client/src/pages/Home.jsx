@@ -20,6 +20,10 @@ import faqs from "../data/faqs.json";
 import testimonials from "../data/testimonials.json";
 import homeLogo from "../assets/nclex-logo.png";
 import instructorTeamImage from "../assets/instructor-team.png";
+import programGalleryImage1 from "../assets/program-gallery-1.png";
+import programGalleryImage2 from "../assets/program-gallery-2.png";
+import programGalleryImage3 from "../assets/program-gallery-3.png";
+import programGalleryImage4 from "../assets/program-gallery-4.png";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import Button from "../components/ui/Button";
@@ -30,6 +34,13 @@ import CourseListing from "../components/home/CourseListing";
 import TestimonialSection from "../components/home/TestimonialSection";
 import QAModal from "../components/home/QAModal";
 import { Target, FileSignature, Briefcase, LineChart, ArrowRight } from "lucide-react";
+
+const programGalleryImages = [
+  programGalleryImage1,
+  programGalleryImage2,
+  programGalleryImage3,
+  programGalleryImage4,
+];
 
 export default function Home() {
   const content = homeContent;
@@ -277,23 +288,17 @@ export default function Home() {
                 <article
                   className="program-card"
                   key={item.title}
-                  style={
-                    item.image
-                      ? {
-                          "--program-card-image": `url("${item.image}")`,
-                        }
-                      : undefined
-                  }
+                  style={{
+                    "--program-card-image": `url("${programGalleryImages[index]}")`,
+                  }}
                 >
-                  {item.image && (
-                    <img
-                      className="program-card-image"
-                      src={item.image}
-                      alt={item.imageAlt || item.title}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  )}
+                  <img
+                    className="program-card-image"
+                    src={programGalleryImages[index]}
+                    alt={item.imageAlt || item.title}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span className="card-number"></span>
                   <div>
                     <h3>{item.title}</h3>

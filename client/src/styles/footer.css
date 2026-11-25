@@ -30,17 +30,6 @@ footer.site-footer {
     linear-gradient(135deg, #35413f 0%, #3f4a49 58%, #34403e 100%);
 }
 
-/* Accent rule on the top edge */
-footer.site-footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: var(--footer-gutter);
-  width: 72px;
-  height: 3px;
-  background: var(--terracotta);
-}
-
 /* ---------- Main grid ---------- */
 
 .site-footer .site-footer-main {
